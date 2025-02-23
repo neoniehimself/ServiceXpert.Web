@@ -1,0 +1,6 @@
+@ServiceXpert.API.Presentation_HostAddress = http://localhost:5132
+
+GET {{ServiceXpert.API.Presentation_HostAddress}}/
+Accept: application/json
+
+###
