@@ -1,4 +1,6 @@
-﻿using PropLoader;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using PropLoader;
 using ServiceXpert.API.Application.DataTransferObjects;
 using ServiceXpert.API.Domain.Entities;
 
@@ -27,6 +29,10 @@ namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
         void AddRange(List<TDataObject> entities);
 
         Task AddRangeAsync(List<TDataObject> entities);
+
+        (TDataObject, ModelStateDictionary) ConfigureForUpdate(TID id, JsonPatchDocument patchDocument, ModelStateDictionary modelState);
+
+        Task<(TDataObject, ModelStateDictionary)> ConfigureForUpdateAsync(TID id, JsonPatchDocument patchDocument, ModelStateDictionary modelState);
 
         void UpdateByID(TID id, TDataObject dataObject);
 
