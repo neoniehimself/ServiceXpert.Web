@@ -44,5 +44,9 @@ namespace ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories
         Task DeleteByIDAsync(TEntityID entityID);
 
         void Delete(TEntity entity);
+
+        bool IsExistsByID(TEntityID entityID);
+
+        Task<bool> IsExistsByIDAsync(TEntityID entityID);
     }
 }
