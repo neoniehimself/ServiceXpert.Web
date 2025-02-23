@@ -29,14 +29,6 @@ namespace ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories
 
         Task AddAsync(TEntity entity);
 
-        void AddRange(params TEntity[] entities);
-
-        Task AddRangeAsync(params TEntity[] entities);
-
-        void AddRange(List<TEntity> entities);
-
-        Task AddRangeAsync(List<TEntity> entities);
-
         void Update(TEntity entity);
 
         void DeleteByID(TEntityID entityID);

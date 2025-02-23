@@ -10,9 +10,9 @@ namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
         where TDataObject : DataObjectBase
         where TEntity : EntityBase
     {
-        TDataObject GetByID(TID id, IncludeOptions<TEntity>? includeOptions = null);
+        TDataObject? GetByID(TID id, IncludeOptions<TEntity>? includeOptions = null);
 
-        Task<TDataObject> GetByIDAsync(TID id, IncludeOptions<TEntity>? includeOptions = null);
+        Task<TDataObject?> GetByIDAsync(TID id, IncludeOptions<TEntity>? includeOptions = null);
 
         IEnumerable<TDataObject> GetAll(IncludeOptions<TEntity>? includeOptions = null);
 
@@ -22,17 +22,9 @@ namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
 
         Task<TID> AddAsync(TDataObject dataObject);
 
-        void AddRange(params TDataObject[] entities);
+        (TDataObject, ModelStateDictionary) ConfigureForUpdate(TID id, JsonPatchDocument<TDataObject> patchDocument, ModelStateDictionary modelState);
 
-        Task AddRangeAsync(params TDataObject[] entities);
-
-        void AddRange(List<TDataObject> entities);
-
-        Task AddRangeAsync(List<TDataObject> entities);
-
-        (TDataObject, ModelStateDictionary) ConfigureForUpdate(TID id, JsonPatchDocument patchDocument, ModelStateDictionary modelState);
-
-        Task<(TDataObject, ModelStateDictionary)> ConfigureForUpdateAsync(TID id, JsonPatchDocument patchDocument, ModelStateDictionary modelState);
+        Task<(TDataObject, ModelStateDictionary)> ConfigureForUpdateAsync(TID id, JsonPatchDocument<TDataObject> patchDocument, ModelStateDictionary modelState);
 
         void UpdateByID(TID id, TDataObject dataObject);
 
