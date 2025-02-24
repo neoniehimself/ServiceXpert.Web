@@ -1,6 +1,24 @@
-@ServiceXpert.API.Presentation_HostAddress = http://localhost:5132
+@ServiceXpert.API.Presentation_HostAddress = https://localhost:7023
 
-GET {{ServiceXpert.API.Presentation_HostAddress}}/
+POST {{ServiceXpert.API.Presentation_HostAddress}}/api/issue
+Content-Type: application/json
+
+{
+  "name": "Test"
+}
+
+###
+
+GET {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/SXP-1
 Accept: application/json
+
+###
+
+GET {{ServiceXpert.API.Presentation_HostAddress}}/api/issue
+Accept: application/json
+
+###
+
+DELETE {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/SXP-2
 
 ###

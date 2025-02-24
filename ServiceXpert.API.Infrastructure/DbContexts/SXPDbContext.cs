@@ -4,18 +4,22 @@ using ServiceXpert.API.Domain.Entities;
 using ServiceXpert.API.Domain.Shared.Enums.Database;
 using System.Reflection;
 
-namespace ServiceXpert.API.Infrastructure.Contexts
+namespace ServiceXpert.API.Infrastructure.DbContexts
 {
-    public class SvXDbContext : DbContext
+    public class SXPDbContext : DbContext
     {
         private string ConnectionString
         {
             get
             {
-                string? connectionString = Environment.GetEnvironmentVariable("", EnvironmentVariableTarget.User);
+                string? connectionString = Environment.GetEnvironmentVariable("ServiceXpert", EnvironmentVariableTarget.User);
                 return connectionString != null ? connectionString : throw new KeyNotFoundException("Fatal: Missing connection string");
             }
         }
+
+        public DbSet<IssueStatus> IssueStatus { get; set; }
+
+        public DbSet<Issue> Issue { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -64,19 +68,16 @@ namespace ServiceXpert.API.Infrastructure.Contexts
         private void UpdateTimestamps()
         {
             var entries = this.ChangeTracker.Entries<EntityBase>();
-            var utcNow = DateTime.SpecifyKind(
-                new DateTime(DateTime.UtcNow.Ticks / TimeSpan.TicksPerSecond * TimeSpan.TicksPerSecond),
-                DateTimeKind.Utc);
 
             foreach (var entry in entries)
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreateDate = utcNow;
+                        entry.Entity.CreateDate = DateTime.UtcNow;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.ModifyDate = utcNow;
+                        entry.Entity.ModifyDate = DateTime.UtcNow;
                         break;
                 }
             }

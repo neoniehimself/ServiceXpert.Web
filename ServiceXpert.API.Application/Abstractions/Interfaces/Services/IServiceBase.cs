@@ -6,37 +6,21 @@ using ServiceXpert.API.Domain.Entities;
 
 namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
 {
-    public interface IServiceBase<TDataObject, TEntity, TID>
+    public interface IServiceBase<TID, TDataObject, TEntity>
         where TDataObject : DataObjectBase
         where TEntity : EntityBase
     {
-        TDataObject? GetByID(TID id, IncludeOptions<TEntity>? includeOptions = null);
-
         Task<TDataObject?> GetByIDAsync(TID id, IncludeOptions<TEntity>? includeOptions = null);
-
-        IEnumerable<TDataObject> GetAll(IncludeOptions<TEntity>? includeOptions = null);
 
         Task<IEnumerable<TDataObject>> GetAllAsync(IncludeOptions<TEntity>? includeOptions = null);
 
-        TID Add(TDataObject dataObject);
+        Task<TID> AddAsync<TDataObjectForCreate>(TDataObjectForCreate dataObjectForCreate);
 
-        Task<TID> AddAsync(TDataObject dataObject);
-
-        (TDataObject, ModelStateDictionary) ConfigureForUpdate(TID id, JsonPatchDocument<TDataObject> patchDocument, ModelStateDictionary modelState);
-
-        Task<(TDataObject, ModelStateDictionary)> ConfigureForUpdateAsync(TID id, JsonPatchDocument<TDataObject> patchDocument, ModelStateDictionary modelState);
-
-        void UpdateByID(TID id, TDataObject dataObject);
+        Task<(TDataObjectForUpdate, ModelStateDictionary)> ConfigureForUpdateAsync<TDataObjectForUpdate>(TID id, JsonPatchDocument<TDataObjectForUpdate> patchDocument, ModelStateDictionary modelState) where TDataObjectForUpdate : DataObjectBase;
 
         Task UpdateByIDAsync(TID id, TDataObject dataObject);
 
-        void DeleteByID(TID id);
-
         Task DeleteByIDAsync(TID id);
-
-        void Delete(TDataObject dataObject);
-
-        bool IsExistsByID(TID id);
 
         Task<bool> IsExistsByIDAsync(TID id);
     }
