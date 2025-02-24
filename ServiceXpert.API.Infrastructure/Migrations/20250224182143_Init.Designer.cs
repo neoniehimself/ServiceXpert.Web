@@ -12,7 +12,7 @@ using ServiceXpert.API.Infrastructure.DbContexts;
 namespace ServiceXpert.API.Infrastructure.Migrations
 {
     [DbContext(typeof(SXPDbContext))]
-    [Migration("20250224162336_Init")]
+    [Migration("20250224182143_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -39,6 +39,9 @@ namespace ServiceXpert.API.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("VARCHAR(4096)");
 
+                    b.Property<int>("IssueStatusID")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ModifyDate")
                         .HasColumnType("datetime2");
 
@@ -56,10 +59,7 @@ namespace ServiceXpert.API.Infrastructure.Migrations
             modelBuilder.Entity("ServiceXpert.API.Domain.Entities.IssueStatus", b =>
                 {
                     b.Property<int>("IssueStatusID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IssueStatusID"));
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -84,38 +84,49 @@ namespace ServiceXpert.API.Infrastructure.Migrations
                         new
                         {
                             IssueStatusID = 1,
-                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifyDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDate = new DateTime(2025, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ModifyDate = new DateTime(2025, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "New"
                         },
                         new
                         {
                             IssueStatusID = 2,
-                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifyDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDate = new DateTime(2025, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ModifyDate = new DateTime(2025, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "For Analysis"
                         },
                         new
                         {
                             IssueStatusID = 3,
-                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifyDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDate = new DateTime(2025, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ModifyDate = new DateTime(2025, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "In Progress"
                         },
                         new
                         {
                             IssueStatusID = 4,
-                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifyDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDate = new DateTime(2025, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ModifyDate = new DateTime(2025, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "Resolved"
                         },
                         new
                         {
                             IssueStatusID = 5,
-                            CreateDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ModifyDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreateDate = new DateTime(2025, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ModifyDate = new DateTime(2025, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "Closed"
                         });
+                });
+
+            modelBuilder.Entity("ServiceXpert.API.Domain.Entities.Issue", b =>
+                {
+                    b.HasOne("ServiceXpert.API.Domain.Entities.IssueStatus", "IssueStatus")
+                        .WithOne()
+                        .HasForeignKey("ServiceXpert.API.Domain.Entities.Issue", "IssueStatusID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("IssueStatus");
                 });
 #pragma warning restore 612, 618
         }

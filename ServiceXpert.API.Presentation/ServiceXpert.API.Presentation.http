@@ -19,6 +19,6 @@ Accept: application/json
 
 ###
 
-DELETE {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/SXP-2
+DELETE {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/SXP-1
 
 ###
