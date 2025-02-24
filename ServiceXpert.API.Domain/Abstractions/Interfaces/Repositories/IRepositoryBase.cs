@@ -9,7 +9,7 @@ namespace ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories
 
         void Attach(TEntity entity);
 
-        Task<TEntity> GetByIDAsync(TEntityID entityID, IncludeOptions<TEntity>? includeOptions = null);
+        Task<TEntity?> GetByIDAsync(TEntityID entityID, IncludeOptions<TEntity>? includeOptions = null);
 
         Task<IEnumerable<TEntity>> GetAllAsync(IncludeOptions<TEntity>? includeOptions = null);
 
@@ -18,8 +18,6 @@ namespace ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories
         void Update(TEntity entity);
 
         Task DeleteByIDAsync(TEntityID entityID);
-
-        void Delete(TEntity entity);
 
         Task<bool> IsExistsByIDAsync(TEntityID entityID);
     }

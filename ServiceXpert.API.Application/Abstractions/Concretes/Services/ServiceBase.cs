@@ -70,13 +70,6 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
             return (patchObject, modelState);
         }
 
-        public async Task Delete(TDataObject dataObject)
-        {
-            TEntity entity = this.mapper.Map<TEntity>(dataObject);
-            this.repositoryBase.Delete(entity);
-            await this.repositoryBase.SaveChangesAsync();
-        }
-
         public async Task DeleteByIDAsync(TID id)
         {
             await this.repositoryBase.DeleteByIDAsync(id);
@@ -91,7 +84,7 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
 
         public async Task<TDataObject?> GetByIDAsync(TID id, IncludeOptions<TEntity>? includeOptions = null)
         {
-            TEntity entity = await this.repositoryBase.GetByIDAsync(id, includeOptions);
+            TEntity? entity = await this.repositoryBase.GetByIDAsync(id, includeOptions);
             return entity != null ? this.mapper.Map<TDataObject>(entity) : null;
         }
 
@@ -102,7 +95,7 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
 
         public async Task UpdateByIDAsync(TID id, TDataObject dataObject)
         {
-            TEntity entity = await this.repositoryBase.GetByIDAsync(id);
+            TEntity? entity = await this.repositoryBase.GetByIDAsync(id);
 
             if (entity != null)
             {

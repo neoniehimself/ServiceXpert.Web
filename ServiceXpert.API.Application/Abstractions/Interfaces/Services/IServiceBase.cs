@@ -22,8 +22,6 @@ namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
 
         Task DeleteByIDAsync(TID id);
 
-        Task Delete(TDataObject dataObject);
-
         Task<bool> IsExistsByIDAsync(TID id);
     }
 }

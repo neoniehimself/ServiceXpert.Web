@@ -29,15 +29,10 @@ namespace ServiceXpert.API.Infrastructure.Abstractions.Concretes.Repositories
             this.dbContext.Set<TEntity>().Attach(entity);
         }
 
-        public void Delete(TEntity entity)
-        {
-            this.dbContext.Set<TEntity>().Remove(entity);
-        }
-
         public async Task DeleteByIDAsync(TEntityID entityID)
         {
             await this.dbContext.Set<TEntity>()
-                .Where(e => EF.Property<TEntityID>(e, this.EntityID).Equals(entityID))
+                .Where(e => EF.Property<TEntityID>(e, this.EntityID)!.Equals(entityID))
                 .ExecuteDeleteAsync();
         }
         public async Task<IEnumerable<TEntity>> GetAllAsync(IncludeOptions<TEntity>? includeOptions = null)
@@ -46,15 +41,15 @@ namespace ServiceXpert.API.Infrastructure.Abstractions.Concretes.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<TEntity> GetByIDAsync(TEntityID entityID, IncludeOptions<TEntity>? includeOptions = null)
+        public async Task<TEntity?> GetByIDAsync(TEntityID entityID, IncludeOptions<TEntity>? includeOptions = null)
         {
             IQueryable<TEntity> query = OptionsBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
-            return await query.SingleOrDefaultAsync(e => EF.Property<TEntityID>(e, this.EntityID).Equals(entityID));
+            return await query.SingleOrDefaultAsync(e => EF.Property<TEntityID>(e, this.EntityID)!.Equals(entityID));
         }
 
         public async Task<bool> IsExistsByIDAsync(TEntityID entityID)
         {
-            return await this.dbContext.Set<TEntity>().AnyAsync(e => EF.Property<TEntityID>(e, this.EntityID).Equals(entityID));
+            return await this.dbContext.Set<TEntity>().AnyAsync(e => EF.Property<TEntityID>(e, this.EntityID)!.Equals(entityID));
         }
 
         public async Task<int> SaveChangesAsync()
