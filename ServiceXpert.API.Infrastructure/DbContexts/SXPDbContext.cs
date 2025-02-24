@@ -4,9 +4,9 @@ using ServiceXpert.API.Domain.Entities;
 using ServiceXpert.API.Domain.Shared.Enums.Database;
 using System.Reflection;
 
-namespace ServiceXpert.API.Infrastructure.Contexts
+namespace ServiceXpert.API.Infrastructure.DbContexts
 {
-    public class SvXDbContext : DbContext
+    public class SXPDbContext : DbContext
     {
         private string ConnectionString
         {
@@ -16,6 +16,10 @@ namespace ServiceXpert.API.Infrastructure.Contexts
                 return connectionString != null ? connectionString : throw new KeyNotFoundException("Fatal: Missing connection string");
             }
         }
+
+        public DbSet<IssueStatus> IssueStatus { get; set; }
+
+        public DbSet<Issue> Issue { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

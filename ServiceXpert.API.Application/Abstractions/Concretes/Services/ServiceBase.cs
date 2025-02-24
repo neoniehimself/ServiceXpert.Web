@@ -10,8 +10,8 @@ using ServiceXpert.API.Domain.Entities;
 
 namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
 {
-    public abstract class ServiceBase<TDataObject, TEntity, TID>
-        : IServiceBase<TDataObject, TEntity, TID>
+    public abstract class ServiceBase<TID, TDataObject, TEntity>
+        : IServiceBase<TID, TDataObject, TEntity>
         where TDataObject : DataObjectBase
         where TEntity : EntityBase
     {
@@ -35,9 +35,9 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
                 ? (TID)propID.GetValue(entity)! : throw new NullReferenceException($"{typeof(TEntity).Name}ID is null.");
         }
 
-        public TID Add(TDataObject dataObject)
+        public TID Add<TDataObjectForCreate>(TDataObjectForCreate dataObjectForCreate)
         {
-            TEntity entity = this.mapper.Map<TEntity>(dataObject);
+            TEntity entity = this.mapper.Map<TEntity>(dataObjectForCreate);
 
             this.repositoryBase.Add(entity);
             this.repositoryBase.SaveChanges();
@@ -45,9 +45,9 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
             return GetIDValue(entity);
         }
 
-        public async Task<TID> AddAsync(TDataObject dataObject)
+        public async Task<TID> AddAsync<TDataObjectForCreate>(TDataObjectForCreate dataObjectForCreate)
         {
-            TEntity entity = this.mapper.Map<TEntity>(dataObject);
+            TEntity entity = this.mapper.Map<TEntity>(dataObjectForCreate);
 
             await this.repositoryBase.AddAsync(entity);
             await this.repositoryBase.SaveChangesAsync();
@@ -55,16 +55,16 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
             return GetIDValue(entity);
         }
 
-        public (TDataObject, ModelStateDictionary) ConfigureForUpdate(TID id, JsonPatchDocument<TDataObject> patchDocument, ModelStateDictionary modelState)
+        public (TDataObjectForUpdate, ModelStateDictionary) ConfigureForUpdate<TDataObjectForUpdate>(TID id, JsonPatchDocument<TDataObjectForUpdate> patchDocument, ModelStateDictionary modelState) where TDataObjectForUpdate : DataObjectBase
         {
             TEntity? entity = this.repositoryBase.GetByID(id);
-            TDataObject? patchObject = default;
+            TDataObjectForUpdate? patchObject = default;
 
             if (entity != null)
             {
                 try
                 {
-                    patchObject = this.mapper.Map<TDataObject>(entity);
+                    patchObject = this.mapper.Map<TDataObjectForUpdate>(entity);
                     patchDocument.ApplyTo(patchObject, modelState);
                 }
                 catch (Exception)
@@ -80,16 +80,16 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
             return (patchObject, modelState);
         }
 
-        public async Task<(TDataObject, ModelStateDictionary)> ConfigureForUpdateAsync(TID id, JsonPatchDocument<TDataObject> patchDocument, ModelStateDictionary modelState)
+        public async Task<(TDataObjectForUpdate, ModelStateDictionary)> ConfigureForUpdateAsync<TDataObjectForUpdate>(TID id, JsonPatchDocument<TDataObjectForUpdate> patchDocument, ModelStateDictionary modelState) where TDataObjectForUpdate : DataObjectBase
         {
             TEntity? entity = await this.repositoryBase.GetByIDAsync(id);
-            TDataObject? patchObject = default;
+            TDataObjectForUpdate? patchObject = default;
 
             if (entity != null)
             {
                 try
                 {
-                    patchObject = this.mapper.Map<TDataObject>(entity);
+                    patchObject = this.mapper.Map<TDataObjectForUpdate>(entity);
                     patchDocument.ApplyTo(patchObject, modelState);
                 }
                 catch (Exception)

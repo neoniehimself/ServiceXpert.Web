@@ -2,7 +2,7 @@
 using PropLoader;
 using ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories;
 using ServiceXpert.API.Domain.Entities;
-using ServiceXpert.API.Infrastructure.Contexts;
+using ServiceXpert.API.Infrastructure.DbContexts;
 
 namespace ServiceXpert.API.Infrastructure.Abstractions.Concretes.Repositories
 {
@@ -10,9 +10,9 @@ namespace ServiceXpert.API.Infrastructure.Abstractions.Concretes.Repositories
         : IRepositoryBase<TEntityID, TEntity>
         where TEntity : EntityBase
     {
-        private SvXDbContext dbContext;
+        private SXPDbContext dbContext;
 
-        protected RepositoryBase(SvXDbContext dbContext)
+        protected RepositoryBase(SXPDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

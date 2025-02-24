@@ -6,7 +6,7 @@ using ServiceXpert.API.Domain.Entities;
 
 namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
 {
-    public interface IServiceBase<TDataObject, TEntity, TID>
+    public interface IServiceBase<TID, TDataObject, TEntity>
         where TDataObject : DataObjectBase
         where TEntity : EntityBase
     {
@@ -18,13 +18,13 @@ namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
 
         Task<IEnumerable<TDataObject>> GetAllAsync(IncludeOptions<TEntity>? includeOptions = null);
 
-        TID Add(TDataObject dataObject);
+        TID Add<TDataObjectForCreate>(TDataObjectForCreate dataObjectForCreate);
 
-        Task<TID> AddAsync(TDataObject dataObject);
+        Task<TID> AddAsync<TDataObjectForCreate>(TDataObjectForCreate dataObjectForCreate);
 
-        (TDataObject, ModelStateDictionary) ConfigureForUpdate(TID id, JsonPatchDocument<TDataObject> patchDocument, ModelStateDictionary modelState);
+        (TDataObjectForUpdate, ModelStateDictionary) ConfigureForUpdate<TDataObjectForUpdate>(TID id, JsonPatchDocument<TDataObjectForUpdate> patchDocument, ModelStateDictionary modelState) where TDataObjectForUpdate : DataObjectBase;
 
-        Task<(TDataObject, ModelStateDictionary)> ConfigureForUpdateAsync(TID id, JsonPatchDocument<TDataObject> patchDocument, ModelStateDictionary modelState);
+        Task<(TDataObjectForUpdate, ModelStateDictionary)> ConfigureForUpdateAsync<TDataObjectForUpdate>(TID id, JsonPatchDocument<TDataObjectForUpdate> patchDocument, ModelStateDictionary modelState) where TDataObjectForUpdate : DataObjectBase;
 
         void UpdateByID(TID id, TDataObject dataObject);
 

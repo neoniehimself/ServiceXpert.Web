@@ -1,8 +1,8 @@
 ﻿namespace ServiceXpert.API.Domain.Entities
 {
-    public class Issue : EntityBase
+    public class IssueStatus : EntityBase
     {
-        public int IssueID { get; set; }
+        public int IssueStatusID { get; set; }
 
         public string Name { get; set; } = string.Empty;
 
