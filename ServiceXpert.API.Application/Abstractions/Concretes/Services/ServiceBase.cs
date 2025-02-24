@@ -37,12 +37,22 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
 
         public TID Add(TDataObject dataObject)
         {
-            throw new NotImplementedException();
+            TEntity entity = this.mapper.Map<TEntity>(dataObject);
+
+            this.repositoryBase.Add(entity);
+            this.repositoryBase.SaveChanges();
+
+            return GetIDValue(entity);
         }
 
-        public Task<TID> AddAsync(TDataObject dataObject)
+        public async Task<TID> AddAsync(TDataObject dataObject)
         {
-            throw new NotImplementedException();
+            TEntity entity = this.mapper.Map<TEntity>(dataObject);
+
+            await this.repositoryBase.AddAsync(entity);
+            await this.repositoryBase.SaveChangesAsync();
+
+            return GetIDValue(entity);
         }
 
         public (TDataObject, ModelStateDictionary) ConfigureForUpdate(TID id, JsonPatchDocument<TDataObject> patchDocument, ModelStateDictionary modelState)
