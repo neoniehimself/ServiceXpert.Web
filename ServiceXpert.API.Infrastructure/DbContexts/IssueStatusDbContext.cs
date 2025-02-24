@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ServiceXpert.API.Domain.Entities;
+using DomainLayerEnum = ServiceXpert.API.Domain.Shared.Enums;
 
 namespace ServiceXpert.API.Infrastructure.DbContexts
 {
     internal class IssueStatusDbContext : DbContextBase, IEntityTypeConfiguration<IssueStatus>
     {
+        private DateTime dateTime = new DateTime(2025, 2, 24, 0, 0, 0, 0, DateTimeKind.Utc);
+
         public void Configure(EntityTypeBuilder<IssueStatus> issueStatus)
         {
             issueStatus.HasKey(i => i.IssueStatusID).IsClustered();
@@ -15,28 +18,38 @@ namespace ServiceXpert.API.Infrastructure.DbContexts
             issueStatus.HasData(
                 new IssueStatus()
                 {
-                    IssueStatusID = 1,
-                    Name = "New"
+                    IssueStatusID = DomainLayerEnum.Issue.IssueStatus.New,
+                    Name = "New",
+                    CreateDate = this.dateTime,
+                    ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = 2,
-                    Name = "For Analysis"
+                    IssueStatusID = DomainLayerEnum.Issue.IssueStatus.ForAnalysis,
+                    Name = "For Analysis",
+                    CreateDate = this.dateTime,
+                    ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = 3,
-                    Name = "In Progress"
+                    IssueStatusID = DomainLayerEnum.Issue.IssueStatus.InProgress,
+                    Name = "In Progress",
+                    CreateDate = this.dateTime,
+                    ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = 4,
-                    Name = "Resolved"
+                    IssueStatusID = DomainLayerEnum.Issue.IssueStatus.Resolved,
+                    Name = "Resolved",
+                    CreateDate = this.dateTime,
+                    ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = 5,
-                    Name = "Closed"
+                    IssueStatusID = DomainLayerEnum.Issue.IssueStatus.Closed,
+                    Name = "Closed",
+                    CreateDate = this.dateTime,
+                    ModifyDate = this.dateTime
                 }
             );
         }

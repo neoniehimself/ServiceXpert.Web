@@ -1,8 +1,10 @@
-﻿namespace ServiceXpert.API.Domain.Entities
+﻿using Enums = ServiceXpert.API.Domain.Shared.Enums;
+
+namespace ServiceXpert.API.Domain.Entities
 {
     public class IssueStatus : EntityBase
     {
-        public int IssueStatusID { get; set; }
+        public Enums.Issue.IssueStatus IssueStatusID { get; set; }
 
         public string Name { get; set; } = string.Empty;
 

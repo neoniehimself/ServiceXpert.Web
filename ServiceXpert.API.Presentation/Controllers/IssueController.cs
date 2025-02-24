@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PropLoader;
 using ServiceXpert.API.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.API.Application.DataTransferObjects;
+using ServiceXpert.API.Domain.Entities;
 
 namespace ServiceXpert.API.Presentation.Controllers
 {
@@ -18,14 +20,14 @@ namespace ServiceXpert.API.Presentation.Controllers
         [HttpGet("{issueKey}")]
         public async Task<ActionResult<IssueResponse>> GetByIDAsync(string issueKey)
         {
-            var issue = await this.issueService.GetByIDAsync(issueKey);
+            var issue = await this.issueService.GetByIDAsync(issueKey, new IncludeOptions<Issue>(i => i.IssueStatus!));
             return issue != null ? Ok(issue) : NotFound(issueKey);
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<IssueResponse>>> GetAllAsync()
         {
-            var issues = await this.issueService.GetAllAsync();
+            var issues = await this.issueService.GetAllAsync(new IncludeOptions<Issue>(i => i.IssueStatus!));
             return Ok(issues);
         }
 
@@ -52,5 +54,7 @@ namespace ServiceXpert.API.Presentation.Controllers
             await this.issueService.DeleteByIDAsync(issueKey);
             return NoContent();
         }
+
+        // TODO: Implement Update EndPoint
     }
 }
