@@ -4,3 +4,17 @@ GET {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/SXP-1
 Accept: application/json
 
 ###
+
+GET {{ServiceXpert.API.Presentation_HostAddress}}/api/issue
+Accept: application/json
+
+###
+
+POST {{ServiceXpert.API.Presentation_HostAddress}}/api/issue
+Content-Type: application/json
+
+{
+  "name": "Test 2"
+}
+
+###

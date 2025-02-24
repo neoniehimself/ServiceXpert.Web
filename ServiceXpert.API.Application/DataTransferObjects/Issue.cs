@@ -21,14 +21,14 @@ namespace ServiceXpert.API.Application.DataTransferObjects
 
     public class IssueForCreateRequest : DataObjectBase
     {
-        public string Name { get; set; } = string.Empty;
+        public required string Name { get; set; }
 
         public string? Description { get; set; }
     }
 
     public class IssueForUpdateRequest : DataObjectBase
     {
-        public string Name { get; set; } = string.Empty;
+        public required string Name { get; set; }
 
         public string? Description { get; set; }
     }

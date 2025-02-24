@@ -68,19 +68,16 @@ namespace ServiceXpert.API.Infrastructure.DbContexts
         private void UpdateTimestamps()
         {
             var entries = this.ChangeTracker.Entries<EntityBase>();
-            var utcNow = DateTime.SpecifyKind(
-                new DateTime(DateTime.UtcNow.Ticks / TimeSpan.TicksPerSecond * TimeSpan.TicksPerSecond),
-                DateTimeKind.Utc);
 
             foreach (var entry in entries)
             {
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreateDate = utcNow;
+                        entry.Entity.CreateDate = DateTime.UtcNow;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.ModifyDate = utcNow;
+                        entry.Entity.ModifyDate = DateTime.UtcNow;
                         break;
                 }
             }
