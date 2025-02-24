@@ -45,5 +45,12 @@ namespace ServiceXpert.API.Presentation.Controllers
                 issue
             );
         }
+
+        [HttpDelete("{issueKey}")]
+        public async Task<ActionResult> DeleteByIDAsync(string issueKey)
+        {
+            await this.issueService.DeleteByIDAsync(issueKey);
+            return NoContent();
+        }
     }
 }

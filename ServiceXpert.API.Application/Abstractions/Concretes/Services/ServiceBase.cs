@@ -24,7 +24,7 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
             this.repositoryBase = repositoryBase;
         }
 
-        private TID GetIDValue(TEntity entity)
+        private TID GetID(TEntity entity)
         {
             var propID = typeof(TEntity).GetProperty($"{typeof(TEntity).Name}ID");
 
@@ -42,7 +42,7 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
             await this.repositoryBase.AddAsync(entity);
             await this.repositoryBase.SaveChangesAsync();
 
-            return GetIDValue(entity);
+            return GetID(entity);
         }
 
         public async Task<(TDataObjectForUpdate, ModelStateDictionary)> ConfigureForUpdateAsync<TDataObjectForUpdate>(TID id, JsonPatchDocument<TDataObjectForUpdate> patchDocument, ModelStateDictionary modelState) where TDataObjectForUpdate : DataObjectBase

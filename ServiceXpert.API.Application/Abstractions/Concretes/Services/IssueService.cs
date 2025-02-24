@@ -18,6 +18,14 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
             this.issueRepository = issueRepository;
         }
 
+        public async Task DeleteByIDAsync(string issueKey)
+        {
+            if (int.TryParse(issueKey.Split('-')[1], out int issueID))
+            {
+                await this.issueRepository.DeleteByIDAsync(issueID);
+            }
+        }
+
         public async Task<IssueResponse?> GetByIDAsync(string issueKey, IncludeOptions<Issue>? includeOptions = null)
         {
             IssueResponse? issueResponse = null;
