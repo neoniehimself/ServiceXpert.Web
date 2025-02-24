@@ -5,12 +5,6 @@ namespace ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories
 {
     public interface IRepositoryBase<TEntityID, TEntity> where TEntity : EntityBase
     {
-        string EntityID
-        {
-            get;
-            set;
-        }
-
         int SaveChanges();
 
         Task<int> SaveChangesAsync();

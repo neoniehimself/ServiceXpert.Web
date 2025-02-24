@@ -8,7 +8,7 @@ using ServiceXpert.API.Application.DataTransferObjects;
 using ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories;
 using ServiceXpert.API.Domain.Entities;
 
-namespace ServiceXpert.API.Application.Abstractions.Concrete.Services
+namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
 {
     public abstract class ServiceBase<TDataObject, TEntity, TID>
         : IServiceBase<TDataObject, TEntity, TID>
