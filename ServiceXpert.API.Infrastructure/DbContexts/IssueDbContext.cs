@@ -10,7 +10,7 @@ namespace ServiceXpert.API.Infrastructure.DbContexts
         {
             issue.HasKey(i => i.IssueID).IsClustered();
             issue.Property(i => i.Name).HasColumnType(ToVarcharColumn(256));
-            issue.Property(i => i.Description).HasColumnType(ToVarcharColumn(8192));
+            issue.Property(i => i.Description).HasColumnType(ToVarcharColumn(4096));
         }
     }
 }

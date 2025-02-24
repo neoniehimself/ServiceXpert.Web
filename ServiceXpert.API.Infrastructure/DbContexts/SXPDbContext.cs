@@ -12,7 +12,7 @@ namespace ServiceXpert.API.Infrastructure.DbContexts
         {
             get
             {
-                string? connectionString = Environment.GetEnvironmentVariable("", EnvironmentVariableTarget.User);
+                string? connectionString = Environment.GetEnvironmentVariable("ServiceXpert", EnvironmentVariableTarget.User);
                 return connectionString != null ? connectionString : throw new KeyNotFoundException("Fatal: Missing connection string");
             }
         }

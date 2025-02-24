@@ -1,8 +1,18 @@
-﻿namespace ServiceXpert.API.Application.DataTransferObjects
+﻿using ServiceXpert.API.Domain.Shared.Enums.Entity;
+
+namespace ServiceXpert.API.Application.DataTransferObjects
 {
     public class IssueResponse : DataObjectBase
     {
         public int IssueID { get; set; }
+
+        public string IssueKey
+        {
+            get
+            {
+                return string.Concat(nameof(IssuePreFix.SXP), '-', this.IssueID);
+            }
+        }
 
         public string Name { get; set; } = string.Empty;
 
