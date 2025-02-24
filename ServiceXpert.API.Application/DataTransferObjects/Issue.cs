@@ -1,4 +1,4 @@
-﻿using ServiceXpert.API.Domain.Shared.Enums.Entity;
+﻿using ServiceXpert.API.Domain.Shared.Enums.Issue;
 
 namespace ServiceXpert.API.Application.DataTransferObjects
 {

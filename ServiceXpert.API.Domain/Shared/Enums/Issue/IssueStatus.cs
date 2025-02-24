@@ -1,4 +1,4 @@
-﻿namespace ServiceXpert.API.Domain.Shared.Enums.Entity
+﻿namespace ServiceXpert.API.Domain.Shared.Enums.Issue
 {
     public enum IssueStatus
     {
