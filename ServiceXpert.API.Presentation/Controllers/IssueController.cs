@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using PropLoader;
 using ServiceXpert.API.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.API.Application.DataTransferObjects;
-using ServiceXpert.API.Domain.Entities;
 
 namespace ServiceXpert.API.Presentation.Controllers
 {
@@ -22,14 +20,14 @@ namespace ServiceXpert.API.Presentation.Controllers
         [HttpGet("{issueKey}")]
         public async Task<ActionResult<IssueResponse>> GetByIDAsync(string issueKey)
         {
-            var issue = await this.issueService.GetByIDAsync(issueKey, new IncludeOptions<Issue>(i => i.IssueStatus!));
+            var issue = await this.issueService.GetByIDAsync(issueKey);
             return issue != null ? Ok(issue) : NotFound(issueKey);
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<IssueResponse>>> GetAllAsync()
         {
-            var issues = await this.issueService.GetAllAsync(new IncludeOptions<Issue>(i => i.IssueStatus!));
+            var issues = await this.issueService.GetAllAsync();
             return Ok(issues);
         }
 

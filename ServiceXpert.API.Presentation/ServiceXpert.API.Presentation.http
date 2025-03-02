@@ -30,7 +30,12 @@ Content-Type: application/json
   {
     "op": "replace",
     "path": "/issueStatusID",
-    "value": "2"
+    "value": "3"
+  },
+  {
+    "op": "replace",
+    "path": "/issuePriorityID",
+    "value": "3"
   }
 ]
 

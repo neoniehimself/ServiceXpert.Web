@@ -35,6 +35,7 @@ namespace ServiceXpert.API.Infrastructure.Abstractions.Concretes.Repositories
                 .Where(e => EF.Property<TEntityID>(e, this.EntityID)!.Equals(entityID))
                 .ExecuteDeleteAsync();
         }
+
         public async Task<IEnumerable<TEntity>> GetAllAsync(IncludeOptions<TEntity>? includeOptions = null)
         {
             IQueryable<TEntity> query = OptionsBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);

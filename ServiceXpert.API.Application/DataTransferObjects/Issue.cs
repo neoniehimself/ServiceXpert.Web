@@ -22,7 +22,11 @@ namespace ServiceXpert.API.Application.DataTransferObjects
 
         public Enums.Issue.IssueStatus IssueStatusID { get; set; }
 
-        public IssueStatusResponse IssueStatus { get; set; } = null!;
+        public IssueStatusResponse? IssueStatus { get; set; }
+
+        public Enums.Issue.IssuePriority IssuePriorityID { get; set; }
+
+        public IssuePriorityResponse? IssuePriority { get; set; }
     }
 
     public class IssueForCreateRequest : DataObjectBase
@@ -33,6 +37,10 @@ namespace ServiceXpert.API.Application.DataTransferObjects
 
         [MaxLength(4096)]
         public string? Description { get; set; }
+
+        public Enums.Issue.IssueStatus IssueStatusID { get; } = Enums.Issue.IssueStatus.New;
+
+        public Enums.Issue.IssuePriority IssuePriorityID { get; set; } = Enums.Issue.IssuePriority.Low;
     }
 
     public class IssueForUpdateRequest : DataObjectBase
@@ -45,5 +53,7 @@ namespace ServiceXpert.API.Application.DataTransferObjects
         public string? Description { get; set; }
 
         public required Enums.Issue.IssueStatus IssueStatusID { get; set; }
+
+        public required Enums.Issue.IssuePriority IssuePriorityID { get; set; }
     }
 }

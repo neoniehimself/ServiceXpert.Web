@@ -11,7 +11,6 @@ namespace ServiceXpert.API.Application.Shared.ServiceContainer
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            services.TryAddScoped<IIssueStatusService, IssueStatusService>();
             services.TryAddScoped<IIssueService, IssueService>();
 
             return services;

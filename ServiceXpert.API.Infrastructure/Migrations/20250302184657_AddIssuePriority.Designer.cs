@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServiceXpert.API.Infrastructure.DbContexts;
 
@@ -11,9 +12,11 @@ using ServiceXpert.API.Infrastructure.DbContexts;
 namespace ServiceXpert.API.Infrastructure.Migrations
 {
     [DbContext(typeof(SXPDbContext))]
-    partial class SXPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250302184657_AddIssuePriority")]
+    partial class AddIssuePriority
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
