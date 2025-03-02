@@ -10,8 +10,12 @@ namespace ServiceXpert.API.Domain.Entities
 
         public string? Description { get; set; }
 
-        public Enums.Issue.IssueStatus IssueStatusID { get; set; } = Enums.Issue.IssueStatus.New;
+        public Enums.Issue.IssueStatus IssueStatusID { get; set; }
 
-        public IssueStatus IssueStatus { get; set; } = null!;
+        public IssueStatus? IssueStatus { get; set; }
+
+        public Enums.Issue.IssuePriority IssuePriorityID { get; set; }
+
+        public IssuePriority? IssuePriority { get; set; }
     }
 }

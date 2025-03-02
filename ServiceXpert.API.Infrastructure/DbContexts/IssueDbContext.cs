@@ -18,6 +18,13 @@ namespace ServiceXpert.API.Infrastructure.DbContexts
             issue.HasOne(i => i.IssueStatus)
                 .WithOne()
                 .HasForeignKey<Issue>(i => i.IssueStatusID);
+
+            issue.HasOne(i => i.IssuePriority)
+                .WithOne()
+                .HasForeignKey<Issue>(i => i.IssuePriorityID);
+
+            issue.Navigation(i => i.IssueStatus).AutoInclude();
+            issue.Navigation(i => i.IssuePriority).AutoInclude();
         }
     }
 }
