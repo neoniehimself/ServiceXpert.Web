@@ -1,13 +1,9 @@
-﻿using Newtonsoft.Json;
-
-namespace ServiceXpert.API.Application.DataTransferObjects
+﻿namespace ServiceXpert.API.Application.DataTransferObjects
 {
     public abstract class DataObjectBase
     {
-        [JsonIgnore]
-        public DateTime CreateDate { get; set; }
+        public DateTime CreateDate { get; } = DateTime.UtcNow;
 
-        [JsonIgnore]
-        public DateTime ModifyDate { get; set; }
+        public DateTime ModifyDate { get; } = DateTime.UtcNow;
     }
 }

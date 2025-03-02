@@ -41,30 +41,6 @@ namespace ServiceXpert.API.Infrastructure.DbContexts
             base.OnModelCreating(modelBuilder);
         }
 
-        public override int SaveChanges()
-        {
-            UpdateTimestamps();
-            return base.SaveChanges();
-        }
-
-        public override int SaveChanges(bool acceptAllChangesOnSuccess)
-        {
-            UpdateTimestamps();
-            return base.SaveChanges(acceptAllChangesOnSuccess);
-        }
-
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            UpdateTimestamps();
-            return base.SaveChangesAsync(cancellationToken);
-        }
-
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-        {
-            UpdateTimestamps();
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-
         private void UpdateTimestamps()
         {
             var entries = this.ChangeTracker.Entries<EntityBase>();
@@ -75,6 +51,7 @@ namespace ServiceXpert.API.Infrastructure.DbContexts
                 {
                     case EntityState.Added:
                         entry.Entity.CreateDate = DateTime.UtcNow;
+                        entry.Entity.ModifyDate = DateTime.UtcNow;
                         break;
                     case EntityState.Modified:
                         entry.Entity.ModifyDate = DateTime.UtcNow;
