@@ -56,5 +56,10 @@ namespace ServiceXpert.API.Presentation.Controllers
         }
 
         // TODO: Implement Update EndPoint
+        [HttpPatch("{issueKey}")]
+        public Task<ActionResult> PatchUpdateAsync(string issueKey)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
