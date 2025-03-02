@@ -22,3 +22,16 @@ Accept: application/json
 DELETE {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/SXP-1
 
 ###
+
+PATCH {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/SXP-1
+Content-Type: application/json
+
+[
+  {
+    "op": "replace",
+    "path": "/issueStatusID",
+    "value": "2"
+  }
+]
+
+###

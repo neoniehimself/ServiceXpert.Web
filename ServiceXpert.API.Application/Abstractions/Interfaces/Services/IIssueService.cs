@@ -11,5 +11,9 @@ namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
         Task DeleteByIDAsync(string issueKey);
 
         Task<bool> IsExistsByIDAsync(string issueKey);
+
+        int GetIssueID(string issueKey);
+
+        Task UpdateByIDAsync(string issueKey, IssueForUpdateRequest issueForUpdateRequest);
     }
 }

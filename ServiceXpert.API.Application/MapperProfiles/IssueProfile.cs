@@ -10,7 +10,7 @@ namespace ServiceXpert.API.Application.MapperProfiles
         {
             CreateMap<Issue, IssueResponse>().ReverseMap();
             CreateMap<IssueForCreateRequest, Issue>();
-            CreateMap<IssueForUpdateRequest, Issue>();
+            CreateMap<IssueForUpdateRequest, Issue>().ReverseMap();
         }
     }
 }

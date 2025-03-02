@@ -1,4 +1,5 @@
 ﻿using ServiceXpert.API.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 using Enums = ServiceXpert.API.Domain.Shared.Enums;
 
 namespace ServiceXpert.API.Application.DataTransferObjects
@@ -26,15 +27,21 @@ namespace ServiceXpert.API.Application.DataTransferObjects
 
     public class IssueForCreateRequest : DataObjectBase
     {
+        [Required]
+        [MaxLength(256)]
         public required string Name { get; set; }
 
+        [MaxLength(4096)]
         public string? Description { get; set; }
     }
 
     public class IssueForUpdateRequest : DataObjectBase
     {
+        [Required]
+        [MaxLength(256)]
         public required string Name { get; set; }
 
+        [MaxLength(4096)]
         public string? Description { get; set; }
 
         public required Enums.Issue.IssueStatus IssueStatusID { get; set; }

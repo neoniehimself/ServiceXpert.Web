@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PropLoader;
 using ServiceXpert.API.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.API.Application.DataTransferObjects;
@@ -55,11 +57,33 @@ namespace ServiceXpert.API.Presentation.Controllers
             return NoContent();
         }
 
-        // TODO: Implement Update EndPoint
         [HttpPatch("{issueKey}")]
-        public Task<ActionResult> PatchUpdateAsync(string issueKey)
+        public async Task<ActionResult> PatchUpdateAsync(string issueKey, JsonPatchDocument<IssueForUpdateRequest> patchDocument)
         {
-            throw new NotImplementedException();
+            if (!await this.issueService.IsExistsByIDAsync(issueKey))
+            {
+                return NotFound(issueKey);
+            }
+
+            var issueID = this.issueService.GetIssueID(issueKey);
+            var result = await this.issueService.ConfigureForUpdateAsync(issueID, patchDocument, this.ModelState);
+
+            IssueForUpdateRequest issueForUpdateRequest = result.Item1;
+            ModelStateDictionary modelState = result.Item2;
+
+            if (!modelState.IsValid)
+            {
+                return BadRequest(modelState);
+            }
+
+            if (!TryValidateModel(issueForUpdateRequest))
+            {
+                return BadRequest(modelState);
+            }
+
+            await this.issueService.UpdateByIDAsync(issueKey, issueForUpdateRequest);
+
+            return NoContent();
         }
     }
 }
