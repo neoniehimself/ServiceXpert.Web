@@ -41,5 +41,15 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
 
             return issueResponse;
         }
+
+        public async Task<bool> IsExistsByIDAsync(string issueKey)
+        {
+            if (int.TryParse(issueKey.Split('-')[1], out int issueID))
+            {
+                return await this.issueRepository.IsExistsByIDAsync(issueID);
+            }
+
+            return false;
+        }
     }
 }
