@@ -13,7 +13,6 @@ namespace ServiceXpert.API.Infrastructure.Shared.ServiceContainer
             services.AddDbContext<SXPDbContext>();
 
             services.TryAddScoped<IIssueRepository, IssueRepository>();
-            services.TryAddScoped<IIssueStatusRepository, IssueStatusRepository>();
 
             return services;
         }
