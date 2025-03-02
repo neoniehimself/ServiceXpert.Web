@@ -6,7 +6,7 @@ namespace ServiceXpert.API.Application.DataTransferObjects
 {
     public class IssueResponse : DataObjectBase
     {
-        public int IssueID { get; set; }
+        public Enums.Issue.IssueStatus IssueID { get; set; }
 
         public string IssueKey
         {
