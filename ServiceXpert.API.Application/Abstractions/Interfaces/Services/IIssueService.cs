@@ -9,5 +9,11 @@ namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
         Task<IssueResponse?> GetByIDAsync(string issueKey, IncludeOptions<Issue>? includeOptions = null);
 
         Task DeleteByIDAsync(string issueKey);
+
+        Task<bool> IsExistsByIDAsync(string issueKey);
+
+        int GetIssueID(string issueKey);
+
+        Task UpdateByIDAsync(string issueKey, IssueForUpdateRequest issueForUpdateRequest);
     }
 }

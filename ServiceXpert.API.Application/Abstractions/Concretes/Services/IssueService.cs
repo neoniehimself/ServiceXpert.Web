@@ -20,26 +20,47 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
 
         public async Task DeleteByIDAsync(string issueKey)
         {
-            if (int.TryParse(issueKey.Split('-')[1], out int issueID))
-            {
-                await this.issueRepository.DeleteByIDAsync(issueID);
-            }
+            await this.issueRepository.DeleteByIDAsync(GetIssueID(issueKey));
         }
 
         public async Task<IssueResponse?> GetByIDAsync(string issueKey, IncludeOptions<Issue>? includeOptions = null)
         {
             IssueResponse? issueResponse = null;
 
-            if (int.TryParse(issueKey.Split('-')[1], out int issueID))
+            var issue = await this.issueRepository.GetByIDAsync(GetIssueID(issueKey), includeOptions);
+            if (issue != null)
             {
-                var issue = await this.issueRepository.GetByIDAsync(issueID, includeOptions);
-                if (issue != null)
-                {
-                    issueResponse = this.mapper.Map<IssueResponse>(issue);
-                }
+                issueResponse = this.mapper.Map<IssueResponse>(issue);
             }
 
             return issueResponse;
+        }
+
+        public int GetIssueID(string issueKey)
+        {
+            if (int.TryParse(issueKey.Split('-')[1], out int issueID))
+            {
+                return issueID;
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        public async Task<bool> IsExistsByIDAsync(string issueKey)
+        {
+            return await this.issueRepository.IsExistsByIDAsync(GetIssueID(issueKey));
+        }
+
+        public async Task UpdateByIDAsync(string issueKey, IssueForUpdateRequest issueForUpdateRequest)
+        {
+            var issue = await this.issueRepository.GetByIDAsync(GetIssueID(issueKey));
+
+            if (issue != null)
+            {
+                this.mapper.Map(issueForUpdateRequest, issue);
+                this.issueRepository.Update(issue);
+                await this.issueRepository.SaveChangesAsync();
+            }
         }
     }
 }
