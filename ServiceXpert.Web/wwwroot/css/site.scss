@@ -1,0 +1,21 @@
+$purple: #6f42c1;
+$primary: $purple;
+
+@import '../lib/bootstrap/scss/bootstrap.scss';
+@import 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap';
+
+:root {
+    --bs-body-font-family: 'Roboto', sans-serif;
+}
+
+html {
+    overflow-y: scroll !important;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+}
