@@ -9,3 +9,22 @@
         }
     });
 });
+
+$(document).on('submit', '#create-issue-modal-form', function (e) {
+    e.preventDefault();
+
+    var formData = new FormData($(this)[0]);
+
+    $.ajax({
+        type: 'POST',
+        url: 'Issue/CreateIssue',
+        cache: false,
+        processData: false,
+        contentType: false,
+        dataType: 'JSON',
+        data: formData,
+        success: function (response) {
+            window.location.reload();
+        }
+    });
+});

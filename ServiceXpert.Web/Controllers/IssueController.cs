@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ServiceXpert.Web.Models;
 using ServiceXpert.Web.ViewModels;
 
 namespace ServiceXpert.Web.Controllers
@@ -36,7 +37,7 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [HttpPost]
-        public Task<IActionResult> CreateIssue()
+        public Task<IActionResult> CreateIssue(IssueForCreate issue)
         {
             throw new NotImplementedException();
         }
