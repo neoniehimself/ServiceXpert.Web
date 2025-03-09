@@ -40,12 +40,7 @@ namespace ServiceXpert.API.Presentation.Controllers
             }
 
             var issueID = await this.issueService.AddAsync(issueForCreateRequest);
-            var issue = await this.issueService.GetByIDAsync(issueID);
-
-            return Created(
-                this.Url.Action(nameof(GetByIDAsync), new { issue!.IssueKey }),
-                issue
-            );
+            return Ok(issueID);
         }
 
         [HttpDelete("{issueKey}")]

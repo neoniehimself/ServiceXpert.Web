@@ -1,6 +1,4 @@
-﻿using Enums = ServiceXpert.API.Domain.Shared.Enums;
-
-namespace ServiceXpert.API.Domain.Entities
+﻿namespace ServiceXpert.API.Domain.Entities
 {
     public class Issue : EntityBase
     {
@@ -10,11 +8,11 @@ namespace ServiceXpert.API.Domain.Entities
 
         public string? Description { get; set; }
 
-        public Enums.Issue.IssueStatus IssueStatusID { get; set; }
+        public int IssueStatusID { get; set; }
 
         public IssueStatus? IssueStatus { get; set; }
 
-        public Enums.Issue.IssuePriority IssuePriorityID { get; set; }
+        public int IssuePriorityID { get; set; }
 
         public IssuePriority? IssuePriority { get; set; }
     }

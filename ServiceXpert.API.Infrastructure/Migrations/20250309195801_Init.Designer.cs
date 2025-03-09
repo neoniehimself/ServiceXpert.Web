@@ -12,8 +12,8 @@ using ServiceXpert.API.Infrastructure.DbContexts;
 namespace ServiceXpert.API.Infrastructure.Migrations
 {
     [DbContext(typeof(SXPDbContext))]
-    [Migration("20250302184657_AddIssuePriority")]
-    partial class AddIssuePriority
+    [Migration("20250309195801_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,7 +62,10 @@ namespace ServiceXpert.API.Infrastructure.Migrations
             modelBuilder.Entity("ServiceXpert.API.Domain.Entities.IssuePriority", b =>
                 {
                     b.Property<int>("IssuePriorityID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IssuePriorityID"));
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -124,7 +127,10 @@ namespace ServiceXpert.API.Infrastructure.Migrations
             modelBuilder.Entity("ServiceXpert.API.Domain.Entities.IssueStatus", b =>
                 {
                     b.Property<int>("IssueStatusID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IssueStatusID"));
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");

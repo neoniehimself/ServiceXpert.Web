@@ -24,6 +24,7 @@ $(document).on('submit', '#create-issue-modal-form', function (e) {
         dataType: 'JSON',
         data: formData,
         success: function (response) {
+            $('#create-issue-modal').modal('hide');
             window.location.reload();
         }
     });

@@ -18,35 +18,35 @@ namespace ServiceXpert.API.Infrastructure.DbContexts
             issueStatus.HasData(
                 new IssueStatus()
                 {
-                    IssueStatusID = DomainLayerEnum.Issue.IssueStatus.New,
+                    IssueStatusID = (int)DomainLayerEnum.Issue.IssueStatus.New,
                     Name = "New",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = DomainLayerEnum.Issue.IssueStatus.ForAnalysis,
+                    IssueStatusID = (int)DomainLayerEnum.Issue.IssueStatus.ForAnalysis,
                     Name = "For Analysis",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = DomainLayerEnum.Issue.IssueStatus.InProgress,
+                    IssueStatusID = (int)DomainLayerEnum.Issue.IssueStatus.InProgress,
                     Name = "In Progress",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = DomainLayerEnum.Issue.IssueStatus.Resolved,
+                    IssueStatusID = (int)DomainLayerEnum.Issue.IssueStatus.Resolved,
                     Name = "Resolved",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = DomainLayerEnum.Issue.IssueStatus.Closed,
+                    IssueStatusID = (int)DomainLayerEnum.Issue.IssueStatus.Closed,
                     Name = "Closed",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime

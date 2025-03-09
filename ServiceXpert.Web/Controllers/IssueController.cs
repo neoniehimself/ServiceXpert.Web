@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using ServiceXpert.Web.Models;
 using ServiceXpert.Web.ViewModels;
+using System.Text;
 
 namespace ServiceXpert.Web.Controllers
 {
@@ -37,9 +38,25 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [HttpPost]
-        public Task<IActionResult> CreateIssue(IssueForCreate issue)
+        public async Task<IActionResult> CreateIssue(IssueForCreate issue)
         {
-            throw new NotImplementedException();
+            if (!this.ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var httpClient = this.httpClientFactory.CreateClient("Default");
+
+            var serializedObject = JsonConvert.SerializeObject(issue);
+            var requestContent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/issue", requestContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Json(new { });
+            }
+
+            return new StatusCodeResult((int)response.StatusCode);
         }
 
         public IActionResult Index()

@@ -1,10 +1,8 @@
-﻿using Enums = ServiceXpert.API.Domain.Shared.Enums;
-
-namespace ServiceXpert.API.Application.DataTransferObjects
+﻿namespace ServiceXpert.API.Application.DataTransferObjects
 {
     public class IssuePriorityResponse : DataObjectBase
     {
-        public Enums.Issue.IssuePriority IssuePriorityID { get; set; }
+        public int IssuePriorityID { get; set; }
 
         public string Name { get; set; } = string.Empty;
 

@@ -19,35 +19,35 @@ namespace ServiceXpert.API.Infrastructure.DbContexts
             issuePriority.HasData(
                 new IssuePriority()
                 {
-                    IssuePriorityID = DomainLayerEnum.Issue.IssuePriority.Outage,
+                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Outage,
                     Name = "Outage",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = DomainLayerEnum.Issue.IssuePriority.Critical,
+                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Critical,
                     Name = "Critical",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = DomainLayerEnum.Issue.IssuePriority.High,
+                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.High,
                     Name = "High",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = DomainLayerEnum.Issue.IssuePriority.Medium,
+                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Medium,
                     Name = "Medium",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = DomainLayerEnum.Issue.IssuePriority.Low,
+                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Low,
                     Name = "Low",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
