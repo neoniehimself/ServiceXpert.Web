@@ -24,12 +24,12 @@ function toggleTheme() {
 }
 
 // Load theme preference on page load
-document.addEventListener("DOMContentLoaded", () => {
-    const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    document.documentElement.setAttribute("data-bs-theme", savedTheme);
+//document.addEventListener("DOMContentLoaded", () => {
+//    const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+//    document.documentElement.setAttribute("data-bs-theme", savedTheme);
 
-    // Set correct icon on page load
-    const themeToggleIcon = document.getElementById("themeToggleIcon");
-    themeToggleIcon.classList.toggle("bi bi-transparency", savedTheme === "light");
-    themeToggleIcon.classList.toggle("bi bi-transparency", savedTheme === "dark");
-});
+//    // Set correct icon on page load
+//    const themeToggleIcon = document.getElementById("themeToggleIcon");
+//    themeToggleIcon.classList.toggle("bi bi-transparency", savedTheme === "light");
+//    themeToggleIcon.classList.toggle("bi bi-transparency", savedTheme === "dark");
+//});

@@ -1,4 +1,7 @@
 ﻿@using ServiceXpert.Web.Extensions
+@{
+    ViewData["FooterYear"] = DateTime.UtcNow.Year;
+}
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
 <head>
@@ -15,34 +18,39 @@
     <header>
         <nav class="navbar navbar-expand-lg border-bottom box-shadow">
             <div class="container">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">ServiceXpert</a>
+                <a class="navbar-brand" asp-controller="Dashboard" asp-action="Index">ServiceXpert</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item mx-lg-2">
-                            <a class="nav-link @Html.IsActive("Home", "Index")" aria-current="page"
-                               asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item mx-lg-2">
-                            <a class="nav-link @Html.IsActive("Home", "Privacy")" aria-current="page"
-                               asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link @Html.IsActive("Dashboard", "Index")" aria-current="page"
+                               asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                         </li>
                         <li class="nav-item dropdown mx-lg-2">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
+                                Issues
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item text-dark" href="#">Action</a></li>
-                                <li><a class="dropdown-item text-dark" href="#">Another action</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-dark" href="#">Something else here</a></li>
+                                <li>
+                                    <a class="dropdown-item" aria-current="page"
+                                        asp-controller="Issues" asp-action="AllIssues">All Issues</a>
+                                </li>
+                                @* <li><hr class="dropdown-divider"></li> *@
+                                @* <li>
+                                    <a class="dropdown-item" aria-current="page"
+                                       asp-controller="Issues" asp-action="Open Issues">Open Issues</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" aria-current="page"
+                                       asp-controller="Issues" asp-action="Closed Issues">Closed Issues</a>
+                                </li> *@
                             </ul>
                         </li>
-                        <li class="nav-item mx-lg-2">
+                        @* <li class="nav-item mx-lg-2">
                             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                        </li>
+                        </li> *@
                         <li class="nav-item mx-lg-2">
                             <button class="btn btn-success" type="button">Create</button>
                         </li>
@@ -51,19 +59,19 @@
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
-                    <i id="themeToggleIcon" class="bi bi-sun-fill fs-4 ms-2" onclick="toggleTheme()"></i>
+                    @* <i id="themeToggleIcon" class="bi bi-sun-fill fs-4 ms-2" onclick="toggleTheme()"></i> *@
                 </div>
             </div>
         </nav>
     </header>
     <main role="main">
-        <div class="container">
+        <div class="container py-3">
             @RenderBody()
         </div>
     </main>
     <footer class="border-top text-muted py-3">
         <div class="container">
-            &copy; 2025 - ServiceXpert - Developed by Neonie Quell Ponce.
+            &copy; @ViewData["FooterYear"] - ServiceXpert - Developed by Neonie Quell Ponce.
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
