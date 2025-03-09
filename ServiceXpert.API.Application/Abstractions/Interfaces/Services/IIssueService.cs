@@ -15,5 +15,7 @@ namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
         int GetIssueID(string issueKey);
 
         Task UpdateByIDAsync(string issueKey, IssueForUpdateRequest issueForUpdateRequest);
+
+        IEnumerable<string> GetIssuePriorities();
     }
 }

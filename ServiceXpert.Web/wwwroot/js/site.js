@@ -1,8 +1,28 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(document).ready(function () {
+    // Global AJAX event to set cursor when any AJAX request starts
+    $(document).ajaxStart(function () {
+        $('body').addClass('loading'); // Change the cursor to 'wait'
+    });
 
-// Write your JavaScript code.
+    // Global AJAX event to reset cursor when all AJAX requests complete
+    $(document).ajaxStop(function () {
+        $('body').removeClass('loading'); // Reset the cursor back to normal
+    });
+});
 
+$(document).on('click', '#btn-create-issue', function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'GET',
+        url: 'Home/CreateIssue',
+        success: function (response) {
+            $('.modal-container').html(response);
+            $('#create-issue-modal').modal('show');
+        }
+    });
+});
+
+/* Bootstrap Theme Switching
 function toggleTheme() {
     const html = document.documentElement;
     const themeToggleIcon = document.getElementById("themeToggleIcon");
@@ -24,12 +44,13 @@ function toggleTheme() {
 }
 
 // Load theme preference on page load
-//document.addEventListener("DOMContentLoaded", () => {
-//    const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-//    document.documentElement.setAttribute("data-bs-theme", savedTheme);
+document.addEventListener("DOMContentLoaded", () => {
+    const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-bs-theme", savedTheme);
 
-//    // Set correct icon on page load
-//    const themeToggleIcon = document.getElementById("themeToggleIcon");
-//    themeToggleIcon.classList.toggle("bi bi-transparency", savedTheme === "light");
-//    themeToggleIcon.classList.toggle("bi bi-transparency", savedTheme === "dark");
-//});
+    // Set correct icon on page load
+    const themeToggleIcon = document.getElementById("themeToggleIcon");
+    themeToggleIcon.classList.toggle("bi bi-transparency", savedTheme === "light");
+    themeToggleIcon.classList.toggle("bi bi-transparency", savedTheme === "dark");
+});
+*/

@@ -4,6 +4,7 @@ using ServiceXpert.API.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.API.Application.DataTransferObjects;
 using ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories;
 using ServiceXpert.API.Domain.Entities;
+using Enums = ServiceXpert.API.Domain.Shared.Enums;
 
 namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
 {
@@ -44,6 +45,18 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
             }
 
             throw new InvalidOperationException();
+        }
+
+        public IEnumerable<string> GetIssuePriorities()
+        {
+            var issuePriorities = new List<string>();
+
+            foreach (var issuePriority in Enum.GetValues(typeof(Enums.Issue.IssuePriority)))
+            {
+                issuePriorities.Add(issuePriority.ToString()!);
+            }
+
+            return issuePriorities;
         }
 
         public async Task<bool> IsExistsByIDAsync(string issueKey)

@@ -2,9 +2,9 @@
 
 namespace ServiceXpert.Web.Controllers
 {
-    public class IssuesController : Controller
+    public class IssueController : Controller
     {
-        public IActionResult AllIssues()
+        public IActionResult Index()
         {
             return View();
         }

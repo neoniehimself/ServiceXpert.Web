@@ -6,7 +6,7 @@ using ServiceXpert.API.Application.DataTransferObjects;
 
 namespace ServiceXpert.API.Presentation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("API/[controller]")]
     [ApiController]
     public class IssueController : ControllerBase
     {
@@ -82,6 +82,12 @@ namespace ServiceXpert.API.Presentation.Controllers
             await this.issueService.UpdateByIDAsync(issueKey, issueForUpdateRequest);
 
             return NoContent();
+        }
+
+        [HttpGet("IssuePriorities")]
+        public ActionResult<IEnumerable<string>> GetIssuePrioritiesAsync()
+        {
+            return Ok(this.issueService.GetIssuePriorities());
         }
     }
 }

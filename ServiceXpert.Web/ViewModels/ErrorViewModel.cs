@@ -1,4 +1,4 @@
-namespace ServiceXpert.Web.Models
+namespace ServiceXpert.Web.ViewModels
 {
     public class ErrorViewModel
     {

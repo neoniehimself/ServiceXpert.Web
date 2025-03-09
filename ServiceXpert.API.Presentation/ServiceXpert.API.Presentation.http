@@ -40,3 +40,8 @@ Content-Type: application/json
 ]
 
 ###
+
+GET {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/IssuePriorities
+Accept: application/json
+
+###
