@@ -2,7 +2,7 @@
     e.preventDefault();
     $.ajax({
         type: 'GET',
-        url: 'Home/CreateIssue',
+        url: 'Issue/InitializeCreateIssue',
         success: function (response) {
             $('.modal-container').html(response);
             $('#create-issue-modal').modal('show');
