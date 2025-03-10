@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using ServiceXpert.API.Domain.Entities;
+using ServiceXpert.API.Application.DataTransferObjects.Issues;
+using Entities = ServiceXpert.API.Domain.Entities;
 
 namespace ServiceXpert.API.Application.MapperProfiles
 {
@@ -7,7 +8,7 @@ namespace ServiceXpert.API.Application.MapperProfiles
     {
         public IssueStatusProfile()
         {
-            CreateMap<IssueStatus, IssueStatusResponse>();
+            CreateMap<Entities.IssueStatus, IssueStatus>();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using ServiceXpert.Web.Models;
+using ServiceXpert.Web.Models.Issues;
 using ServiceXpert.Web.ViewModels;
 using System.Text;
 

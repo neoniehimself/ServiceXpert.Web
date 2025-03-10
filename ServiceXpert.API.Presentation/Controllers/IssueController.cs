@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ServiceXpert.API.Application.Abstractions.Interfaces.Services;
-using ServiceXpert.API.Application.DataTransferObjects;
+using ServiceXpert.API.Application.DataTransferObjects.Issues;
 
 namespace ServiceXpert.API.Presentation.Controllers
 {
@@ -18,21 +18,21 @@ namespace ServiceXpert.API.Presentation.Controllers
         }
 
         [HttpGet("{issueKey}")]
-        public async Task<ActionResult<IssueResponse>> GetByIDAsync(string issueKey)
+        public async Task<ActionResult<Issue>> GetByIDAsync(string issueKey)
         {
             var issue = await this.issueService.GetByIDAsync(issueKey);
             return issue != null ? Ok(issue) : NotFound(issueKey);
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<IssueResponse>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<Issue>>> GetAllAsync()
         {
             var issues = await this.issueService.GetAllAsync();
             return Ok(issues);
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddAsync(IssueForCreateRequest issueForCreateRequest)
+        public async Task<ActionResult> AddAsync(IssueForCreate issueForCreateRequest)
         {
             if (!this.ModelState.IsValid)
             {
@@ -51,7 +51,7 @@ namespace ServiceXpert.API.Presentation.Controllers
         }
 
         [HttpPatch("{issueKey}")]
-        public async Task<ActionResult> PatchUpdateAsync(string issueKey, JsonPatchDocument<IssueForUpdateRequest> patchDocument)
+        public async Task<ActionResult> PatchUpdateAsync(string issueKey, JsonPatchDocument<IssueForUpdate> patchDocument)
         {
             if (!await this.issueService.IsExistsByIDAsync(issueKey))
             {
@@ -61,7 +61,7 @@ namespace ServiceXpert.API.Presentation.Controllers
             var issueID = this.issueService.GetIssueID(issueKey);
             var result = await this.issueService.ConfigureForUpdateAsync(issueID, patchDocument, this.ModelState);
 
-            IssueForUpdateRequest issueForUpdateRequest = result.Item1;
+            IssueForUpdate issueForUpdateRequest = result.Item1;
             ModelStateDictionary modelState = result.Item2;
 
             if (!modelState.IsValid)

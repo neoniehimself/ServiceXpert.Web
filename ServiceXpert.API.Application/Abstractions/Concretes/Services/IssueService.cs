@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using PropLoader;
 using ServiceXpert.API.Application.Abstractions.Interfaces.Services;
-using ServiceXpert.API.Application.DataTransferObjects;
+using ServiceXpert.API.Application.DataTransferObjects.Issues;
 using ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories;
-using ServiceXpert.API.Domain.Entities;
+using Entities = ServiceXpert.API.Domain.Entities;
 using Enums = ServiceXpert.API.Domain.Shared.Enums;
 
 namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
 {
-    public class IssueService : ServiceBase<int, IssueResponse, Issue>, IIssueService
+    public class IssueService : ServiceBase<int, Issue, Entities.Issue>, IIssueService
     {
         private readonly IMapper mapper;
         private readonly IIssueRepository issueRepository;
@@ -24,14 +24,14 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
             await this.issueRepository.DeleteByIDAsync(GetIssueID(issueKey));
         }
 
-        public async Task<IssueResponse?> GetByIDAsync(string issueKey, IncludeOptions<Issue>? includeOptions = null)
+        public async Task<Issue?> GetByIDAsync(string issueKey, IncludeOptions<Entities.Issue>? includeOptions = null)
         {
-            IssueResponse? issueResponse = null;
+            Issue? issueResponse = null;
 
             var issue = await this.issueRepository.GetByIDAsync(GetIssueID(issueKey), includeOptions);
             if (issue != null)
             {
-                issueResponse = this.mapper.Map<IssueResponse>(issue);
+                issueResponse = this.mapper.Map<Issue>(issue);
             }
 
             return issueResponse;
@@ -64,7 +64,7 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
             return await this.issueRepository.IsExistsByIDAsync(GetIssueID(issueKey));
         }
 
-        public async Task UpdateByIDAsync(string issueKey, IssueForUpdateRequest issueForUpdateRequest)
+        public async Task UpdateByIDAsync(string issueKey, IssueForUpdate issueForUpdateRequest)
         {
             var issue = await this.issueRepository.GetByIDAsync(GetIssueID(issueKey));
 

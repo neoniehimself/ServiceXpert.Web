@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ServiceXpert.Web.Models
+﻿namespace ServiceXpert.Web.Models.Issues
 {
     public class Issue : ModelBase
     {
@@ -19,17 +17,5 @@ namespace ServiceXpert.Web.Models
         public int IssuePriorityID { get; set; }
 
         public IssuePriority? IssuePriority { get; set; }
-    }
-
-    public class IssueForCreate : ModelBase
-    {
-        [Required]
-        [MaxLength(256)]
-        public required string Name { get; set; }
-
-        [MaxLength(4096)]
-        public string? Description { get; set; }
-
-        public int IssuePriorityID { get; set; }
     }
 }

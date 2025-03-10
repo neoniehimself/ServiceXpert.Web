@@ -2,6 +2,11 @@
 {
     public class CreateIssueViewModel
     {
-        public List<string> IssuePriorities { get; set; } = [];
+        public List<string> IssuePriorities { get; set; }
+
+        public CreateIssueViewModel()
+        {
+            this.IssuePriorities = [];
+        }
     }
 }

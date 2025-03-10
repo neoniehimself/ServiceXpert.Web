@@ -1,12 +1,12 @@
 ﻿using PropLoader;
-using ServiceXpert.API.Application.DataTransferObjects;
-using ServiceXpert.API.Domain.Entities;
+using ServiceXpert.API.Application.DataTransferObjects.Issues;
+using Entities = ServiceXpert.API.Domain.Entities;
 
 namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
 {
-    public interface IIssueService : IServiceBase<int, IssueResponse, Issue>
+    public interface IIssueService : IServiceBase<int, Issue, Entities.Issue>
     {
-        Task<IssueResponse?> GetByIDAsync(string issueKey, IncludeOptions<Issue>? includeOptions = null);
+        Task<Issue?> GetByIDAsync(string issueKey, IncludeOptions<Entities.Issue>? includeOptions = null);
 
         Task DeleteByIDAsync(string issueKey);
 
@@ -14,7 +14,7 @@ namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
 
         int GetIssueID(string issueKey);
 
-        Task UpdateByIDAsync(string issueKey, IssueForUpdateRequest issueForUpdateRequest);
+        Task UpdateByIDAsync(string issueKey, IssueForUpdate issueForUpdateRequest);
 
         IEnumerable<string> GetIssuePriorities();
     }

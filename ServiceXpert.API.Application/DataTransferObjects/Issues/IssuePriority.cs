@@ -1,6 +1,6 @@
-﻿namespace ServiceXpert.API.Application.DataTransferObjects
+﻿namespace ServiceXpert.API.Application.DataTransferObjects.Issues
 {
-    public class IssuePriorityResponse : DataObjectBase
+    public class IssuePriority : DataObjectBase
     {
         public int IssuePriorityID { get; set; }
 

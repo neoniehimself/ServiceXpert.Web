@@ -1,8 +1,6 @@
-﻿using ServiceXpert.API.Application.DataTransferObjects;
-
-namespace ServiceXpert.API.Domain.Entities
+﻿namespace ServiceXpert.API.Application.DataTransferObjects.Issues
 {
-    public class IssueStatusResponse : DataObjectBase
+    public class IssueStatus : DataObjectBase
     {
         public int IssueStatusID { get; set; }
 

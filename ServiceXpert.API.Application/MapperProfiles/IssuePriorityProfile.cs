@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using ServiceXpert.API.Application.DataTransferObjects;
-using ServiceXpert.API.Domain.Entities;
+using ServiceXpert.API.Application.DataTransferObjects.Issues;
+using Entities = ServiceXpert.API.Domain.Entities;
 
 namespace ServiceXpert.API.Application.MapperProfiles
 {
@@ -8,7 +8,7 @@ namespace ServiceXpert.API.Application.MapperProfiles
     {
         public IssuePriorityProfile()
         {
-            CreateMap<IssuePriority, IssuePriorityResponse>();
+            CreateMap<Entities.IssuePriority, IssuePriority>();
         }
     }
 }

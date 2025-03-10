@@ -1,4 +1,4 @@
-﻿namespace ServiceXpert.Web.Models
+﻿namespace ServiceXpert.Web.Models.Issues
 {
     public class IssueStatus : ModelBase
     {
