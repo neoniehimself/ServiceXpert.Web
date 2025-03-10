@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ServiceXpert.Api.Infrastructure\ServiceXpert.Api.Infrastructure.csproj" />
+    <ProjectReference Include="..\ServiceXpert.Apii.Infrastructure\ServiceXpert.Apii.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
