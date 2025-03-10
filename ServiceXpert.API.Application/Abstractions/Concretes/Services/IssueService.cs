@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using PropLoader;
-using ServiceXpert.API.Application.Abstractions.Interfaces.Services;
-using ServiceXpert.API.Application.DataTransferObjects.Issues;
-using ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories;
-using Entities = ServiceXpert.API.Domain.Entities;
-using Enums = ServiceXpert.API.Domain.Shared.Enums;
+using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
+using ServiceXpert.Api.Application.DataTransferObjects.Issues;
+using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;
+using Entities = ServiceXpert.Api.Domain.Entities;
+using Enums = ServiceXpert.Api.Domain.Shared.Enums;
 
-namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
+namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
 {
     public class IssueService : ServiceBase<int, Issue, Entities.Issue>, IIssueService
     {
@@ -70,6 +70,7 @@ namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
 
             if (issue != null)
             {
+                this.issueRepository.Attach(issue); // Attach to track the changes
                 this.mapper.Map(issueForUpdateRequest, issue);
                 this.issueRepository.Update(issue);
                 await this.issueRepository.SaveChangesAsync();

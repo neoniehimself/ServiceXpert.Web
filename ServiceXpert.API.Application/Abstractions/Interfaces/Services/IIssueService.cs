@@ -1,8 +1,8 @@
 ﻿using PropLoader;
-using ServiceXpert.API.Application.DataTransferObjects.Issues;
-using Entities = ServiceXpert.API.Domain.Entities;
+using ServiceXpert.Api.Application.DataTransferObjects.Issues;
+using Entities = ServiceXpert.Api.Domain.Entities;
 
-namespace ServiceXpert.API.Application.Abstractions.Interfaces.Services
+namespace ServiceXpert.Api.Application.Abstractions.Interfaces.Services
 {
     public interface IIssueService : IServiceBase<int, Issue, Entities.Issue>
     {

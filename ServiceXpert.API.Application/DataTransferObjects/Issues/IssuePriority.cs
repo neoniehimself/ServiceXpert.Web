@@ -1,4 +1,4 @@
-﻿namespace ServiceXpert.API.Application.DataTransferObjects.Issues
+﻿namespace ServiceXpert.Api.Application.DataTransferObjects.Issues
 {
     public class IssuePriority : DataObjectBase
     {

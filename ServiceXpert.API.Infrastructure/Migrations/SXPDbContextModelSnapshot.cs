@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ServiceXpert.API.Infrastructure.DbContexts;
+using ServiceXpert.Api.Infrastructure.DbContexts;
 
 #nullable disable
 
-namespace ServiceXpert.API.Infrastructure.Migrations
+namespace ServiceXpert.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(SXPDbContext))]
     partial class SXPDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace ServiceXpert.API.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ServiceXpert.API.Domain.Entities.Issue", b =>
+            modelBuilder.Entity("ServiceXpert.Api.Domain.Entities.Issue", b =>
                 {
                     b.Property<int>("IssueID")
                         .ValueGeneratedOnAdd()
@@ -56,7 +56,7 @@ namespace ServiceXpert.API.Infrastructure.Migrations
                     b.ToTable("Issue");
                 });
 
-            modelBuilder.Entity("ServiceXpert.API.Domain.Entities.IssuePriority", b =>
+            modelBuilder.Entity("ServiceXpert.Api.Domain.Entities.IssuePriority", b =>
                 {
                     b.Property<int>("IssuePriorityID")
                         .ValueGeneratedOnAdd()
@@ -121,7 +121,7 @@ namespace ServiceXpert.API.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ServiceXpert.API.Domain.Entities.IssueStatus", b =>
+            modelBuilder.Entity("ServiceXpert.Api.Domain.Entities.IssueStatus", b =>
                 {
                     b.Property<int>("IssueStatusID")
                         .ValueGeneratedOnAdd()
@@ -186,17 +186,17 @@ namespace ServiceXpert.API.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ServiceXpert.API.Domain.Entities.Issue", b =>
+            modelBuilder.Entity("ServiceXpert.Api.Domain.Entities.Issue", b =>
                 {
-                    b.HasOne("ServiceXpert.API.Domain.Entities.IssuePriority", "IssuePriority")
+                    b.HasOne("ServiceXpert.Api.Domain.Entities.IssuePriority", "IssuePriority")
                         .WithOne()
-                        .HasForeignKey("ServiceXpert.API.Domain.Entities.Issue", "IssuePriorityID")
+                        .HasForeignKey("ServiceXpert.Api.Domain.Entities.Issue", "IssuePriorityID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ServiceXpert.API.Domain.Entities.IssueStatus", "IssueStatus")
+                    b.HasOne("ServiceXpert.Api.Domain.Entities.IssueStatus", "IssueStatus")
                         .WithOne()
-                        .HasForeignKey("ServiceXpert.API.Domain.Entities.Issue", "IssueStatusID")
+                        .HasForeignKey("ServiceXpert.Api.Domain.Entities.Issue", "IssueStatusID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

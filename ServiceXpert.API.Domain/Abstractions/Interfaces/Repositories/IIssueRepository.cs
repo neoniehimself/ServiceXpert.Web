@@ -1,6 +1,6 @@
-﻿using ServiceXpert.API.Domain.Entities;
+﻿using ServiceXpert.Api.Domain.Entities;
 
-namespace ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories
+namespace ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories
 {
     public interface IIssueRepository : IRepositoryBase<int, Issue>
     {

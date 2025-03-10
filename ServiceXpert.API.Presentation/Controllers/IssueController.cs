@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using ServiceXpert.API.Application.Abstractions.Interfaces.Services;
-using ServiceXpert.API.Application.DataTransferObjects.Issues;
+using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
+using ServiceXpert.Api.Application.DataTransferObjects.Issues;
 
-namespace ServiceXpert.API.Presentation.Controllers
+namespace ServiceXpert.Api.Presentation.Controllers
 {
-    [Route("API/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class IssueController : ControllerBase
     {

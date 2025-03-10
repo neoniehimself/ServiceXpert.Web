@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ServiceXpert.API.Domain.Entities;
+using ServiceXpert.Api.Domain.Entities;
 
-namespace ServiceXpert.API.Infrastructure.DbContexts
+namespace ServiceXpert.Api.Infrastructure.DbContexts
 {
     internal class IssueDbContext : DbContextBase, IEntityTypeConfiguration<Issue>
     {

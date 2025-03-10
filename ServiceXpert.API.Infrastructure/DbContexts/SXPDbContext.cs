@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using ServiceXpert.API.Domain.Entities;
-using ServiceXpert.API.Domain.Shared.Enums.Database;
+using ServiceXpert.Api.Domain.Entities;
+using ServiceXpert.Api.Domain.Shared.Enums.Database;
 using System.Reflection;
 
-namespace ServiceXpert.API.Infrastructure.DbContexts
+namespace ServiceXpert.Api.Infrastructure.DbContexts
 {
     public class SXPDbContext : DbContext
     {

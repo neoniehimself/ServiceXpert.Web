@@ -1,4 +1,4 @@
-﻿namespace ServiceXpert.API.Domain.Entities
+﻿namespace ServiceXpert.Api.Domain.Entities
 {
     public abstract class EntityBase
     {

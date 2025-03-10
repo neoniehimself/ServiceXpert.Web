@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using PropLoader;
-using ServiceXpert.API.Application.Abstractions.Interfaces.Services;
-using ServiceXpert.API.Application.DataTransferObjects;
-using ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories;
-using ServiceXpert.API.Domain.Entities;
+using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
+using ServiceXpert.Api.Application.DataTransferObjects;
+using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;
+using ServiceXpert.Api.Domain.Entities;
 
-namespace ServiceXpert.API.Application.Abstractions.Concretes.Services
+namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
 {
     public abstract class ServiceBase<TID, TDataObject, TEntity>
         : IServiceBase<TID, TDataObject, TEntity>

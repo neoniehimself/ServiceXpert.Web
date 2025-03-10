@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DA1243AC-378C-4A14-9118-2060162C5D41}"
 EndProject
@@ -11,18 +11,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{31CDC237-3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{3AEDD1C9-4E5F-4358-BBE0-4E3AD033B9F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceXpert.API.Domain", "ServiceXpert.API.Domain\ServiceXpert.API.Domain.csproj", "{2C04CA5D-13BA-4DBE-A22D-67693D2AAF6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceXpert.Api.Domain", "ServiceXpert.Api.Domain\ServiceXpert.Api.Domain.csproj", "{2C04CA5D-13BA-4DBE-A22D-67693D2AAF6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceXpert.API.Application", "ServiceXpert.API.Application\ServiceXpert.API.Application.csproj", "{AB6F482E-3692-4337-8A2D-F4050EDB9305}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceXpert.Api.Application", "ServiceXpert.Api.Application\ServiceXpert.Api.Application.csproj", "{AB6F482E-3692-4337-8A2D-F4050EDB9305}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceXpert.API.Infrastructure", "ServiceXpert.API.Infrastructure\ServiceXpert.API.Infrastructure.csproj", "{2C63938F-83A4-494A-B9F7-3EE912F660B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceXpert.Api.Infrastructure", "ServiceXpert.Api.Infrastructure\ServiceXpert.Api.Infrastructure.csproj", "{2C63938F-83A4-494A-B9F7-3EE912F660B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2EC36426-7BFE-42D3-B006-79990B4B602E}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceXpert.API.Presentation", "ServiceXpert.API.Presentation\ServiceXpert.API.Presentation.csproj", "{6DB3F4A3-761D-4724-B7BE-91E991B71752}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceXpert.Api.Presentation", "ServiceXpert.Api.Presentation\ServiceXpert.Api.Presentation.csproj", "{6DB3F4A3-761D-4724-B7BE-91E991B71752}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceXpert.Web", "ServiceXpert.Web\ServiceXpert.Web.csproj", "{FAAF83DA-E2BB-46C5-AAB0-CE81B8F71F4E}"
 EndProject

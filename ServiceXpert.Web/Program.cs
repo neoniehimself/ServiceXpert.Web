@@ -3,7 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddHttpClient("Default", client =>
 {
-    var url = builder.Configuration["APISettings:URL"] ?? throw new KeyNotFoundException();
+    var url = builder.Configuration["ApiSettings:Url"] ?? throw new KeyNotFoundException();
     client.BaseAddress = new Uri(url);
 });
 

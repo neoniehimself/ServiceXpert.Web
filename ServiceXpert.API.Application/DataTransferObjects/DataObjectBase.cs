@@ -1,4 +1,4 @@
-﻿namespace ServiceXpert.API.Application.DataTransferObjects
+﻿namespace ServiceXpert.Api.Application.DataTransferObjects
 {
     public abstract class DataObjectBase
     {

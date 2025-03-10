@@ -1,6 +1,6 @@
-﻿using ServiceXpert.API.Domain.Shared.Enums.Database;
+﻿using ServiceXpert.Api.Domain.Shared.Enums.Database;
 
-namespace ServiceXpert.API.Infrastructure.DbContexts
+namespace ServiceXpert.Api.Infrastructure.DbContexts
 {
     internal abstract class DbContextBase
     {

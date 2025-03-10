@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServiceXpert.API.Application.DataTransferObjects.Issues
+namespace ServiceXpert.Api.Application.DataTransferObjects.Issues
 {
     public class IssueForUpdate : DataObjectBase
     {

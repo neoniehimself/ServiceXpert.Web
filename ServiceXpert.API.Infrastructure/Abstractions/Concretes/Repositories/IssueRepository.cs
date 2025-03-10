@@ -1,8 +1,8 @@
-﻿using ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories;
-using ServiceXpert.API.Domain.Entities;
-using ServiceXpert.API.Infrastructure.DbContexts;
+﻿using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;
+using ServiceXpert.Api.Domain.Entities;
+using ServiceXpert.Api.Infrastructure.DbContexts;
 
-namespace ServiceXpert.API.Infrastructure.Abstractions.Concretes.Repositories
+namespace ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories
 {
     public class IssueRepository : RepositoryBase<int, Issue>, IIssueRepository
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using ServiceXpert.API.Application.Abstractions.Concretes.Services;
-using ServiceXpert.API.Application.Abstractions.Interfaces.Services;
+using ServiceXpert.Api.Application.Abstractions.Concretes.Services;
+using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
 
-namespace ServiceXpert.API.Application.Shared.ServiceContainer
+namespace ServiceXpert.Api.Application.Shared.ServiceContainer
 {
     public static class ApplicationService
     {

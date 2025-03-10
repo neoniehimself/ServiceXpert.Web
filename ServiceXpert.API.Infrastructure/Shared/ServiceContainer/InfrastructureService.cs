@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using ServiceXpert.API.Domain.Abstractions.Interfaces.Repositories;
-using ServiceXpert.API.Infrastructure.Abstractions.Concretes.Repositories;
-using ServiceXpert.API.Infrastructure.DbContexts;
+using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;
+using ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories;
+using ServiceXpert.Api.Infrastructure.DbContexts;
 
-namespace ServiceXpert.API.Infrastructure.Shared.ServiceContainer
+namespace ServiceXpert.Api.Infrastructure.Shared.ServiceContainer
 {
     public static class InfrastructureService
     {

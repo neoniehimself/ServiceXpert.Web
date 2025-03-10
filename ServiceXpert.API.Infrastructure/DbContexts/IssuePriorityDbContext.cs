@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ServiceXpert.API.Domain.Entities;
-using DomainLayerEnum = ServiceXpert.API.Domain.Shared.Enums;
+using ServiceXpert.Api.Domain.Entities;
+using DomainLayerEnum = ServiceXpert.Api.Domain.Shared.Enums;
 
-namespace ServiceXpert.API.Infrastructure.DbContexts
+namespace ServiceXpert.Api.Infrastructure.DbContexts
 {
     internal class IssuePriorityDbContext : DbContextBase, IEntityTypeConfiguration<IssuePriority>
     {

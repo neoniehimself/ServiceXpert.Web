@@ -1,4 +1,4 @@
-﻿namespace ServiceXpert.API.Domain.Shared.Enums.Database
+﻿namespace ServiceXpert.Api.Domain.Shared.Enums.Database
 {
     public enum DatabaseDataType
     {

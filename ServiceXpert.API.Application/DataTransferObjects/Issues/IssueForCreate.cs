@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Enums = ServiceXpert.API.Domain.Shared.Enums;
+using Enums = ServiceXpert.Api.Domain.Shared.Enums;
 
-namespace ServiceXpert.API.Application.DataTransferObjects.Issues
+namespace ServiceXpert.Api.Application.DataTransferObjects.Issues
 {
     public class IssueForCreate : DataObjectBase
     {

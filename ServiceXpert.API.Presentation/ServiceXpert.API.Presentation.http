@@ -1,29 +1,30 @@
-@ServiceXpert.API.Presentation_HostAddress = https://localhost:7023
+@ServiceXpert.Api.Presentation_HostAddress = https://localhost:7023
 
-POST {{ServiceXpert.API.Presentation_HostAddress}}/api/issue
+POST {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue
 Content-Type: application/json
 
 {
-  "name": "Button Not Working 1"
+  "name": "This is a title",
+  "description": "This is a description"
 }
 
 ###
 
-GET {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/SXP-1
+GET {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue/SXP-1
 Accept: application/json
 
 ###
 
-GET {{ServiceXpert.API.Presentation_HostAddress}}/api/issue
+GET {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue
 Accept: application/json
 
 ###
 
-DELETE {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/SXP-1
+DELETE {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue/SXP-1
 
 ###
 
-PATCH {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/SXP-1
+PATCH {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue/SXP-1
 Content-Type: application/json
 
 [
@@ -41,7 +42,7 @@ Content-Type: application/json
 
 ###
 
-GET {{ServiceXpert.API.Presentation_HostAddress}}/api/issue/IssuePriorities
+GET {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue/IssuePriorities
 Accept: application/json
 
 ###
