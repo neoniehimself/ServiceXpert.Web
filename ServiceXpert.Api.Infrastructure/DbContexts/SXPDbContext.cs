@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace ServiceXpert.Api.Infrastructure.DbContexts
 {
-    public class SXPDbContext : DbContext
+    public class SxpDbContext : DbContext
     {
         private string ConnectionString
         {

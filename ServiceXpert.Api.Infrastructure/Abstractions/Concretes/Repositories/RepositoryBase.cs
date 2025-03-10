@@ -10,9 +10,9 @@ namespace ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories
         : IRepositoryBase<TEntityID, TEntity>
         where TEntity : EntityBase
     {
-        private SXPDbContext dbContext;
+        private SxpDbContext dbContext;
 
-        protected RepositoryBase(SXPDbContext dbContext)
+        protected RepositoryBase(SxpDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

@@ -10,7 +10,7 @@ namespace ServiceXpert.Api.Infrastructure.Shared.ServiceContainer
     {
         public static IServiceCollection AddInfrastructureLayerServices(this IServiceCollection services)
         {
-            services.AddDbContext<SXPDbContext>();
+            services.AddDbContext<SxpDbContext>();
 
             services.TryAddScoped<IIssueRepository, IssueRepository>();
 

@@ -6,7 +6,7 @@ namespace ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories
 {
     public class IssueRepository : RepositoryBase<int, Issue>, IIssueRepository
     {
-        public IssueRepository(SXPDbContext dbContext) : base(dbContext)
+        public IssueRepository(SxpDbContext dbContext) : base(dbContext)
         {
         }
     }
