@@ -21,7 +21,8 @@ namespace ServiceXpert.API.Infrastructure.DbContexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(this.ConnectionString);
+            optionsBuilder.UseSqlServer(this.ConnectionString, sqlServerOptionsAction =>
+                sqlServerOptionsAction.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             base.OnConfiguring(optionsBuilder);
         }
