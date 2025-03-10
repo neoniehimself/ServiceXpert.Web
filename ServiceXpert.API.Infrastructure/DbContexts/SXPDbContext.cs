@@ -17,14 +17,12 @@ namespace ServiceXpert.API.Infrastructure.DbContexts
             }
         }
 
-        public DbSet<IssueStatus> IssueStatus { get; set; }
-
         public DbSet<Issue> Issue { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(this.ConnectionString);
-            // optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             base.OnConfiguring(optionsBuilder);
         }
 
