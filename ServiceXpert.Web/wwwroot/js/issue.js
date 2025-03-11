@@ -1,12 +1,13 @@
-﻿$(document).on('click', '#btn-create-issue', function (e) {
-    e.preventDefault();
-    $.ajax({
-        type: 'GET',
-        url: 'Issue/InitializeCreateIssue',
-        success: function (response) {
-            $('.modal-container').html(response);
-            $('#create-issue-modal').modal('show');
-        }
+﻿$(document).ready(function () {
+    $('#btn-create-issue').click(function (e) {
+        $.ajax({
+            type: 'GET',
+            url: 'Issue/InitializeCreateIssue',
+            success: function (response) {
+                $('.modal-container').html(response);
+                $('#create-issue-modal').modal('show');
+            }
+        });
     });
 });
 
@@ -25,7 +26,7 @@ $(document).on('submit', '#create-issue-modal-form', function (e) {
         data: formData,
         success: function (response) {
             $('#create-issue-modal').modal('hide');
-            window.location.reload();
+            initializeAlert('alert-success', 'The issue was created successfully!');
         }
     });
 });
