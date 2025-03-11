@@ -34,13 +34,13 @@ function initializeAlert(alertClass, alertMessage) {
     alert.append(svg);
     alert.append('<div>' + alertMessage + '</div>');
 
-    $('#alert-container').append(alert);
+    $('#alert-container').html(alert);
 
     // Auto-close after N seconds in milliseconds
-    setTimeout(function () {
-        alert.alert('close'); // Use Bootstrap's alert close method to hide the alert
-        location.reload();
-    }, alertTimeInMilliseconds);
+    //setTimeout(function () {
+    //    alert.alert('close'); // Use Bootstrap's alert close method to hide the alert
+    //    location.reload();
+    //}, alertTimeInMilliseconds);
 }
 
 $(document).ready(function () {
