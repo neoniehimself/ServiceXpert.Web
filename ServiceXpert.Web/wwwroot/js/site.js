@@ -14,7 +14,7 @@ function initializeAlert(alertClass, alertMessage) {
         alertMessage = 'No alert message specified!';
     }
 
-    var alert = $('<div class="alert ' + alertClass + ' d-flex align-items-center" role="alert">');
+    var alert = $('<div class="alert ' + alertClass + ' alert-dismissible fade show d-flex align-items-center" role="alert">');
     var svg = $();
 
     if (alertClass == 'alert-primary') {
@@ -32,15 +32,15 @@ function initializeAlert(alertClass, alertMessage) {
     }
 
     alert.append(svg);
-    alert.append('<div>' + alertMessage + '</div>');
+    alert.append('<div>' + alertMessage + ' <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
 
     $('#alert-container').html(alert);
 
     // Auto-close after N seconds in milliseconds
-    //setTimeout(function () {
-    //    alert.alert('close'); // Use Bootstrap's alert close method to hide the alert
-    //    location.reload();
-    //}, alertTimeInMilliseconds);
+    setTimeout(function () {
+        alert.alert('close'); // Use Bootstrap's alert close method to hide the alert
+        location.reload();
+    }, alertTimeInMilliseconds);
 }
 
 $(document).ready(function () {
