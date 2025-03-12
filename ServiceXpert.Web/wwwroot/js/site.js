@@ -1,27 +1,16 @@
-﻿/**
- * Displays the Bootstrap's alert on screen
- * @param {any} alertClass - the Bootstrap's alert class
- * @param {any} alertMessage
- */
-function initializeAlert(alertClass, alertMessage) {
-    var alertTimeInMilliseconds = 4000;
+﻿var alertContainer = $('#alert-container');
+var alertTimeInMilliseconds = 4000;
 
-    if (alertClass == null) {
-        alertClass = 'alert-danger';
-    }
-
-    if (alertMessage == null) {
-        alertMessage = 'No alert message specified!';
-    }
-
-    var alert = $('<div class="alert ' + alertClass + ' alert-dismissible fade show d-flex align-items-center" role="alert">');
+// Displays the Bootstrap's alert on screen
+function initializeAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false, isAutoClose = false) {
+    var alert = $('<div class="alert alert-' + alertClass + ' alert-dismissible fade show d-flex align-items-center" role="alert">');
     var svg = $();
 
-    if (alertClass == 'alert-primary') {
+    if (alertClass == 'primary') {
         svg = svg.add($('<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-info-circle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" style="width: 1rem; height: auto;">'
             + '<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>'
             + '</svg>'));
-    } else if (alertClass == 'alert-success') {
+    } else if (alertClass == 'success') {
         svg = svg.add($('<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-check-circle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" style="width: 1rem; height: auto;">'
             + '<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>'
             + '</svg>'));
@@ -32,16 +21,27 @@ function initializeAlert(alertClass, alertMessage) {
     }
 
     alert.append(svg);
-    alert.append('<div>' + alertMessage + ' <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+    alert.append('<div>' + alertMessage);
 
-    $('#alert-container').html(alert);
+    if (hasCloseButton) {
+        alert.append(' <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>');
+    }
 
-    // Auto-close after N seconds in milliseconds
-    setTimeout(function () {
-        alert.alert('close'); // Use Bootstrap's alert close method to hide the alert
-        location.reload();
-    }, alertTimeInMilliseconds);
+    alert.append('</div>');
+
+    alertContainer.html(alert);
+
+    if (isAutoClose) {
+        // Auto-close after N seconds in milliseconds
+        setTimeout(function () {
+            alert.alert('close'); // Use Bootstrap's alert close method to hide the alert
+        }, alertTimeInMilliseconds);
+    }
 }
+
+alertContainer.on('closed.bs.alert', '.alert', function () {
+    $(this).remove();
+});
 
 $(document).ready(function () {
     // Global AJAX event to set cursor when any AJAX request starts

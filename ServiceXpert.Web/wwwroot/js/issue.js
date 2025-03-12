@@ -26,7 +26,8 @@ $(document).on('submit', '#create-issue-modal-form', function (e) {
         data: formData,
         success: function (response) {
             $('#create-issue-modal').modal('hide');
-            initializeAlert('alert-success', 'The issue was created successfully!');
+            location.reload();
+            initializeAlert('success', 'The issue was created successfully!', false, true);
         }
     });
 });
