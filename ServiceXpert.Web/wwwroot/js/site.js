@@ -2,7 +2,7 @@
 var alertTimeInMilliseconds = 4000;
 
 // Displays the Bootstrap's alert on screen
-function initializeAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false, isAutoClose = false) {
+function initializeAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false, isAutoClose = false, isReloadPage = false) {
     var alert = $('<div class="alert alert-' + alertClass + ' alert-dismissible fade show d-flex align-items-center" role="alert">');
     var svg = $();
 
@@ -35,6 +35,12 @@ function initializeAlert(alertClass = 'warning', alertMessage = 'No alert messag
         // Auto-close after N seconds in milliseconds
         setTimeout(function () {
             alert.alert('close'); // Use Bootstrap's alert close method to hide the alert
+
+            if (isReloadPage) {
+                alert.one('closed.bs.alert', function () {
+                    location.reload();
+                });
+            }
         }, alertTimeInMilliseconds);
     }
 }
@@ -44,12 +50,10 @@ alertContainer.on('closed.bs.alert', '.alert', function () {
 });
 
 $(document).ready(function () {
-    // Global AJAX event to set cursor when any AJAX request starts
     $(document).ajaxStart(function () {
         $('body').addClass('loading'); // Change the cursor to 'wait'
     });
 
-    // Global AJAX event to reset cursor when all AJAX requests complete
     $(document).ajaxStop(function () {
         $('body').removeClass('loading'); // Reset the cursor back to normal
     });
