@@ -6,11 +6,11 @@ using System.Text;
 
 namespace ServiceXpert.Web.Controllers
 {
-    public class IssueController : Controller
+    public class IssuesController : Controller
     {
         private readonly IHttpClientFactory httpClientFactory;
 
-        public IssueController(IHttpClientFactory httpClientFactory)
+        public IssuesController(IHttpClientFactory httpClientFactory)
         {
             this.httpClientFactory = httpClientFactory;
         }
@@ -19,7 +19,7 @@ namespace ServiceXpert.Web.Controllers
         public async Task<IActionResult> InitializeCreateIssue()
         {
             var httpClient = this.httpClientFactory.CreateClient("Default");
-            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issue/IssuePriorities");
+            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/IssuePriorities");
 
             if (response.IsSuccessStatusCode)
             {
@@ -49,7 +49,7 @@ namespace ServiceXpert.Web.Controllers
 
             var serializedObject = JsonConvert.SerializeObject(issue);
             var requestContent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/issue", requestContent);
+            var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", requestContent);
 
             if (response.IsSuccessStatusCode)
             {

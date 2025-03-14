@@ -11989,4 +11989,21 @@ footer {
   margin-top: auto;
   margin-right: 0 !important;
   padding-right: 0 !important;
+}
+
+/* Override the default border color when the navbar-toggler is focused or clicked */
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.btn {
+  box-shadow: none !important;
+}
+
+.navbar-nav .dropdown-item {
+  color: #ced4da;
+}
+.navbar-nav .dropdown-item:hover {
+  background-color: #e9ecef;
+}
+html[data-bs-theme=dark] .navbar-nav .dropdown-item:hover {
+  background-color: #495057;
 }/*# sourceMappingURL=site.css.map */

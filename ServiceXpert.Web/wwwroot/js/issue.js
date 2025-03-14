@@ -2,7 +2,7 @@
     $('#btn-create-issue').click(function (e) {
         $.ajax({
             type: 'GET',
-            url: 'Issue/InitializeCreateIssue',
+            url: 'Issues/InitializeCreateIssue',
             success: function (response) {
                 $('.modal-container').html(response);
                 $('#create-issue-modal').modal('show');
@@ -18,7 +18,7 @@ $(document).on('submit', '#create-issue-modal-form', function (e) {
 
     $.ajax({
         type: 'POST',
-        url: 'Issue/CreateIssue',
+        url: 'Issues/CreateIssue',
         cache: false,
         processData: false,
         contentType: false,

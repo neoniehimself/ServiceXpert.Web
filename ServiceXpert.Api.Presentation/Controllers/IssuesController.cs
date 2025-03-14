@@ -8,11 +8,11 @@ namespace ServiceXpert.Api.Presentation.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IssueController : ControllerBase
+    public class IssuesController : ControllerBase
     {
         private readonly IIssueService issueService;
 
-        public IssueController(IIssueService issueService)
+        public IssuesController(IIssueService issueService)
         {
             this.issueService = issueService;
         }

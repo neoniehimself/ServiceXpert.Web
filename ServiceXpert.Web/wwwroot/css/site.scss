@@ -28,3 +28,26 @@ footer {
     margin-right: 0 !important;
     padding-right: 0 !important;
 }
+
+/* Override the default border color when the navbar-toggler is focused or clicked */
+.navbar-toggler:focus, 
+.navbar-toggler:active,
+.btn {
+    box-shadow: none !important;
+}
+
+.navbar-nav {  
+    .dropdown-item {
+        color: $gray-400;
+  
+      &:hover {
+        background-color: $gray-200; // Light gray background on hover
+      }
+
+      html[data-bs-theme="dark"] & {
+        &:hover {
+          background-color: $gray-700; // Dark theme hover color
+        }
+      }
+    }
+}
