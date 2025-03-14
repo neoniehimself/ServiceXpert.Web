@@ -16,9 +16,9 @@
 <body>
     <div class="modal-container"></div>
     <header>
-        <nav class="navbar navbar-expand-lg border-bottom box-shadow">
+        <nav class="navbar navbar-expand-lg bg-primary border-bottom box-shadow">
             <div class="container">
-                <a class="navbar-brand" asp-controller="Dashboard" asp-action="Index">ServiceXpert</a>
+                <a class="navbar-brand fw-semibold text-light" asp-controller="Dashboard" asp-action="Index">ServiceXpert</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -27,46 +27,36 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item mx-lg-2">
-                            <a class="nav-link @Html.IsActive("Dashboard", "Index")" aria-current="page"
+                            <a class="nav-link text-light @Html.IsActive("Dashboard", "Index")" aria-current="page"
                                asp-controller="Dashboard" asp-action="Index">
                                     Dashboard
                             </a>
                         </li>
-                        <li class="nav-item dropdown mx-lg-2">
-                            <a class="nav-link dropdown-toggle" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                    Issues
+                        <li class="nav-item mx-lg-2">
+                            <a class="nav-link text-light @Html.IsActive("Issue", "Index")" aria-current="page"
+                               asp-controller="Issue" asp-action="Index">
+                                Issues
                             </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" aria-current="page"
-                                        asp-controller="Issue" asp-action="Index">
-                                            All Issues
-                                    </a>
-                                </li>
-                                @* <li><hr class="dropdown-divider"></li> *@
-                                @* <li>
-                                    <a class="dropdown-item" aria-current="page"
-                                       asp-controller="Issues" asp-action="Open Issues">Open Issues</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" aria-current="page"
-                                       asp-controller="Issues" asp-action="Closed Issues">Closed Issues</a>
-                                </li> *@
-                            </ul>
                         </li>
-                        @* <li class="nav-item mx-lg-2">
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                        </li> *@
                         <li class="nav-item mx-lg-2">
                             <button class="btn btn-success" type="button" id="btn-create-issue">Create</button>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        @* <button class="btn btn-outline-success" type="submit">Search</button> *@
                     </form>
                     @* <i id="themeToggleIcon" class="bi bi-sun-fill fs-4 ms-2" onclick="toggleTheme()"></i> *@
+                    <ul class="navbar-nav ms-3">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="settings-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Settings
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="settings-dropdown">
+                                <li><a class="dropdown-item text-body" href="#">Themes</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
