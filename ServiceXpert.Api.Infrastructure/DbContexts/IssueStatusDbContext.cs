@@ -11,6 +11,8 @@ namespace ServiceXpert.Api.Infrastructure.DbContexts
 
         public void Configure(EntityTypeBuilder<IssueStatus> issueStatus)
         {
+            issueStatus.ToTable("IssueStatuses");
+
             issueStatus.HasKey(i => i.IssueStatusID).IsClustered();
             issueStatus.Property(i => i.Name).HasColumnType(ToVarcharColumn(64));
             issueStatus.Property(i => i.Description).HasColumnType(ToVarcharColumn(1024));

@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PropLoader;
+﻿using FluentBuilder.Core;
+using FluentBuilder.Persistence;
+using Microsoft.EntityFrameworkCore;
 using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;
 using ServiceXpert.Api.Domain.Entities;
 using ServiceXpert.Api.Infrastructure.DbContexts;
@@ -38,13 +39,13 @@ namespace ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(IncludeOptions<TEntity>? includeOptions = null)
         {
-            IQueryable<TEntity> query = OptionsBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
+            IQueryable<TEntity> query = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
             return await query.ToListAsync();
         }
 
         public async Task<TEntity?> GetByIDAsync(TEntityID entityID, IncludeOptions<TEntity>? includeOptions = null)
         {
-            IQueryable<TEntity> query = OptionsBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
+            IQueryable<TEntity> query = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
             return await query.SingleOrDefaultAsync(e => EF.Property<TEntityID>(e, this.EntityID)!.Equals(entityID));
         }
 

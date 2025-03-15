@@ -1,4 +1,4 @@
-﻿using PropLoader;
+﻿using FluentBuilder.Core;
 using ServiceXpert.Api.Application.DataTransferObjects.Issues;
 using Entities = ServiceXpert.Api.Domain.Entities;
 

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using FluentBuilder.Core;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using PropLoader;
 using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Api.Application.DataTransferObjects;
 using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;
@@ -45,7 +45,11 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
             return GetID(entity);
         }
 
-        public async Task<(TDataObjectForUpdate, ModelStateDictionary)> ConfigureForUpdateAsync<TDataObjectForUpdate>(TID id, JsonPatchDocument<TDataObjectForUpdate> patchDocument, ModelStateDictionary modelState) where TDataObjectForUpdate : DataObjectBase
+        public async Task<(TDataObjectForUpdate, ModelStateDictionary)> ConfigureForUpdateAsync<TDataObjectForUpdate>(
+            TID id,
+            JsonPatchDocument<TDataObjectForUpdate> patchDocument,
+            ModelStateDictionary modelState)
+            where TDataObjectForUpdate : DataObjectBase
         {
             TEntity? entity = await this.repositoryBase.GetByIDAsync(id);
             TDataObjectForUpdate? patchObject = default;

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using FluentBuilder.Core;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using PropLoader;
 using ServiceXpert.Api.Application.DataTransferObjects;
 using ServiceXpert.Api.Domain.Entities;
 
@@ -16,7 +16,11 @@ namespace ServiceXpert.Api.Application.Abstractions.Interfaces.Services
 
         Task<TID> AddAsync<TDataObjectForCreate>(TDataObjectForCreate dataObjectForCreate);
 
-        Task<(TDataObjectForUpdate, ModelStateDictionary)> ConfigureForUpdateAsync<TDataObjectForUpdate>(TID id, JsonPatchDocument<TDataObjectForUpdate> patchDocument, ModelStateDictionary modelState) where TDataObjectForUpdate : DataObjectBase;
+        Task<(TDataObjectForUpdate, ModelStateDictionary)> ConfigureForUpdateAsync<TDataObjectForUpdate>(
+            TID id,
+            JsonPatchDocument<TDataObjectForUpdate> patchDocument,
+            ModelStateDictionary modelState)
+            where TDataObjectForUpdate : DataObjectBase;
 
         Task UpdateByIDAsync(TID id, TDataObject dataObject);
 

@@ -11,8 +11,9 @@ namespace ServiceXpert.Api.Infrastructure.DbContexts
 
         public void Configure(EntityTypeBuilder<IssuePriority> issuePriority)
         {
-            issuePriority.HasKey(i => i.IssuePriorityID).IsClustered();
+            issuePriority.ToTable("IssuePriorities");
 
+            issuePriority.HasKey(i => i.IssuePriorityID).IsClustered();
             issuePriority.Property(i => i.Name).HasColumnType(ToVarcharColumn(64));
             issuePriority.Property(i => i.Description).HasColumnType(ToVarcharColumn(1024));
 

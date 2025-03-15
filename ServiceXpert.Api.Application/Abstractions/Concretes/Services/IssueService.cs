@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PropLoader;
+using FluentBuilder.Core;
 using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Api.Application.DataTransferObjects.Issues;
 using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;

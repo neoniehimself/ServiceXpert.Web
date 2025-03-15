@@ -17,7 +17,7 @@ namespace ServiceXpert.Api.Infrastructure.DbContexts
             }
         }
 
-        public DbSet<Issue> Issue { get; set; }
+        public DbSet<Issue> Issues { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

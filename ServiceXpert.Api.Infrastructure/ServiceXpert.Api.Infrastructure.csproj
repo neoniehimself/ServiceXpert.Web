@@ -20,8 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="PropLoader">
-      <HintPath>..\lib\PropLoader.dll</HintPath>
+    <Reference Include="FluentBuilder.Core">
+      <HintPath>..\lib\FluentBuilder.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentBuilder.Persistence">
+      <HintPath>..\lib\FluentBuilder.Persistence.dll</HintPath>
     </Reference>
   </ItemGroup>
 

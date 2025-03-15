@@ -1,4 +1,4 @@
-﻿using PropLoader;
+﻿using FluentBuilder.Core;
 using ServiceXpert.Api.Domain.Entities;
 
 namespace ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories
