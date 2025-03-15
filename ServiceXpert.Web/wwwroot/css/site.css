@@ -12000,10 +12000,8 @@ footer {
 
 .navbar-nav .dropdown-item {
   color: #ced4da;
+  position: relative;
 }
-.navbar-nav .dropdown-item:hover {
-  background-color: #e9ecef;
-}
-html[data-bs-theme=dark] .navbar-nav .dropdown-item:hover {
-  background-color: #495057;
+.navbar-nav .dropdown-item:active {
+  color: #f8f9fa !important;
 }/*# sourceMappingURL=site.css.map */

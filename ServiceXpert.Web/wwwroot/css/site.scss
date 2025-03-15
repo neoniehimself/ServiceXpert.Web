@@ -4,23 +4,23 @@ $primary: #172B4D;
 @import 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap';
 
 :root {
-    --bs-body-font-family: 'Roboto', sans-serif;
+  --bs-body-font-family: 'Roboto', sans-serif;
 }
 
 html {
-    overflow-y: scroll !important;
+  overflow-y: scroll !important;
 }
 
 body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    margin-right: 0 !important;
-    padding-right: 0 !important;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
 
-    &.loading {
-        cursor: wait;
-    }
+  &.loading {
+    cursor: wait;
+  }
 }
 
 footer {
@@ -33,21 +33,18 @@ footer {
 .navbar-toggler:focus, 
 .navbar-toggler:active,
 .btn {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .navbar-nav {  
-    .dropdown-item {
-        color: $gray-400;
-  
-      &:hover {
-        background-color: $gray-200; // Light gray background on hover
-      }
+  .dropdown-item {
+    color: $gray-400;
+    position: relative;
 
-      html[data-bs-theme="dark"] & {
-        &:hover {
-          background-color: $gray-700; // Dark theme hover color
-        }
-      }
+    &:active {
+      color: $light !important;
     }
+
+    // html[data-bs-theme="dark"] & { }
+  }
 }
