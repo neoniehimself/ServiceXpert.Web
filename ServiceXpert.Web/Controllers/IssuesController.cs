@@ -59,9 +59,22 @@ namespace ServiceXpert.Web.Controllers
             return new StatusCodeResult((int)response.StatusCode);
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult AllIssues()
+        {
+            return PartialView("~/Views/Issues/_AllIssues.cshtml");
+        }
+
+        [HttpGet]
+        public IActionResult OpenIssues()
+        {
+            return PartialView("~/Views/Issues/_OpenIssues.cshtml");
         }
     }
 }

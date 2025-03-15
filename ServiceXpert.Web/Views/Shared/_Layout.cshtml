@@ -49,13 +49,13 @@
                     @* <i id="themeToggleIcon" class="bi bi-sun-fill fs-4 ms-2" onclick="toggleTheme()"></i> *@
                     <ul class="navbar-nav ms-lg-3">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-light" href="#" id="settings-dropdown" role="button"
+                            <a class="nav-link dropdown-toggle text-light" role="button" id="settings-dropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 Settings
                             </a>
                             <ul class="dropdown-menu bg-body" aria-labelledby="settings-dropdown">
                                 <li>
-                                    <a class="dropdown-item text-body" href="/#" data-bs-toggle="modal"
+                                    <a class="dropdown-item text-body" role="button" data-bs-toggle="modal"
                                         data-bs-target="#themes-modal">Themes</a>
                                 </li>
                             </ul>
@@ -79,7 +79,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/issue.js"></script>
+    <script src="~/js/issues.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
