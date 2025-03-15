@@ -49,7 +49,8 @@ alertContainer.on('closed.bs.alert', '.alert', function () {
     $(this).remove();
 });
 
-$(document).ready(function () {
+function configureAjaxSettings() {
+    // AJAX settings
     $(document).ajaxStart(function () {
         $('body').addClass('loading'); // Change the cursor to 'wait'
     });
@@ -57,37 +58,43 @@ $(document).ready(function () {
     $(document).ajaxStop(function () {
         $('body').removeClass('loading'); // Reset the cursor back to normal
     });
-});
-
-/* Bootstrap Theme Switching
-function toggleTheme() {
-    const html = document.documentElement;
-    const themeToggleIcon = document.getElementById("themeToggleIcon");
-
-    const currentTheme = html.getAttribute("data-bs-theme");
-    const newTheme = currentTheme === "light" ? "dark" : "light";
-
-    html.setAttribute("data-bs-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
-
-    // Toggle icon
-    if (newTheme === "light") {
-        themeToggleIcon.classList.replace("bi-moon-fill", "bi-sun-fill"); // Sun for light mode
-        themeToggleIcon.style.color = "var(--bs-body-color)"; // Make it visible
-    } else {
-        themeToggleIcon.classList.replace("bi-sun-fill", "bi-moon-fill"); // Moon for dark mode
-        themeToggleIcon.style.color = "var(--bs-light)"; // White in dark mode
-    }
 }
 
-// Load theme preference on page load
-document.addEventListener("DOMContentLoaded", () => {
+function loadThemePreference() {
     const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     document.documentElement.setAttribute("data-bs-theme", savedTheme);
 
-    // Set correct icon on page load
-    const themeToggleIcon = document.getElementById("themeToggleIcon");
-    themeToggleIcon.classList.toggle("bi bi-transparency", savedTheme === "light");
-    themeToggleIcon.classList.toggle("bi bi-transparency", savedTheme === "dark");
+    if (savedTheme == 'light') {
+        $('#themes-modal-form-rb-light').prop('checked', true);
+    } else {
+        $('#themes-modal-form-rb-dark').prop('checked', true);
+    }
+}
+
+function themesModalFormSubmitAction() {
+    $('#themes-modal-form').submit(function (e) {
+        e.preventDefault();
+
+        const html = document.documentElement;
+        var newTheme = '';
+
+        var rbSelectedThemeID = $('input[name="themes-modal-rb"]:checked').attr('id');
+
+        if (rbSelectedThemeID == 'themes-modal-form-rb-light') {
+            $(rbSelectedThemeID).prop('checked', true);
+            newTheme = 'light';
+        } else {
+            $(rbSelectedThemeID).removeProp('checked');
+            newTheme = 'dark';
+        }
+
+        html.setAttribute("data-bs-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+    });
+}
+
+$(document).ready(function () {
+    loadThemePreference();
+    configureAjaxSettings();
+    themesModalFormSubmitAction();
 });
-*/
