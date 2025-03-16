@@ -2,7 +2,7 @@
 {
     public class IssueStatus : ModelBase
     {
-        public int IssueStatusID { get; set; }
+        public int IssueStatusId { get; set; }
 
         public string Name { get; set; } = string.Empty;
 
