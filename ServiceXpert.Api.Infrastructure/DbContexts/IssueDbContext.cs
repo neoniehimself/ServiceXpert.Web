@@ -8,7 +8,7 @@ namespace ServiceXpert.Api.Infrastructure.DbContexts
     {
         public void Configure(EntityTypeBuilder<Issue> issue)
         {
-            issue.HasKey(i => i.IssueID).IsClustered();
+            issue.HasKey(i => i.IssueId).IsClustered();
 
             issue.Property(i => i.Name)
                 .HasColumnType(ToVarcharColumn(256));
@@ -17,11 +17,11 @@ namespace ServiceXpert.Api.Infrastructure.DbContexts
 
             issue.HasOne(i => i.IssueStatus)
                 .WithOne()
-                .HasForeignKey<Issue>(i => i.IssueStatusID);
+                .HasForeignKey<Issue>(i => i.IssueStatusId);
 
             issue.HasOne(i => i.IssuePriority)
                 .WithOne()
-                .HasForeignKey<Issue>(i => i.IssuePriorityID);
+                .HasForeignKey<Issue>(i => i.IssuePriorityId);
 
             issue.Navigation(i => i.IssueStatus).AutoInclude();
             issue.Navigation(i => i.IssuePriority).AutoInclude();

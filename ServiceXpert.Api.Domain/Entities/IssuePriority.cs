@@ -2,7 +2,7 @@
 {
     public class IssuePriority : EntityBase
     {
-        public int IssuePriorityID { get; set; }
+        public int IssuePriorityId { get; set; }
 
         public string Name { get; set; } = string.Empty;
 

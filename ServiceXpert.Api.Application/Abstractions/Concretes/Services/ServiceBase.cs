@@ -7,51 +7,63 @@ using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Api.Application.DataTransferObjects;
 using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;
 using ServiceXpert.Api.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
 {
-    public abstract class ServiceBase<TID, TDataObject, TEntity>
-        : IServiceBase<TID, TDataObject, TEntity>
+    public abstract class ServiceBase<TId, TDataObject, TEntity>
+        : IServiceBase<TId, TDataObject, TEntity>
         where TDataObject : DataObjectBase
         where TEntity : EntityBase
     {
         private readonly IMapper mapper;
-        private readonly IRepositoryBase<TID, TEntity> repositoryBase;
+        private readonly IRepositoryBase<TId, TEntity> repositoryBase;
 
-        protected ServiceBase(IMapper mapper, IRepositoryBase<TID, TEntity> repositoryBase)
+        protected ServiceBase(IMapper mapper, IRepositoryBase<TId, TEntity> repositoryBase)
         {
             this.mapper = mapper;
             this.repositoryBase = repositoryBase;
         }
 
-        private TID GetID(TEntity entity)
+        private TId GetId(TEntity entity)
         {
-            var propID = typeof(TEntity).GetProperty($"{typeof(TEntity).Name}ID");
+            var propId = typeof(TEntity).GetProperty($"{typeof(TEntity).Name}Id");
 
-            var propIDValue = propID != null ? propID.GetValue(entity) : throw new NullReferenceException(nameof(propID));
+            var propIdValue = propId != null ? propId.GetValue(entity) : throw new NullReferenceException(nameof(propId));
 
-            return propIDValue != null
-                && propID.GetValue(entity) != null
-                ? (TID)propID.GetValue(entity)! : throw new NullReferenceException($"{typeof(TEntity).Name}ID is null.");
+            return propIdValue != null
+                && propId.GetValue(entity) != null
+                ? (TId)propId.GetValue(entity)! : throw new NullReferenceException($"{typeof(TEntity).Name}ID is null.");
         }
 
-        public async Task<TID> AddAsync<TDataObjectForCreate>(TDataObjectForCreate dataObjectForCreate)
+        public async Task<TId> CreateAsync<TDataObjectForCreate>(TDataObjectForCreate dataObjectForCreate)
         {
             TEntity entity = this.mapper.Map<TEntity>(dataObjectForCreate);
 
             await this.repositoryBase.CreateAsync(entity);
             await this.repositoryBase.SaveChangesAsync();
 
-            return GetID(entity);
+            return GetId(entity);
+        }
+
+        private Expression<Func<TEntity, bool>> GetLambdaForId(TId id)
+        {
+            var parameter = Expression.Parameter(typeof(TEntity), "e");
+            var property = Expression.Property(parameter, "Id");
+            var constant = Expression.Constant(id);
+            var equality = Expression.Equal(property, Expression.Convert(constant, property.Type));
+
+            return Expression.Lambda<Func<TEntity, bool>>(equality, parameter);
         }
 
         public async Task<(TDataObjectForUpdate, ModelStateDictionary)> ConfigureForUpdateAsync<TDataObjectForUpdate>(
-            TID id,
+            TId id,
             JsonPatchDocument<TDataObjectForUpdate> patchDocument,
             ModelStateDictionary modelState)
             where TDataObjectForUpdate : DataObjectBase
         {
-            TEntity? entity = await this.repositoryBase.GetByIdAsync(id);
+
+            TEntity? entity = await this.repositoryBase.GetAsync(GetLambdaForId(id));
             TDataObjectForUpdate? patchObject = default;
 
             if (entity != null)
@@ -74,7 +86,7 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
             return (patchObject, modelState);
         }
 
-        public async Task DeleteByIDAsync(TID id)
+        public async Task DeleteByIdAsync(TId id)
         {
             await this.repositoryBase.DeleteByIdAsync(id);
             await this.repositoryBase.SaveChangesAsync();
@@ -82,24 +94,24 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
 
         public async Task<IEnumerable<TDataObject>> GetAllAsync(IncludeOptions<TEntity>? includeOptions = null)
         {
-            IEnumerable<TEntity> entities = await this.repositoryBase.GetAllAsync(includeOptions);
+            IEnumerable<TEntity> entities = await this.repositoryBase.GetAllAsync(includeOptions: includeOptions);
             return this.mapper.Map<IEnumerable<TDataObject>>(entities);
         }
 
-        public async Task<TDataObject?> GetByIDAsync(TID id, IncludeOptions<TEntity>? includeOptions = null)
+        public async Task<TDataObject?> GetByIdAsync(TId id, IncludeOptions<TEntity>? includeOptions = null)
         {
-            TEntity? entity = await this.repositoryBase.GetByIdAsync(id, includeOptions);
+            TEntity? entity = await this.repositoryBase.GetAsync(GetLambdaForId(id), includeOptions);
             return entity != null ? this.mapper.Map<TDataObject>(entity) : null;
         }
 
-        public async Task<bool> IsExistsByIDAsync(TID id)
+        public async Task<bool> IsExistsByIdAsync(TId id)
         {
             return await this.repositoryBase.IsExistsByIdAsync(id);
         }
 
-        public async Task UpdateByIDAsync(TID id, TDataObject dataObject)
+        public async Task UpdateByIdAsync(TId id, TDataObject dataObject)
         {
-            TEntity? entity = await this.repositoryBase.GetByIdAsync(id);
+            TEntity? entity = await this.repositoryBase.GetAsync(GetLambdaForId(id));
 
             if (entity != null)
             {

@@ -1,21 +1,19 @@
 ﻿using FluentBuilder.Core;
-using ServiceXpert.Api.Application.DataTransferObjects.Issues;
-using Entities = ServiceXpert.Api.Domain.Entities;
+using ServiceXpert.Api.Application.DataTransferObjects;
+using ServiceXpert.Api.Domain.Entities;
 
 namespace ServiceXpert.Api.Application.Abstractions.Interfaces.Services
 {
-    public interface IIssueService : IServiceBase<int, Issue, Entities.Issue>
+    public interface IIssueService : IServiceBase<int, IssueDataObject, Issue>
     {
-        Task<Issue?> GetByIDAsync(string issueKey, IncludeOptions<Entities.Issue>? includeOptions = null);
+        Task<IssueDataObject?> GetByIdAsync(string issueKey, IncludeOptions<Issue>? includeOptions = null);
 
-        Task DeleteByIDAsync(string issueKey);
+        Task UpdateByIdAsync(string issueKey, IssueDataObjectForUpdate dataObject);
 
-        Task<bool> IsExistsByIDAsync(string issueKey);
+        Task DeleteByIdAsync(string issueKey);
 
-        int GetIssueID(string issueKey);
+        Task<bool> IsExistsByIdAsync(string issueKey);
 
-        Task UpdateByIDAsync(string issueKey, IssueForUpdate issueForUpdateRequest);
-
-        IEnumerable<string> GetIssuePriorities();
+        int GetIdFromKey(string issueKey);
     }
 }

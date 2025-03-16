@@ -1,4 +1,4 @@
-using ServiceXpert.Api.Application.Shared.ServiceContainer;
+using ServiceXpert.Api.Application.Shared;
 using ServiceXpert.Api.Infrastructure.Shared.ServiceContainer;
 
 var builder = WebApplication.CreateBuilder(args);

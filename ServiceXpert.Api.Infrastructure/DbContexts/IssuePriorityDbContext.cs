@@ -13,42 +13,42 @@ namespace ServiceXpert.Api.Infrastructure.DbContexts
         {
             issuePriority.ToTable("IssuePriorities");
 
-            issuePriority.HasKey(i => i.IssuePriorityID).IsClustered();
+            issuePriority.HasKey(i => i.IssuePriorityId).IsClustered();
             issuePriority.Property(i => i.Name).HasColumnType(ToVarcharColumn(64));
             issuePriority.Property(i => i.Description).HasColumnType(ToVarcharColumn(1024));
 
             issuePriority.HasData(
                 new IssuePriority()
                 {
-                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Outage,
+                    IssuePriorityId = (int)DomainLayerEnum.Issue.IssuePriority.Outage,
                     Name = "Outage",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Critical,
+                    IssuePriorityId = (int)DomainLayerEnum.Issue.IssuePriority.Critical,
                     Name = "Critical",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.High,
+                    IssuePriorityId = (int)DomainLayerEnum.Issue.IssuePriority.High,
                     Name = "High",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Medium,
+                    IssuePriorityId = (int)DomainLayerEnum.Issue.IssuePriority.Medium,
                     Name = "Medium",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Low,
+                    IssuePriorityId = (int)DomainLayerEnum.Issue.IssuePriority.Low,
                     Name = "Low",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime

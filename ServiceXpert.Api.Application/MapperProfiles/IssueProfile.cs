@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using ServiceXpert.Api.Application.DataTransferObjects.Issues;
-using Entities = ServiceXpert.Api.Domain.Entities;
+using ServiceXpert.Api.Application.DataTransferObjects;
+using ServiceXpert.Api.Domain.Entities;
 
 namespace ServiceXpert.Api.Application.MapperProfiles
 {
@@ -8,9 +8,9 @@ namespace ServiceXpert.Api.Application.MapperProfiles
     {
         public IssueProfile()
         {
-            CreateMap<Entities.Issue, Issue>().ReverseMap();
-            CreateMap<IssueForCreate, Entities.Issue>();
-            CreateMap<IssueForUpdate, Entities.Issue>().ReverseMap();
+            CreateMap<Issue, IssueDataObject>().ReverseMap();
+            CreateMap<IssueDataObjectForCreate, Issue>();
+            CreateMap<IssueDataObjectForUpdate, Issue>().ReverseMap();
         }
     }
 }

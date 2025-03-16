@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using FluentBuilder.Core;
 using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
-using ServiceXpert.Api.Application.DataTransferObjects.Issues;
+using ServiceXpert.Api.Application.DataTransferObjects;
 using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;
-using Entities = ServiceXpert.Api.Domain.Entities;
-using Enums = ServiceXpert.Api.Domain.Shared.Enums;
+using ServiceXpert.Api.Domain.Entities;
 
 namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
 {
-    public class IssueService : ServiceBase<int, Issue, Entities.Issue>, IIssueService
+    public class IssueService : ServiceBase<int, IssueDataObject, Issue>, IIssueService
     {
         private readonly IMapper mapper;
         private readonly IIssueRepository issueRepository;
@@ -19,25 +18,27 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
             this.issueRepository = issueRepository;
         }
 
-        public async Task DeleteByIDAsync(string issueKey)
+        public async Task DeleteByIdAsync(string issueKey)
         {
-            await this.issueRepository.DeleteByIdAsync(GetIssueID(issueKey));
+            await this.issueRepository.DeleteByIdAsync(GetIdFromKey(issueKey));
         }
 
-        public async Task<Issue?> GetByIDAsync(string issueKey, IncludeOptions<Entities.Issue>? includeOptions = null)
+        public async Task<IssueDataObject?> GetByIdAsync(string issueKey, IncludeOptions<Issue>? includeOptions = null)
         {
-            Issue? issueResponse = null;
+            IssueDataObject? issueResponse = null;
 
-            var issue = await this.issueRepository.GetByIdAsync(GetIssueID(issueKey), includeOptions);
+            var issueId = GetIdFromKey(issueKey);
+
+            var issue = await this.issueRepository.GetAsync(i => i.IssueId == issueId, includeOptions);
             if (issue != null)
             {
-                issueResponse = this.mapper.Map<Issue>(issue);
+                issueResponse = this.mapper.Map<IssueDataObject>(issue);
             }
 
             return issueResponse;
         }
 
-        public int GetIssueID(string issueKey)
+        public int GetIdFromKey(string issueKey)
         {
             if (int.TryParse(issueKey.Split('-')[1], out int issueID))
             {
@@ -47,31 +48,21 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
             throw new InvalidOperationException();
         }
 
-        public IEnumerable<string> GetIssuePriorities()
+        public async Task<bool> IsExistsByIdAsync(string issueKey)
         {
-            var issuePriorities = new List<string>();
-
-            foreach (var issuePriority in Enum.GetValues(typeof(Enums.Issue.IssuePriority)))
-            {
-                issuePriorities.Add(issuePriority.ToString()!);
-            }
-
-            return issuePriorities;
+            return await this.issueRepository.IsExistsByIdAsync(GetIdFromKey(issueKey));
         }
 
-        public async Task<bool> IsExistsByIDAsync(string issueKey)
+        public async Task UpdateByIdAsync(string issueKey, IssueDataObjectForUpdate dataObject)
         {
-            return await this.issueRepository.IsExistsByIdAsync(GetIssueID(issueKey));
-        }
+            var issueId = GetIdFromKey(issueKey);
 
-        public async Task UpdateByIDAsync(string issueKey, IssueForUpdate issueForUpdateRequest)
-        {
-            var issue = await this.issueRepository.GetByIdAsync(GetIssueID(issueKey));
+            var issue = await this.issueRepository.GetAsync(i => i.IssueId == issueId);
 
             if (issue != null)
             {
                 this.issueRepository.Attach(issue); // Attach to track the changes
-                this.mapper.Map(issueForUpdateRequest, issue);
+                this.mapper.Map(dataObject, issue);
                 this.issueRepository.Update(issue);
                 await this.issueRepository.SaveChangesAsync();
             }

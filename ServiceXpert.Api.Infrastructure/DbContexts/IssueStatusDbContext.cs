@@ -13,42 +13,42 @@ namespace ServiceXpert.Api.Infrastructure.DbContexts
         {
             issueStatus.ToTable("IssueStatuses");
 
-            issueStatus.HasKey(i => i.IssueStatusID).IsClustered();
+            issueStatus.HasKey(i => i.IssueStatusId).IsClustered();
             issueStatus.Property(i => i.Name).HasColumnType(ToVarcharColumn(64));
             issueStatus.Property(i => i.Description).HasColumnType(ToVarcharColumn(1024));
 
             issueStatus.HasData(
                 new IssueStatus()
                 {
-                    IssueStatusID = (int)DomainLayerEnum.Issue.IssueStatus.New,
+                    IssueStatusId = (int)DomainLayerEnum.Issue.IssueStatus.New,
                     Name = "New",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = (int)DomainLayerEnum.Issue.IssueStatus.ForAnalysis,
+                    IssueStatusId = (int)DomainLayerEnum.Issue.IssueStatus.ForAnalysis,
                     Name = "For Analysis",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = (int)DomainLayerEnum.Issue.IssueStatus.InProgress,
+                    IssueStatusId = (int)DomainLayerEnum.Issue.IssueStatus.InProgress,
                     Name = "In Progress",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = (int)DomainLayerEnum.Issue.IssueStatus.Resolved,
+                    IssueStatusId = (int)DomainLayerEnum.Issue.IssueStatus.Resolved,
                     Name = "Resolved",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusID = (int)DomainLayerEnum.Issue.IssueStatus.Closed,
+                    IssueStatusId = (int)DomainLayerEnum.Issue.IssueStatus.Closed,
                     Name = "Closed",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime

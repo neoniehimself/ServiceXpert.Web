@@ -18,14 +18,14 @@ namespace ServiceXpert.Api.Presentation.Controllers
         }
 
         [HttpGet("{issueKey}")]
-        public async Task<ActionResult<Issue>> GetByIDAsync(string issueKey)
+        public async Task<ActionResult<IssueDataObject>> GetByIDAsync(string issueKey)
         {
-            var issue = await this.issueService.GetByIDAsync(issueKey);
+            var issue = await this.issueService.GetByIdAsync(issueKey);
             return issue != null ? Ok(issue) : NotFound(issueKey);
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Issue>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<IssueDataObject>>> GetAllAsync()
         {
             var issues = await this.issueService.GetAllAsync();
             return Ok(issues);
@@ -46,22 +46,22 @@ namespace ServiceXpert.Api.Presentation.Controllers
         [HttpDelete("{issueKey}")]
         public async Task<ActionResult> DeleteByIDAsync(string issueKey)
         {
-            await this.issueService.DeleteByIDAsync(issueKey);
+            await this.issueService.DeleteByIdAsync(issueKey);
             return NoContent();
         }
 
         [HttpPatch("{issueKey}")]
-        public async Task<ActionResult> PatchUpdateAsync(string issueKey, JsonPatchDocument<IssueForUpdate> patchDocument)
+        public async Task<ActionResult> PatchUpdateAsync(string issueKey, JsonPatchDocument<IssueForUpdateDataObject> patchDocument)
         {
-            if (!await this.issueService.IsExistsByIDAsync(issueKey))
+            if (!await this.issueService.IsExistsByIdAsync(issueKey))
             {
                 return NotFound(issueKey);
             }
 
-            var issueID = this.issueService.GetIssueID(issueKey);
+            var issueID = this.issueService.GetIdFromKey(issueKey);
             var result = await this.issueService.ConfigureForUpdateAsync(issueID, patchDocument, this.ModelState);
 
-            IssueForUpdate issueForUpdateRequest = result.Item1;
+            IssueForUpdateDataObject issueForUpdateRequest = result.Item1;
             ModelStateDictionary modelState = result.Item2;
 
             if (!modelState.IsValid)
