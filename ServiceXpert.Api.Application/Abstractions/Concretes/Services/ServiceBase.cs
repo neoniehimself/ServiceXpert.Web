@@ -49,7 +49,7 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
         private Expression<Func<TEntity, bool>> GetLambdaForId(TId id)
         {
             var parameter = Expression.Parameter(typeof(TEntity), "e");
-            var property = Expression.Property(parameter, "Id");
+            var property = Expression.Property(parameter, string.Concat(typeof(TEntity).Name, "Id"));
             var constant = Expression.Constant(id);
             var equality = Expression.Equal(property, Expression.Convert(constant, property.Type));
 

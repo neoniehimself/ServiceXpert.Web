@@ -1,6 +1,6 @@
 @ServiceXpert.Api.Presentation_HostAddress = https://localhost:7023
 
-POST {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue
+POST {{ServiceXpert.Api.Presentation_HostAddress}}/api/issues
 Content-Type: application/json
 
 {
@@ -10,21 +10,21 @@ Content-Type: application/json
 
 ###
 
-GET {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue/SXP-1
+GET {{ServiceXpert.Api.Presentation_HostAddress}}/api/issues/SXP-1
 Accept: application/json
 
 ###
 
-GET {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue
+GET {{ServiceXpert.Api.Presentation_HostAddress}}/api/issues
 Accept: application/json
 
 ###
 
-DELETE {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue/SXP-1
+DELETE {{ServiceXpert.Api.Presentation_HostAddress}}/api/issues/SXP-1
 
 ###
 
-PATCH {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue/SXP-1
+PATCH {{ServiceXpert.Api.Presentation_HostAddress}}/api/issues/SXP-1
 Content-Type: application/json
 
 [
@@ -39,10 +39,5 @@ Content-Type: application/json
     "value": "3"
   }
 ]
-
-###
-
-GET {{ServiceXpert.Api.Presentation_HostAddress}}/api/issue/IssuePriorities
-Accept: application/json
 
 ###

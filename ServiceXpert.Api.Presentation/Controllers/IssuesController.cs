@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
-using ServiceXpert.Api.Application.DataTransferObjects.Issues;
+using ServiceXpert.Api.Application.DataTransferObjects;
 
 namespace ServiceXpert.Api.Presentation.Controllers
 {
@@ -32,15 +32,15 @@ namespace ServiceXpert.Api.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddAsync(IssueForCreate issueForCreateRequest)
+        public async Task<ActionResult> AddAsync(IssueDataObjectForCreate dataObject)
         {
             if (!this.ModelState.IsValid)
             {
                 return BadRequest(this.ModelState);
             }
 
-            var issueID = await this.issueService.AddAsync(issueForCreateRequest);
-            return Ok(issueID);
+            var issueId = await this.issueService.CreateAsync(dataObject);
+            return Ok(issueId);
         }
 
         [HttpDelete("{issueKey}")]
@@ -51,7 +51,7 @@ namespace ServiceXpert.Api.Presentation.Controllers
         }
 
         [HttpPatch("{issueKey}")]
-        public async Task<ActionResult> PatchUpdateAsync(string issueKey, JsonPatchDocument<IssueForUpdateDataObject> patchDocument)
+        public async Task<ActionResult> PatchUpdateAsync(string issueKey, JsonPatchDocument<IssueDataObjectForUpdate> patchDocument)
         {
             if (!await this.issueService.IsExistsByIdAsync(issueKey))
             {
@@ -61,7 +61,7 @@ namespace ServiceXpert.Api.Presentation.Controllers
             var issueID = this.issueService.GetIdFromKey(issueKey);
             var result = await this.issueService.ConfigureForUpdateAsync(issueID, patchDocument, this.ModelState);
 
-            IssueForUpdateDataObject issueForUpdateRequest = result.Item1;
+            IssueDataObjectForUpdate issueForUpdate = result.Item1;
             ModelStateDictionary modelState = result.Item2;
 
             if (!modelState.IsValid)
@@ -69,20 +69,14 @@ namespace ServiceXpert.Api.Presentation.Controllers
                 return BadRequest(modelState);
             }
 
-            if (!TryValidateModel(issueForUpdateRequest))
+            if (!TryValidateModel(issueForUpdate))
             {
                 return BadRequest(modelState);
             }
 
-            await this.issueService.UpdateByIDAsync(issueKey, issueForUpdateRequest);
+            await this.issueService.UpdateByIdAsync(issueKey, issueForUpdate);
 
             return NoContent();
-        }
-
-        [HttpGet("IssuePriorities")]
-        public ActionResult<IEnumerable<string>> GetIssuePrioritiesAsync()
-        {
-            return Ok(this.issueService.GetIssuePriorities());
         }
     }
 }
