@@ -1,4 +1,4 @@
-﻿using ServiceXpert.Api.Domain.Shared.Enums.Database;
+﻿using ServiceXpert.Api.Domain.Shared.Enums;
 
 namespace ServiceXpert.Api.Infrastructure.DbContexts
 {

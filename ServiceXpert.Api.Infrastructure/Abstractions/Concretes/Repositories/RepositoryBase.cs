@@ -20,7 +20,7 @@ namespace ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories
 
         protected string EntityID { get => string.Concat(typeof(TEntity).Name, "ID"); }
 
-        public async Task AddAsync(TEntity entity)
+        public async Task CreateAsync(TEntity entity)
         {
             await this.dbContext.Set<TEntity>().AddAsync(entity);
         }
@@ -30,7 +30,7 @@ namespace ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories
             this.dbContext.Set<TEntity>().Attach(entity);
         }
 
-        public async Task DeleteByIDAsync(TEntityID entityID)
+        public async Task DeleteByIdAsync(TEntityID entityID)
         {
             await this.dbContext.Set<TEntity>()
                 .Where(e => EF.Property<TEntityID>(e, this.EntityID)!.Equals(entityID))
@@ -43,13 +43,13 @@ namespace ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<TEntity?> GetByIDAsync(TEntityID entityID, IncludeOptions<TEntity>? includeOptions = null)
+        public async Task<TEntity?> GetByIdAsync(TEntityID entityID, IncludeOptions<TEntity>? includeOptions = null)
         {
             IQueryable<TEntity> query = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
             return await query.SingleOrDefaultAsync(e => EF.Property<TEntityID>(e, this.EntityID)!.Equals(entityID));
         }
 
-        public async Task<bool> IsExistsByIDAsync(TEntityID entityID)
+        public async Task<bool> IsExistsByIdAsync(TEntityID entityID)
         {
             return await this.dbContext.Set<TEntity>().AnyAsync(e => EF.Property<TEntityID>(e, this.EntityID)!.Equals(entityID));
         }

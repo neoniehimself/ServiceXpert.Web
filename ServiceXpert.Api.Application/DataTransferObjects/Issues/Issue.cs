@@ -1,4 +1,5 @@
-﻿using Enums = ServiceXpert.Api.Domain.Shared.Enums;
+﻿using ServiceXpert.Api.Domain.Shared.Enums;
+using Enums = ServiceXpert.Api.Domain.Shared.Enums;
 
 namespace ServiceXpert.Api.Application.DataTransferObjects.Issues
 {
@@ -10,7 +11,7 @@ namespace ServiceXpert.Api.Application.DataTransferObjects.Issues
         {
             get
             {
-                return string.Concat(nameof(Enums.Issue.IssuePreFix.SXP), '-', this.IssueID);
+                return string.Concat(nameof(IssuePreFix.SXP), '-', this.IssueID);
             }
         }
 

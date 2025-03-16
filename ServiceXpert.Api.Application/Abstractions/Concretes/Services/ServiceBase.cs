@@ -39,7 +39,7 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
         {
             TEntity entity = this.mapper.Map<TEntity>(dataObjectForCreate);
 
-            await this.repositoryBase.AddAsync(entity);
+            await this.repositoryBase.CreateAsync(entity);
             await this.repositoryBase.SaveChangesAsync();
 
             return GetID(entity);
@@ -51,7 +51,7 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
             ModelStateDictionary modelState)
             where TDataObjectForUpdate : DataObjectBase
         {
-            TEntity? entity = await this.repositoryBase.GetByIDAsync(id);
+            TEntity? entity = await this.repositoryBase.GetByIdAsync(id);
             TDataObjectForUpdate? patchObject = default;
 
             if (entity != null)
@@ -76,7 +76,7 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
 
         public async Task DeleteByIDAsync(TID id)
         {
-            await this.repositoryBase.DeleteByIDAsync(id);
+            await this.repositoryBase.DeleteByIdAsync(id);
             await this.repositoryBase.SaveChangesAsync();
         }
 
@@ -88,18 +88,18 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
 
         public async Task<TDataObject?> GetByIDAsync(TID id, IncludeOptions<TEntity>? includeOptions = null)
         {
-            TEntity? entity = await this.repositoryBase.GetByIDAsync(id, includeOptions);
+            TEntity? entity = await this.repositoryBase.GetByIdAsync(id, includeOptions);
             return entity != null ? this.mapper.Map<TDataObject>(entity) : null;
         }
 
         public async Task<bool> IsExistsByIDAsync(TID id)
         {
-            return await this.repositoryBase.IsExistsByIDAsync(id);
+            return await this.repositoryBase.IsExistsByIdAsync(id);
         }
 
         public async Task UpdateByIDAsync(TID id, TDataObject dataObject)
         {
-            TEntity? entity = await this.repositoryBase.GetByIDAsync(id);
+            TEntity? entity = await this.repositoryBase.GetByIdAsync(id);
 
             if (entity != null)
             {

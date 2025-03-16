@@ -21,14 +21,14 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
 
         public async Task DeleteByIDAsync(string issueKey)
         {
-            await this.issueRepository.DeleteByIDAsync(GetIssueID(issueKey));
+            await this.issueRepository.DeleteByIdAsync(GetIssueID(issueKey));
         }
 
         public async Task<Issue?> GetByIDAsync(string issueKey, IncludeOptions<Entities.Issue>? includeOptions = null)
         {
             Issue? issueResponse = null;
 
-            var issue = await this.issueRepository.GetByIDAsync(GetIssueID(issueKey), includeOptions);
+            var issue = await this.issueRepository.GetByIdAsync(GetIssueID(issueKey), includeOptions);
             if (issue != null)
             {
                 issueResponse = this.mapper.Map<Issue>(issue);
@@ -61,12 +61,12 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
 
         public async Task<bool> IsExistsByIDAsync(string issueKey)
         {
-            return await this.issueRepository.IsExistsByIDAsync(GetIssueID(issueKey));
+            return await this.issueRepository.IsExistsByIdAsync(GetIssueID(issueKey));
         }
 
         public async Task UpdateByIDAsync(string issueKey, IssueForUpdate issueForUpdateRequest)
         {
-            var issue = await this.issueRepository.GetByIDAsync(GetIssueID(issueKey));
+            var issue = await this.issueRepository.GetByIdAsync(GetIssueID(issueKey));
 
             if (issue != null)
             {
