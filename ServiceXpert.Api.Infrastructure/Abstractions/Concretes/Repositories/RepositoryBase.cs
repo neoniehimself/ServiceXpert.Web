@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;
 using ServiceXpert.Api.Domain.Entities;
 using ServiceXpert.Api.Infrastructure.DbContexts;
+using System.Linq.Expressions;
 
 namespace ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories
 {
-    public abstract class RepositoryBase<TEntityID, TEntity>
-        : IRepositoryBase<TEntityID, TEntity>
+    public abstract class RepositoryBase<TEntityId, TEntity>
+        : IRepositoryBase<TEntityId, TEntity>
         where TEntity : EntityBase
     {
         private SxpDbContext dbContext;
@@ -18,7 +19,7 @@ namespace ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories
             this.dbContext = dbContext;
         }
 
-        protected string EntityID { get => string.Concat(typeof(TEntity).Name, "ID"); }
+        protected string EntityId { get => string.Concat(typeof(TEntity).Name, "Id"); }
 
         public async Task CreateAsync(TEntity entity)
         {
@@ -30,28 +31,34 @@ namespace ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories
             this.dbContext.Set<TEntity>().Attach(entity);
         }
 
-        public async Task DeleteByIdAsync(TEntityID entityID)
+        public async Task DeleteByIdAsync(TEntityId entityId)
         {
             await this.dbContext.Set<TEntity>()
-                .Where(e => EF.Property<TEntityID>(e, this.EntityID)!.Equals(entityID))
+                .Where(e => EF.Property<TEntityId>(e, this.EntityId)!.Equals(entityId))
                 .ExecuteDeleteAsync();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(IncludeOptions<TEntity>? includeOptions = null)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
         {
             IQueryable<TEntity> query = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
+
+            if (condition != null)
+            {
+                query = query.Where(condition);
+            }
+
             return await query.ToListAsync();
         }
 
-        public async Task<TEntity?> GetByIdAsync(TEntityID entityID, IncludeOptions<TEntity>? includeOptions = null)
+        public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> condition, IncludeOptions<TEntity>? includeOptions = null)
         {
             IQueryable<TEntity> query = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
-            return await query.SingleOrDefaultAsync(e => EF.Property<TEntityID>(e, this.EntityID)!.Equals(entityID));
+            return await query.SingleOrDefaultAsync(condition);
         }
 
-        public async Task<bool> IsExistsByIdAsync(TEntityID entityID)
+        public async Task<bool> IsExistsByIdAsync(TEntityId entityId)
         {
-            return await this.dbContext.Set<TEntity>().AnyAsync(e => EF.Property<TEntityID>(e, this.EntityID)!.Equals(entityID));
+            return await this.dbContext.Set<TEntity>().AnyAsync(e => EF.Property<TEntityId>(e, this.EntityId)!.Equals(entityId));
         }
 
         public async Task<int> SaveChangesAsync()
