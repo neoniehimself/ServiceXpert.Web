@@ -48,3 +48,9 @@ footer {
     // html[data-bs-theme="dark"] & { }
   }
 }
+
+.table-issue {
+  thead {
+    border-bottom: 1px solid $nav-tabs-border-color;
+  }
+}

@@ -1,17 +1,5 @@
 ﻿function getTabContent(tab) {
-    var url = 'Issues/';
-
-    switch (tab) {
-        case 'all':
-            url = url + 'AllIssues';
-            break;
-        case 'open':
-            url = url + 'OpenIssues';
-            break;
-        default:
-            url = url + 'AllIssues';
-    }
-
+    var url = 'Issues/' + tab + 'Issues';
     $.ajax({
         type: 'GET',
         url: url,

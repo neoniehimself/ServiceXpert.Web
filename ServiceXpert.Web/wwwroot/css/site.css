@@ -12004,4 +12004,8 @@ footer {
 }
 .navbar-nav .dropdown-item:active {
   color: #f8f9fa !important;
+}
+
+.table-issue thead {
+  border-bottom: 1px solid var(--bs-border-color);
 }/*# sourceMappingURL=site.css.map */

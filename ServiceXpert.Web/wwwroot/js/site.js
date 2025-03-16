@@ -90,6 +90,8 @@ function themesModalFormSubmitAction() {
 
         html.setAttribute("data-bs-theme", newTheme);
         localStorage.setItem("theme", newTheme);
+
+        $('#themes-modal').modal('hide');
     });
 }
 

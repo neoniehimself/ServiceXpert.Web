@@ -76,5 +76,11 @@ namespace ServiceXpert.Web.Controllers
         {
             return PartialView("~/Views/Issues/_OpenIssues.cshtml");
         }
+
+        [HttpGet]
+        public IActionResult ResolvedIssues()
+        {
+            return PartialView("~/Views/Issues/_ResolvedIssues.cshtml");
+        }
     }
 }
