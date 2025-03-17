@@ -29,13 +29,13 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item mx-lg-2">
                             <a class="nav-link text-light @Html.IsActive("Dashboard", "Index")" aria-current="page"
-                               asp-controller="Dashboard" asp-action="Index">
-                                    Dashboard
+                                asp-controller="Dashboard" asp-action="Index">
+                                Dashboard
                             </a>
                         </li>
                         <li class="nav-item mx-lg-2">
                             <a class="nav-link text-light @Html.IsActive("Issues", "Index")" aria-current="page"
-                               asp-controller="Issues" asp-action="Index">
+                                asp-controller="Issues" asp-action="Index">
                                 Issues
                             </a>
                         </li>
@@ -46,17 +46,18 @@
                     <form id="navbar-search" class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     </form>
-                    @* <i id="themeToggleIcon" class="bi bi-sun-fill fs-4 ms-2" onclick="toggleTheme()"></i> *@
                     <ul class="navbar-nav ms-lg-3">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-light" role="button" id="settings-dropdown" role="button"
+                            <a class="nav-link dropdown-toggle text-light" role="button" id="settings-dropdown"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                Settings
+                                    Settings
                             </a>
                             <ul class="dropdown-menu bg-body" aria-labelledby="settings-dropdown">
                                 <li>
                                     <a class="dropdown-item text-body" role="button" data-bs-toggle="modal"
-                                        data-bs-target="#themes-modal">Themes</a>
+                                        data-bs-target="#themes-modal">
+                                            Themes
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -79,7 +80,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/issues.js"></script>
+    <script src="~/js/create-issue.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

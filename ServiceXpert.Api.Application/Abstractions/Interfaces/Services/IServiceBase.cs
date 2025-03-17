@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ServiceXpert.Api.Application.DataTransferObjects;
 using ServiceXpert.Api.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace ServiceXpert.Api.Application.Abstractions.Interfaces.Services
 {
@@ -12,7 +13,7 @@ namespace ServiceXpert.Api.Application.Abstractions.Interfaces.Services
     {
         Task<TDataObject?> GetByIdAsync(TId id, IncludeOptions<TEntity>? includeOptions = null);
 
-        Task<IEnumerable<TDataObject>> GetAllAsync(IncludeOptions<TEntity>? includeOptions = null);
+        Task<IEnumerable<TDataObject>> GetAllAsync(Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null);
 
         Task<TId> CreateAsync<TDataObjectForCreate>(TDataObjectForCreate dataObjectForCreate);
 

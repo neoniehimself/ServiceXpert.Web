@@ -6,7 +6,9 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="create-issue-modal-label">Create Issue</h1>
+                <h1 class="modal-title fs-5" id="create-issue-modal-label">
+                    Create Issue
+                </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -17,7 +19,7 @@
                                 Title <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control" id="create-issue-modal-name-field"
-                            name="@nameof(IssueForCreate.Name)" required>
+                                name="@nameof(IssueForCreate.Name)" required />
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -31,10 +33,13 @@
                         <div class="col-12">
                             <label for="create-issue-modal-priority-field" class="form-label">Priority</label>
                             <select class="form-select" id="create-issue-modal-priority-field" aria-label="Issue Priority"
-                            name="@nameof(IssueForCreate.IssuePriorityId)">    
+                                name="@nameof(IssueForCreate.IssuePriorityId)">    
                                 @foreach (var priority in Model.IssuePriorities)
                                 {
-                                    <option value="@priority.Key" selected="@(priority.Key == (int)SharedEnums.IssuePriority.Low)">@priority.Value</option>
+                                    <option value="@priority.Key" 
+                                        selected="@(priority.Key == (int)SharedEnums.IssuePriority.Low)">
+                                            @priority.Value
+                                    </option>
                                 }
                             </select>
                         </div>

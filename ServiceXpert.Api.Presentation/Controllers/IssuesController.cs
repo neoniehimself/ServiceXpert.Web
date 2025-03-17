@@ -18,7 +18,7 @@ namespace ServiceXpert.Api.Presentation.Controllers
         }
 
         [HttpGet("{issueKey}")]
-        public async Task<ActionResult<IssueDataObject>> GetByIDAsync(string issueKey)
+        public async Task<ActionResult<IssueDataObject>> GetByIdAsync(string issueKey)
         {
             var issue = await this.issueService.GetByIdAsync(issueKey);
             return issue != null ? Ok(issue) : NotFound(issueKey);
@@ -41,13 +41,6 @@ namespace ServiceXpert.Api.Presentation.Controllers
 
             var issueId = await this.issueService.CreateAsync(dataObject);
             return Ok(issueId);
-        }
-
-        [HttpDelete("{issueKey}")]
-        public async Task<ActionResult> DeleteByIDAsync(string issueKey)
-        {
-            await this.issueService.DeleteByIdAsync(issueKey);
-            return NoContent();
         }
 
         [HttpPatch("{issueKey}")]
@@ -76,6 +69,13 @@ namespace ServiceXpert.Api.Presentation.Controllers
 
             await this.issueService.UpdateByIdAsync(issueKey, issueForUpdate);
 
+            return NoContent();
+        }
+
+        [HttpDelete("{issueKey}")]
+        public async Task<ActionResult> DeleteByIDAsync(string issueKey)
+        {
+            await this.issueService.DeleteByIdAsync(issueKey);
             return NoContent();
         }
     }

@@ -20,6 +20,7 @@ namespace ServiceXpert.Web.Controllers
         public IActionResult InitializeCreateIssue()
         {
             var viewModel = new CreateIssueViewModel();
+
             viewModel.IssuePriorities = Enum.GetValues(typeof(SharedEnums.IssuePriority))
                 .Cast<SharedEnums.IssuePriority>()
                 .ToDictionary(p => (int)p, p => p.ToString());

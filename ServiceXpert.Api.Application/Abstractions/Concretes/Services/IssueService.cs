@@ -18,39 +18,19 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
             this.issueRepository = issueRepository;
         }
 
-        public async Task DeleteByIdAsync(string issueKey)
-        {
-            await this.issueRepository.DeleteByIdAsync(GetIdFromKey(issueKey));
-        }
-
         public async Task<IssueDataObject?> GetByIdAsync(string issueKey, IncludeOptions<Issue>? includeOptions = null)
         {
             IssueDataObject? issueResponse = null;
 
             var issueId = GetIdFromKey(issueKey);
+            var issue = await this.issueRepository.GetAsync(issueId, includeOptions);
 
-            var issue = await this.issueRepository.GetAsync(i => i.IssueId == issueId, includeOptions);
             if (issue != null)
             {
                 issueResponse = this.mapper.Map<IssueDataObject>(issue);
             }
 
             return issueResponse;
-        }
-
-        public int GetIdFromKey(string issueKey)
-        {
-            if (int.TryParse(issueKey.Split('-')[1], out int issueID))
-            {
-                return issueID;
-            }
-
-            throw new InvalidOperationException();
-        }
-
-        public async Task<bool> IsExistsByIdAsync(string issueKey)
-        {
-            return await this.issueRepository.IsExistsByIdAsync(GetIdFromKey(issueKey));
         }
 
         public async Task UpdateByIdAsync(string issueKey, IssueDataObjectForUpdate dataObject)
@@ -66,6 +46,26 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
                 this.issueRepository.Update(issue);
                 await this.issueRepository.SaveChangesAsync();
             }
+        }
+
+        public async Task DeleteByIdAsync(string issueKey)
+        {
+            await this.issueRepository.DeleteByIdAsync(GetIdFromKey(issueKey));
+        }
+
+        public async Task<bool> IsExistsByIdAsync(string issueKey)
+        {
+            return await this.issueRepository.IsExistsByIdAsync(GetIdFromKey(issueKey));
+        }
+
+        public int GetIdFromKey(string issueKey)
+        {
+            if (int.TryParse(issueKey.Split('-')[1], out int issueID))
+            {
+                return issueID;
+            }
+
+            throw new InvalidOperationException();
         }
     }
 }

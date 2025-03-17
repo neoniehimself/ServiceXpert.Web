@@ -10,6 +10,8 @@ namespace ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories
 
         void Attach(TEntity entity);
 
+        Task<TEntity?> GetAsync(TEntityId entityId, IncludeOptions<TEntity>? includeOptions = null);
+
         Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> condition, IncludeOptions<TEntity>? includeOptions = null);
 
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null);
