@@ -33,7 +33,7 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
 
             return propIdValue != null
                 && propId.GetValue(entity) != null
-                ? (TId)propId.GetValue(entity)! : throw new NullReferenceException($"{typeof(TEntity).Name}ID is null.");
+                ? (TId)propId.GetValue(entity)! : throw new NullReferenceException($"{typeof(TEntity).Name}Id is null.");
         }
 
         public async Task<TId> CreateAsync<TDataObjectForCreate>(TDataObjectForCreate dataObjectForCreate)

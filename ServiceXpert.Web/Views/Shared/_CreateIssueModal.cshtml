@@ -1,4 +1,4 @@
-﻿@using ServiceXpert.Web.Models.Issues
+﻿@using SharedEnums = ServiceXpert.Shared.Enums;
 @model CreateIssueViewModel
 
 <div class="modal modal-dialog-scrollable fade" id="create-issue-modal" tabindex="-1" aria-labelledby="create-issue-modal-label"
@@ -31,18 +31,10 @@
                         <div class="col-12">
                             <label for="create-issue-modal-priority-field" class="form-label">Priority</label>
                             <select class="form-select" id="create-issue-modal-priority-field" aria-label="Issue Priority"
-                            name="@nameof(IssueForCreate.IssuePriorityId)">
+                            name="@nameof(IssueForCreate.IssuePriorityId)">    
                                 @foreach (var priority in Model.IssuePriorities)
                                 {
-                                    var computedIndexValue = Model.IssuePriorities.IndexOf(priority) + 1;
-                                    var selected = false;
-
-                                    if (computedIndexValue == Model.IssuePriorities.Count)
-                                    {
-                                        selected = true;
-                                    }
-
-                                    <option value="@computedIndexValue" selected="@selected">@priority</option>
+                                    <option value="@priority.Key" selected="@(priority.Key == (int)SharedEnums.IssuePriority.Low)">@priority.Value</option>
                                 }
                             </select>
                         </div>

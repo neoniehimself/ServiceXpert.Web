@@ -2,7 +2,7 @@
 {
     public class CreateIssueViewModel
     {
-        public List<string> IssuePriorities { get; set; }
+        public Dictionary<int, string> IssuePriorities { get; set; }
 
         public CreateIssueViewModel()
         {

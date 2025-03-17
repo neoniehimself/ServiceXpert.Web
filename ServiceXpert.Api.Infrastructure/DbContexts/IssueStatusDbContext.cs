@@ -15,7 +15,6 @@ namespace ServiceXpert.Api.Infrastructure.DbContexts
 
             issueStatus.HasKey(i => i.IssueStatusId).IsClustered();
             issueStatus.Property(i => i.Name).HasColumnType(ToVarcharColumn(64));
-            issueStatus.Property(i => i.Description).HasColumnType(ToVarcharColumn(1024));
 
             issueStatus.HasData(
                 new IssueStatus()

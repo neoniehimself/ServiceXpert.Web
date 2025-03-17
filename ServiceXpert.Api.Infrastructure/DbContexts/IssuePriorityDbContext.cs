@@ -15,7 +15,6 @@ namespace ServiceXpert.Api.Infrastructure.DbContexts
 
             issuePriority.HasKey(i => i.IssuePriorityId).IsClustered();
             issuePriority.Property(i => i.Name).HasColumnType(ToVarcharColumn(64));
-            issuePriority.Property(i => i.Description).HasColumnType(ToVarcharColumn(1024));
 
             issuePriority.HasData(
                 new IssuePriority()

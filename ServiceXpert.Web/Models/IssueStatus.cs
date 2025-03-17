@@ -1,11 +1,9 @@
-﻿namespace ServiceXpert.Web.Models.Issues
+﻿namespace ServiceXpert.Web.Models
 {
     public class IssueStatus : ModelBase
     {
         public int IssueStatusId { get; set; }
 
         public string Name { get; set; } = string.Empty;
-
-        public string? Description { get; set; }
     }
 }
