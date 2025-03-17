@@ -57,9 +57,21 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult AllIssues()
+        public async Task<IActionResult> AllIssues()
         {
-            return PartialView("~/Views/Issues/_AllIssues.cshtml");
+            var httpClient = this.httpClientFactory.CreateClient("Default");
+
+            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                var issues = new List<Issue>(JsonConvert.DeserializeObject<List<Issue>>(result)!);
+
+                return PartialView("~/Views/Issues/_AllIssues.cshtml", issues);
+            }
+
+            return new StatusCodeResult((int)response.StatusCode);
         }
 
         [HttpGet]
