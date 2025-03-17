@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ServiceXpert.Api.Domain.Entities;
-using DomainLayerEnum = ServiceXpert.Api.Domain.Shared.Enums;
+using SharedEnums = ServiceXpert.Shared.Enums;
 
 namespace ServiceXpert.Api.Infrastructure.DbContexts
 {
@@ -13,42 +13,41 @@ namespace ServiceXpert.Api.Infrastructure.DbContexts
         {
             issuePriority.ToTable("IssuePriorities");
 
-            issuePriority.HasKey(i => i.IssuePriorityID).IsClustered();
+            issuePriority.HasKey(i => i.IssuePriorityId).IsClustered();
             issuePriority.Property(i => i.Name).HasColumnType(ToVarcharColumn(64));
-            issuePriority.Property(i => i.Description).HasColumnType(ToVarcharColumn(1024));
 
             issuePriority.HasData(
                 new IssuePriority()
                 {
-                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Outage,
+                    IssuePriorityId = (int)SharedEnums.IssuePriority.Outage,
                     Name = "Outage",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Critical,
+                    IssuePriorityId = (int)SharedEnums.IssuePriority.Critical,
                     Name = "Critical",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.High,
+                    IssuePriorityId = (int)SharedEnums.IssuePriority.High,
                     Name = "High",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Medium,
+                    IssuePriorityId = (int)SharedEnums.IssuePriority.Medium,
                     Name = "Medium",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityID = (int)DomainLayerEnum.Issue.IssuePriority.Low,
+                    IssuePriorityId = (int)SharedEnums.IssuePriority.Low,
                     Name = "Low",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ServiceXpert.Api.Application\ServiceXpert.Api.Application.csproj" />
+    <ProjectReference Include="..\ServiceXpert.Shared\ServiceXpert.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

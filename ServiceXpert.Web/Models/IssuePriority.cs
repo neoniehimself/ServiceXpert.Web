@@ -1,6 +1,6 @@
-﻿namespace ServiceXpert.Api.Domain.Entities
+﻿namespace ServiceXpert.Web.Models
 {
-    public class IssuePriority : EntityBase
+    public class IssuePriority : ModelBase
     {
         public int IssuePriorityId { get; set; }
 

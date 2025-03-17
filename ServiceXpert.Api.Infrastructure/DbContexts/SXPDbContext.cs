@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using ServiceXpert.Api.Domain.Entities;
-using ServiceXpert.Api.Domain.Shared.Enums.Database;
+using ServiceXpert.Api.Domain.Shared.Enums;
 using System.Reflection;
 
 namespace ServiceXpert.Api.Infrastructure.DbContexts

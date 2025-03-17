@@ -4,9 +4,9 @@ using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;
 using ServiceXpert.Api.Infrastructure.Abstractions.Concretes.Repositories;
 using ServiceXpert.Api.Infrastructure.DbContexts;
 
-namespace ServiceXpert.Api.Infrastructure.Shared.ServiceContainer
+namespace ServiceXpert.Api.Infrastructure.Shared
 {
-    public static class InfrastructureService
+    public static class ServiceContainer
     {
         public static IServiceCollection AddInfrastructureLayerServices(this IServiceCollection services)
         {

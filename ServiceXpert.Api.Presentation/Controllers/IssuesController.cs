@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
-using ServiceXpert.Api.Application.DataTransferObjects.Issues;
+using ServiceXpert.Api.Application.DataTransferObjects;
 
 namespace ServiceXpert.Api.Presentation.Controllers
 {
@@ -18,50 +18,43 @@ namespace ServiceXpert.Api.Presentation.Controllers
         }
 
         [HttpGet("{issueKey}")]
-        public async Task<ActionResult<Issue>> GetByIDAsync(string issueKey)
+        public async Task<ActionResult<IssueDataObject>> GetByIdAsync(string issueKey)
         {
-            var issue = await this.issueService.GetByIDAsync(issueKey);
+            var issue = await this.issueService.GetByIdAsync(issueKey);
             return issue != null ? Ok(issue) : NotFound(issueKey);
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Issue>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<IssueDataObject>>> GetAllAsync()
         {
             var issues = await this.issueService.GetAllAsync();
             return Ok(issues);
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddAsync(IssueForCreate issueForCreateRequest)
+        public async Task<ActionResult> AddAsync(IssueDataObjectForCreate dataObject)
         {
             if (!this.ModelState.IsValid)
             {
                 return BadRequest(this.ModelState);
             }
 
-            var issueID = await this.issueService.AddAsync(issueForCreateRequest);
-            return Ok(issueID);
-        }
-
-        [HttpDelete("{issueKey}")]
-        public async Task<ActionResult> DeleteByIDAsync(string issueKey)
-        {
-            await this.issueService.DeleteByIDAsync(issueKey);
-            return NoContent();
+            var issueId = await this.issueService.CreateAsync(dataObject);
+            return Ok(issueId);
         }
 
         [HttpPatch("{issueKey}")]
-        public async Task<ActionResult> PatchUpdateAsync(string issueKey, JsonPatchDocument<IssueForUpdate> patchDocument)
+        public async Task<ActionResult> PatchUpdateAsync(string issueKey, JsonPatchDocument<IssueDataObjectForUpdate> patchDocument)
         {
-            if (!await this.issueService.IsExistsByIDAsync(issueKey))
+            if (!await this.issueService.IsExistsByIdAsync(issueKey))
             {
                 return NotFound(issueKey);
             }
 
-            var issueID = this.issueService.GetIssueID(issueKey);
+            var issueID = this.issueService.GetIdFromKey(issueKey);
             var result = await this.issueService.ConfigureForUpdateAsync(issueID, patchDocument, this.ModelState);
 
-            IssueForUpdate issueForUpdateRequest = result.Item1;
+            IssueDataObjectForUpdate issueForUpdate = result.Item1;
             ModelStateDictionary modelState = result.Item2;
 
             if (!modelState.IsValid)
@@ -69,20 +62,21 @@ namespace ServiceXpert.Api.Presentation.Controllers
                 return BadRequest(modelState);
             }
 
-            if (!TryValidateModel(issueForUpdateRequest))
+            if (!TryValidateModel(issueForUpdate))
             {
                 return BadRequest(modelState);
             }
 
-            await this.issueService.UpdateByIDAsync(issueKey, issueForUpdateRequest);
+            await this.issueService.UpdateByIdAsync(issueKey, issueForUpdate);
 
             return NoContent();
         }
 
-        [HttpGet("IssuePriorities")]
-        public ActionResult<IEnumerable<string>> GetIssuePrioritiesAsync()
+        [HttpDelete("{issueKey}")]
+        public async Task<ActionResult> DeleteByIDAsync(string issueKey)
         {
-            return Ok(this.issueService.GetIssuePriorities());
+            await this.issueService.DeleteByIdAsync(issueKey);
+            return NoContent();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace ServiceXpert.Api.Domain.Entities
+﻿namespace ServiceXpert.Web.Models
 {
-    public class IssueStatus : EntityBase
+    public class IssueStatus : ModelBase
     {
         public int IssueStatusId { get; set; }
 

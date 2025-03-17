@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using ServiceXpert.Web.Models.Issues;
+using ServiceXpert.Web.Models;
 using ServiceXpert.Web.ViewModels;
 using System.Text;
+using SharedEnums = ServiceXpert.Shared.Enums;
 
 namespace ServiceXpert.Web.Controllers
 {
@@ -16,25 +17,15 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> InitializeCreateIssue()
+        public IActionResult InitializeCreateIssue()
         {
-            var httpClient = this.httpClientFactory.CreateClient("Default");
-            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/IssuePriorities");
+            var viewModel = new CreateIssueViewModel();
 
-            if (response.IsSuccessStatusCode)
-            {
-                var result = response.Content.ReadAsStringAsync().Result;
-                var issuePriorities = new List<string>(JsonConvert.DeserializeObject<List<string>>(result)!);
+            viewModel.IssuePriorities = Enum.GetValues(typeof(SharedEnums.IssuePriority))
+                .Cast<SharedEnums.IssuePriority>()
+                .ToDictionary(p => (int)p, p => p.ToString());
 
-                var viewModel = new CreateIssueViewModel()
-                {
-                    IssuePriorities = issuePriorities
-                };
-
-                return PartialView("_CreateIssueModal", viewModel);
-            }
-
-            return new StatusCodeResult((int)response.StatusCode);
+            return PartialView("_CreateIssueModal", viewModel);
         }
 
         [HttpPost]

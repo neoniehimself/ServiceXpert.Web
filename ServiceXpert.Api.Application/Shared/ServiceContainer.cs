@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using ServiceXpert.Api.Application.Abstractions.Concretes.Services;
 using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
 
-namespace ServiceXpert.Api.Application.Shared.ServiceContainer
+namespace ServiceXpert.Api.Application.Shared
 {
-    public static class ApplicationService
+    public static class ServiceContainer
     {
         public static IServiceCollection AddApplicationLayerServices(this IServiceCollection services)
         {
