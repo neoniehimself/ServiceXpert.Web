@@ -54,3 +54,26 @@ footer {
     border-bottom: 1px solid $nav-tabs-border-color;
   }
 }
+
+.issue-priority {
+  &.priority-1, 
+  &.priority-2 {
+    background-color: $danger;
+  }
+
+  &.priority-3 {
+    background-color: $orange;
+  }
+
+  &.priority-4 {
+    background-color: $blue;
+  }
+
+  &.priority-5 {
+    background-color: $gray-500;
+  }
+
+  color: $white;
+  border-radius: $border-radius;
+  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+}

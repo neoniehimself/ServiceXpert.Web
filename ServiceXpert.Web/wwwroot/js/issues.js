@@ -14,10 +14,10 @@
 function getTabContent(tab) {
     showSpinner(true);
 
-    var url = 'Issues/' + tab + 'Issues';
     $.ajax({
         type: 'GET',
-        url: url,
+        url: 'Issues/GetIssuesTabContent',
+        data: { tab: tab },
         success: function (response) {
             showSpinner(false);
 

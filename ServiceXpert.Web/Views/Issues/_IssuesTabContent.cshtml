@@ -13,9 +13,17 @@
             @foreach (var issue in Model.Issues)
             {
                 <tr>
-                    <th scope="row">@issue.IssueKey</th>
-                    <td>@issue.Name</td>
-                    <td>@issue.IssuePriority!.Name</td>
+                    <th scope="row">
+                        <a href="#">@issue.IssueKey</a>
+                    </th>
+                    <td>
+                        <a href="#">@issue.Name</a>
+                    </td>
+                    <td>
+                        <span class="issue-priority priority-@issue.IssuePriorityId">
+                            @issue.IssuePriority!.Name
+                        </span>
+                    </td>
                     <td>@issue.IssueStatus!.Name</td>
                 </tr>
             }
