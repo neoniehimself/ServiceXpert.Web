@@ -4,6 +4,7 @@ using ServiceXpert.Api.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Api.Application.DataTransferObjects;
 using ServiceXpert.Api.Domain.Abstractions.Interfaces.Repositories;
 using ServiceXpert.Api.Domain.Entities;
+using SharedEnums = ServiceXpert.Shared.Enums;
 
 namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
 {
@@ -31,6 +32,41 @@ namespace ServiceXpert.Api.Application.Abstractions.Concretes.Services
             }
 
             return issueResponse;
+        }
+
+        public async Task<IEnumerable<IssueDataObject>> GetAllAsync(string status, IncludeOptions<Issue>? includeOptions = null)
+        {
+            var issues = Enumerable.Empty<Issue>();
+
+            if (Enum.TryParse(status, ignoreCase: true, out SharedEnums.IssueStatus statusEnum))
+            {
+                switch (statusEnum)
+                {
+                    case SharedEnums.IssueStatus.Resolved:
+                        issues = await this.issueRepository.GetAllAsync(i => i.IssueStatusId == (int)SharedEnums.IssueStatus.Resolved, includeOptions);
+                        break;
+                    case SharedEnums.IssueStatus.Closed:
+                        issues = await this.issueRepository.GetAllAsync(i => i.IssueStatusId == (int)SharedEnums.IssueStatus.Closed, includeOptions);
+                        break;
+                    default:
+                        goto Return;
+                }
+            }
+            else
+            {
+                if (string.Equals(status, "All", StringComparison.OrdinalIgnoreCase))
+                {
+                    issues = await this.issueRepository.GetAllAsync(includeOptions: includeOptions);
+                }
+                else if (string.Equals(status, "Open", StringComparison.OrdinalIgnoreCase))
+                {
+                    issues = await this.issueRepository.GetAllAsync(i =>
+                    (i.IssueStatusId != (int)SharedEnums.IssueStatus.Resolved) && (i.IssueStatusId != (int)SharedEnums.IssueStatus.Closed),
+                    includeOptions);
+                }
+            }
+        Return:
+            return this.mapper.Map<IEnumerable<IssueDataObject>>(issues);
         }
 
         public async Task UpdateByIdAsync(string issueKey, IssueDataObjectForUpdate dataObject)

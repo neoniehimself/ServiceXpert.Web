@@ -1,4 +1,4 @@
-﻿@model List<Issue>
+﻿@model IssuesViewModel
 <div class="table-responsive">
     <table class="table table-hover table-borderless table-issue">
         <thead>
@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var issue in Model)
+            @foreach (var issue in Model.Issues)
             {
                 <tr>
                     <th scope="row">@issue.IssueKey</th>

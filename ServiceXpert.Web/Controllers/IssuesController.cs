@@ -68,22 +68,55 @@ namespace ServiceXpert.Web.Controllers
                 var result = response.Content.ReadAsStringAsync().Result;
                 var issues = new List<Issue>(JsonConvert.DeserializeObject<List<Issue>>(result)!);
 
-                return PartialView("~/Views/Issues/_AllIssues.cshtml", issues);
+                return PartialView("~/Views/Issues/_AllIssues.cshtml", new IssuesViewModel()
+                {
+                    Issues = issues
+                });
             }
 
             return new StatusCodeResult((int)response.StatusCode);
         }
 
         [HttpGet]
-        public IActionResult OpenIssues()
+        public async Task<IActionResult> OpenIssues()
         {
-            return PartialView("~/Views/Issues/_OpenIssues.cshtml");
+            var httpClient = this.httpClientFactory.CreateClient("Default");
+
+            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues?Status=Open");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                var issues = new List<Issue>(JsonConvert.DeserializeObject<List<Issue>>(result)!);
+
+                return PartialView("~/Views/Issues/_OpenIssues.cshtml", new IssuesViewModel()
+                {
+                    Issues = issues
+                });
+            }
+
+            return new StatusCodeResult((int)response.StatusCode);
         }
 
         [HttpGet]
-        public IActionResult ResolvedIssues()
+        public async Task<IActionResult> ResolvedIssues()
         {
-            return PartialView("~/Views/Issues/_ResolvedIssues.cshtml");
+            var httpClient = this.httpClientFactory.CreateClient("Default");
+
+            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues?Status=Resolved");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = response.Content.ReadAsStringAsync().Result;
+                var issues = new List<Issue>(JsonConvert.DeserializeObject<List<Issue>>(result)!);
+
+                return PartialView("~/Views/Issues/_ResolvedIssues.cshtml", new IssuesViewModel()
+                {
+                    Issues = issues
+                });
+            }
+
+            return new StatusCodeResult((int)response.StatusCode);
         }
     }
 }

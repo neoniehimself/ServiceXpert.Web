@@ -25,9 +25,9 @@ namespace ServiceXpert.Api.Presentation.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<IssueDataObject>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<IssueDataObject>>> GetAllAsync(string status = "All")
         {
-            var issues = await this.issueService.GetAllAsync();
+            var issues = await this.issueService.GetAllAsync(status);
             return Ok(issues);
         }
 

@@ -20,6 +20,11 @@ Accept: application/json
 
 ###
 
+GET {{ServiceXpert.Api.Presentation_HostAddress}}/api/issues?status=open
+Accept: application/json
+
+###
+
 DELETE {{ServiceXpert.Api.Presentation_HostAddress}}/api/issues/SXP-1
 
 ###

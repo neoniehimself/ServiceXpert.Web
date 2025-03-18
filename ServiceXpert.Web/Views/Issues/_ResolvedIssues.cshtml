@@ -1,4 +1,5 @@
-﻿<div class="table-responsive">
+﻿@model IssuesViewModel
+<div class="table-responsive">
     <table class="table table-hover table-borderless table-issue">
         <thead>
             <tr>
@@ -9,12 +10,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">SXP-3</th>
-                <td>Lorem ipsum dolor sit amet</td>
-                <td>Low</td>
-                <td>Resolved</td>
-            </tr>
+            @foreach (var issue in Model.Issues)
+            {
+                <tr>
+                    <th scope="row">@issue.IssueKey</th>
+                    <td>@issue.Name</td>
+                    <td>@issue.IssuePriority!.Name</td>
+                    <td>@issue.IssueStatus!.Name</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

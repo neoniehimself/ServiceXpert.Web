@@ -8,6 +8,8 @@ namespace ServiceXpert.Api.Application.Abstractions.Interfaces.Services
     {
         Task<IssueDataObject?> GetByIdAsync(string issueKey, IncludeOptions<Issue>? includeOptions = null);
 
+        Task<IEnumerable<IssueDataObject>> GetAllAsync(string status, IncludeOptions<Issue>? includeOptions = null);
+
         Task UpdateByIdAsync(string issueKey, IssueDataObjectForUpdate dataObject);
 
         Task DeleteByIdAsync(string issueKey);
