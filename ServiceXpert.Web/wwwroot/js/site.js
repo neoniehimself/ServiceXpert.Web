@@ -60,14 +60,22 @@ function configureAjaxSettings() {
     });
 }
 
-function loadThemePreference() {
-    const savedTheme = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    document.documentElement.setAttribute("data-bs-theme", savedTheme);
+function showSpinner(show, spinner) {
+    if (spinner == null) {
+        console.error('Cannot identify spinner');
+    }
 
-    if (savedTheme == 'light') {
-        $('#themes-modal-form-rb-light').prop('checked', true);
+    if (!(spinner instanceof jQuery)) {
+        console.error(spinner + ' is not a jQuery object');
+    } 
+
+    if (show) {
+        if (!spinner.hasClass('d-flex')) {
+            $(spinner).addClass('d-flex');
+        }
     } else {
-        $('#themes-modal-form-rb-dark').prop('checked', true);
+        $(spinner).removeClass('d-flex');
+        $(spinner).addClass('d-none');
     }
 }
 
@@ -96,7 +104,13 @@ function themesModalFormSubmitAction() {
 }
 
 $(document).ready(function () {
-    loadThemePreference();
     configureAjaxSettings();
     themesModalFormSubmitAction();
+
+    // Configure Themes Modal RBs on Page Load
+    if (SAVED_THEME == 'light') {
+        $('#themes-modal-form-rb-light').prop('checked', true);
+    } else {
+        $('#themes-modal-form-rb-dark').prop('checked', true);
+    }
 });

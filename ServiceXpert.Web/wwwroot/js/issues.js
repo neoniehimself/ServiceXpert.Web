@@ -1,25 +1,14 @@
-﻿function showSpinner(show) {
+﻿function getTabContent(tab) {
     var spinner = $('#issues-tabs-content-spinner');
 
-    if (show) {
-        if (!spinner.hasClass('d-flex')) {
-            $(spinner).addClass('d-flex');
-        }
-    } else {
-        $(spinner).removeClass('d-flex');
-        $(spinner).addClass('d-none');
-    }
-}
-
-function getTabContent(tab) {
-    showSpinner(true);
+    showSpinner(true, spinner);
 
     $.ajax({
         type: 'GET',
         url: 'Issues/GetIssuesTabContent',
         data: { tab: tab },
         success: function (response) {
-            showSpinner(false);
+            showSpinner(false, spinner);
 
             // Remove css classes and clear content of previous tab
             $('.tab-pane')
