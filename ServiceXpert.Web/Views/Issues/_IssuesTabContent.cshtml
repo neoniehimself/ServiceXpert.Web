@@ -19,12 +19,16 @@
                     <td>
                         <a href="#">@issue.Name</a>
                     </td>
-                    <td>
-                        <span class="issue-priority priority-@issue.IssuePriorityId">
+                    <td class="issue-priority">
+                        <span class="priority-@issue.IssuePriorityId">
                             @issue.IssuePriority!.Name
                         </span>
                     </td>
-                    <td>@issue.IssueStatus!.Name</td>
+                    <td class="issue-status">
+                        <span class="status-@issue.IssuePriorityId">
+                            @issue.IssueStatus!.Name
+                        </span>
+                    </td>
                 </tr>
             }
         </tbody>

@@ -1,4 +1,6 @@
 $primary: #172B4D;
+$blue: #0C66E4;
+$info: #579DFF;
 
 @import '../lib/bootstrap/scss/bootstrap.scss';
 @import 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap';
@@ -56,24 +58,75 @@ footer {
 }
 
 .issue-priority {
-  &.priority-1, 
-  &.priority-2 {
-    background-color: $danger;
-  }
+  width: 5rem;
 
-  &.priority-3 {
-    background-color: $orange;
-  }
+  span {
+    color: $white;
+    border-radius: $border-radius;
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    text-align: center;
 
-  &.priority-4 {
-    background-color: $blue;
-  }
+    $width: 4.5rem;
 
-  &.priority-5 {
-    background-color: $gray-500;
-  }
+    &.priority-1, 
+    &.priority-2 {
+      background-color: $danger;
+      display: inline-block;
+      width: $width;
+    }
 
-  color: $white;
-  border-radius: $border-radius;
-  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    &.priority-3 {
+      background-color: $orange;
+      display: inline-block;
+      width: $width;
+    }
+
+    &.priority-4 {
+      background-color: $info;
+      display: inline-block;
+      width: $width;
+    }
+
+    &.priority-5 {
+      background-color: $gray-500;
+      display: inline-block;
+      width: $width;
+    }
+
+    html[data-bs-theme="dark"] & {
+      &.priority-5 {
+        color: $dark
+      }
+    }
+  }
+}
+
+.issue-status {
+  width: 5rem;
+
+  span {
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    $width: 7rem;
+
+    &.status-1, 
+    &.status-2 {
+      display: inline-block;
+      width: $width;
+    }
+
+    &.status-3 {
+      display: inline-block;
+      width: $width;
+    }
+
+    &.status-4 {
+      display: inline-block;
+      width: $width;
+    }
+
+    &.status-5 {
+      display: inline-block;
+      width: $width;
+    }
+  }
 }
