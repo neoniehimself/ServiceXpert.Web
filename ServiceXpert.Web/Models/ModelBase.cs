@@ -2,8 +2,26 @@
 {
     public abstract class ModelBase
     {
-        public DateTime CreateDate { get; } = DateTime.UtcNow;
+        protected readonly string dateFormat = "yy/MM/dd";
 
-        public DateTime ModifyDate { get; } = DateTime.UtcNow;
+        public DateTime CreateDate { get; set; }
+
+        public string CreateDateFormatted
+        {
+            get
+            {
+                return this.CreateDate.ToString(this.dateFormat);
+            }
+        }
+
+        public DateTime ModifyDate { get; set; }
+
+        public string ModifyDateFormatted
+        {
+            get
+            {
+                return this.ModifyDate.ToString(this.dateFormat);
+            }
+        }
     }
 }

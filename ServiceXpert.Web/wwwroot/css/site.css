@@ -11991,6 +11991,10 @@ footer {
   padding-right: 0 !important;
 }
 
+html[data-bs-theme=dark] a {
+  color: #fff;
+}
+
 /* Override the default border color when the navbar-toggler is focused or clicked */
 .navbar-toggler:focus,
 .navbar-toggler:active,
@@ -12009,59 +12013,36 @@ footer {
 .table-issue thead {
   border-bottom: 1px solid var(--bs-border-color);
 }
-
-.issue-priority {
-  width: 5rem;
+.table-issue tbody span {
+  padding: 0.1rem 0 0.1rem;
+  display: inline-block;
 }
-.issue-priority span {
+.table-issue tbody .issue-key {
+  width: 4rem;
+}
+.table-issue tbody .issue-name {
+  min-width: 16rem;
+}
+.table-issue tbody .issue-priority span {
   color: #fff;
   border-radius: 0.375rem;
-  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   text-align: center;
+  min-width: 4.5rem;
 }
-.issue-priority span.priority-1, .issue-priority span.priority-2 {
+.table-issue tbody .issue-priority span.priority-1, .table-issue tbody .issue-priority span.priority-2 {
   background-color: #dc3545;
-  display: inline-block;
-  width: 4.5rem;
 }
-.issue-priority span.priority-3 {
+.table-issue tbody .issue-priority span.priority-3 {
   background-color: #fd7e14;
-  display: inline-block;
-  width: 4.5rem;
 }
-.issue-priority span.priority-4 {
+.table-issue tbody .issue-priority span.priority-4 {
   background-color: #579DFF;
-  display: inline-block;
-  width: 4.5rem;
 }
-.issue-priority span.priority-5 {
+.table-issue tbody .issue-priority span.priority-5 {
   background-color: #adb5bd;
-  display: inline-block;
-  width: 4.5rem;
 }
-html[data-bs-theme=dark] .issue-priority span.priority-5 {
+html[data-bs-theme=dark] .table-issue tbody .issue-priority span.priority-5 {
   color: #212529;
-}
-
-.issue-status {
-  width: 5rem;
-}
-.issue-status span {
-  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-}
-.issue-status span.status-1, .issue-status span.status-2 {
-  display: inline-block;
-  width: 7rem;
-}
-.issue-status span.status-3 {
-  display: inline-block;
-  width: 7rem;
-}
-.issue-status span.status-4 {
-  display: inline-block;
-  width: 7rem;
-}
-.issue-status span.status-5 {
-  display: inline-block;
-  width: 7rem;
 }/*# sourceMappingURL=site.css.map */

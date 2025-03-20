@@ -5,6 +5,9 @@
             <tr>
                 <th scope="col">Key</th>
                 <th scope="col">Summary</th>
+                <th scope="col">Assignee</th>
+                <th scope="col">Reporter</th>
+                <th scope="col">Created On</th>
                 <th scope="col">Priority</th>
                 <th scope="col">Status</th>
             </tr>
@@ -13,21 +16,26 @@
             @foreach (var issue in Model.Issues)
             {
                 <tr>
-                    <th scope="row">
-                        <a href="#">@issue.IssueKey</a>
+                    <th class="issue-key" scope="row">
+                        <span><a href="#">@issue.IssueKey</a></span>
                     </th>
                     <td>
-                        <a href="#">@issue.Name</a>
+                        <span class="issue-name"><a href="#">@issue.Name</a></span>
+                    </td>
+                    <td>
+                        <span>Lorem Ipsum</span>
+                    </td>
+                    <td>
+                        <span>Lorem Ipsum</span>
+                    </td>
+                    <td>
+                        <span>@issue.CreateDateFormatted</span>
                     </td>
                     <td class="issue-priority">
-                        <span class="priority-@issue.IssuePriorityId">
-                            @issue.IssuePriority!.Name
-                        </span>
+                        <span class="priority-@issue.IssuePriorityId">@issue.IssuePriority!.Name</span>
                     </td>
                     <td class="issue-status">
-                        <span class="status-@issue.IssuePriorityId">
-                            @issue.IssueStatus!.Name
-                        </span>
+                        <span>@issue.IssueStatus!.Name</span>
                     </td>
                 </tr>
             }
