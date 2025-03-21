@@ -1,4 +1,4 @@
-﻿@using SharedEnums = ServiceXpert.Shared.Enums;
+﻿@using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 @model CreateIssueViewModel
 
 <div class="modal modal-dialog-scrollable fade" id="create-issue-modal" tabindex="-1" aria-labelledby="create-issue-modal-label"
@@ -19,25 +19,25 @@
                                 Title <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control" id="create-issue-modal-name-field"
-                                name="@nameof(IssueForCreate.Name)" required />
+                                name="@nameof(IssueDataObjectForCreate.Name)" required />
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-12">
                             <label for="create-issue-modal-description-field" class="form-label">Description</label>
                             <textarea class="form-control" id="create-issue-modal-description-field" rows="3"
-                            name="@nameof(IssueForCreate.Description)"></textarea>
+                                      name="@nameof(IssueDataObjectForCreate.Description)"></textarea>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-12">
                             <label for="create-issue-modal-priority-field" class="form-label">Priority</label>
                             <select class="form-select" id="create-issue-modal-priority-field" aria-label="Issue Priority"
-                                name="@nameof(IssueForCreate.IssuePriorityId)">    
+                                    name="@nameof(IssueDataObjectForCreate.IssuePriorityId)">
                                 @foreach (var priority in Model.IssuePriorities)
                                 {
                                     <option value="@priority.Key" 
-                                        selected="@(priority.Key == (int)SharedEnums.IssuePriority.Low)">
+                                        selected="@(priority.Key == (int)SxpEnums.IssuePriority.Low)">
                                             @priority.Value
                                     </option>
                                 }

@@ -1,0 +1,33 @@
+﻿<div class="modal modal-dialog-scrollable fade" id="theme-modal" tabindex="-1" aria-labelledby="theme-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="theme-modal-label">
+                    Themes
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+                Select a theme for the web app
+                <form class="mt-3 d-flex" id="theme-modal-form" role="form">
+                    <div class="form-check me-4">
+                        <input class="form-check-input" type="radio" name="theme-modal-rb" id="theme-modal-form-rb-light">
+                        <label class="form-check-label" for="theme-modal-form-rb-light">
+                            Light
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="theme-modal-rb" id="theme-modal-form-rb-dark">
+                        <label class="form-check-label" for="theme-modal-form-rb-dark">
+                            Dark
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success" form="theme-modal-form">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

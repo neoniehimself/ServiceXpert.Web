@@ -8,14 +8,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ServiceXpert</title>
-    <script src="~/js/site-themes.js"></script>
+    <script src="~/js/site-theme.js"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/ServiceXpert.Web.styles.css" />
     @RenderSection("Styles", required: false)
 </head>
 <body>
-    <partial name="_Themes" />
+    <partial name="_ThemeModal" />
     <div class="modal-container"></div>
     <header>
         <nav class="navbar navbar-expand-lg bg-primary border-bottom box-shadow">
@@ -56,7 +56,7 @@
                             <ul class="dropdown-menu bg-body" aria-labelledby="settings-dropdown">
                                 <li>
                                     <a class="dropdown-item text-body" role="button" data-bs-toggle="modal"
-                                        data-bs-target="#themes-modal">
+                                        data-bs-target="#theme-modal">
                                             Themes
                                     </a>
                                 </li>
