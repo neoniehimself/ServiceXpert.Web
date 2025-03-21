@@ -79,16 +79,16 @@ function showSpinner(show, spinner) {
     }
 }
 
-function themesModalFormSubmitAction() {
-    $('#themes-modal-form').submit(function (e) {
+function themeModalFormSubmitAction() {
+    $('#theme-modal-form').submit(function (e) {
         e.preventDefault();
 
         const html = document.documentElement;
         var newTheme = '';
 
-        var rbSelectedThemeID = $('input[name="themes-modal-rb"]:checked').attr('id');
+        var rbSelectedThemeID = $('input[name="theme-modal-rb"]:checked').attr('id');
 
-        if (rbSelectedThemeID == 'themes-modal-form-rb-light') {
+        if (rbSelectedThemeID == 'theme-modal-form-rb-light') {
             $(rbSelectedThemeID).prop('checked', true);
             newTheme = 'light';
         } else {
@@ -99,18 +99,18 @@ function themesModalFormSubmitAction() {
         html.setAttribute("data-bs-theme", newTheme);
         localStorage.setItem("theme", newTheme);
 
-        $('#themes-modal').modal('hide');
+        $('#theme-modal').modal('hide');
     });
 }
 
 $(document).ready(function () {
     configureAjaxSettings();
-    themesModalFormSubmitAction();
+    themeModalFormSubmitAction();
 
-    // Configure Themes Modal RBs on Page Load
+    // Configure Theme Modal RBs on Page Load
     if (SAVED_THEME == 'light') {
-        $('#themes-modal-form-rb-light').prop('checked', true);
+        $('#theme-modal-form-rb-light').prop('checked', true);
     } else {
-        $('#themes-modal-form-rb-dark').prop('checked', true);
+        $('#theme-modal-form-rb-dark').prop('checked', true);
     }
 });

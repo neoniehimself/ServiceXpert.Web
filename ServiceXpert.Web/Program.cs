@@ -1,13 +1,14 @@
+using ServiceXpert.Application.Shared;
+using ServiceXpert.Infrastructure.Shared;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddHttpClient("Default", client =>
-{
-    var url = builder.Configuration["ApiSettings:Url"] ?? throw new KeyNotFoundException();
-    client.BaseAddress = new Uri(url);
-});
+builder.Services.AddApplicationLayerServices()
+    .AddInfrastructureLayerServices();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options => options.ReturnHttpNotAcceptable = true)
+    .AddNewtonsoftJson();
 
 var app = builder.Build();
 
@@ -27,6 +28,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Issues}/{action=Index}/{id?}");
+    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
 
 app.Run();
