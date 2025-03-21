@@ -7,6 +7,7 @@ namespace ServiceXpert.Domain.Entities
         protected readonly string dateFormat = "yy/MM/dd";
 
         public DateTime CreateDate { get; set; }
+
         public DateTime ModifyDate { get; set; }
     }
 
@@ -14,6 +15,7 @@ namespace ServiceXpert.Domain.Entities
     {
         [NotMapped]
         public string CreateDateFormatted => this.CreateDate.ToString(this.dateFormat);
+
         [NotMapped]
         public string ModifyDateFormatted => this.ModifyDate.ToString(this.dateFormat);
     }
