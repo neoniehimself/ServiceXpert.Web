@@ -30,8 +30,7 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
         {
-            IEnumerable<TEntity> entities = await this.repositoryBase.GetAllAsync(condition, includeOptions);
-            return entities;
+            return await this.repositoryBase.GetAllAsync(condition, includeOptions);
         }
 
         public async Task<TEntityId> CreateAsync<TDataObject>(TDataObject dataObject)

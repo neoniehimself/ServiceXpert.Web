@@ -3,6 +3,7 @@ using FluentBuilder.Persistence;
 using Microsoft.EntityFrameworkCore;
 using ServiceXpert.Domain.Abstractions.Repositories;
 using ServiceXpert.Domain.Entities;
+using ServiceXpert.Domain.Shared;
 using ServiceXpert.Infrastructure.Contexts;
 using System.Linq.Expressions;
 
@@ -51,6 +52,29 @@ namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
             }
 
             return await query.ToListAsync();
+        }
+
+        public async Task<(IEnumerable<TEntity>, PaginationMetadata)> GetPagedAllAsync(
+            int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
+        {
+            var dbSet = this.dbContext.Set<TEntity>();
+
+            IQueryable<TEntity> query = QueryBuilder.Build(dbSet, includeOptions);
+
+            var paginationMetadata = new PaginationMetadata(await dbSet.CountAsync(), pageSize, pageNumber);
+
+            if (condition != null)
+            {
+                query = query.Where(condition);
+            }
+
+            var entities = await query
+                .OrderBy(e => EF.Property<TEntityId>(e, this.EntityId))
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (entities, paginationMetadata);
         }
 
         public async Task CreateAsync(TEntity entity)

@@ -11,6 +11,8 @@ namespace ServiceXpert.Web.Controllers
     [Route("Issues")]
     public class IssueController : Controller
     {
+        private const int MaxTabContentPageSize = 10;
+
         private readonly IIssueService issueService;
 
         public IssueController(IIssueService issueService)
@@ -61,12 +63,16 @@ namespace ServiceXpert.Web.Controllers
 
         [AjaxOperation]
         [HttpGet(nameof(GetTabContent))]
-        public async Task<IActionResult> GetTabContent(string tab)
+        public async Task<IActionResult> GetTabContent(string tab, int pageNumber = 1, int pageSize = MaxTabContentPageSize)
         {
+            if (pageSize > MaxTabContentPageSize)
+            {
+                pageSize = MaxTabContentPageSize;
+            }
+
             try
             {
-                var issues = await this.issueService.GetAllAsync(tab);
-
+                var (issues, paginationMetaData) = await this.issueService.GetPagedAllAsync(tab, pageNumber, pageSize);
                 return PartialView("~/Views/Issue/_TabContent.cshtml", new IssueViewModel()
                 {
                     Issues = issues.ToList()

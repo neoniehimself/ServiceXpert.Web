@@ -1,5 +1,6 @@
 ﻿using FluentBuilder.Core;
 using ServiceXpert.Domain.Entities;
+using ServiceXpert.Domain.Shared;
 using System.Linq.Expressions;
 
 namespace ServiceXpert.Domain.Abstractions.Repositories
@@ -15,6 +16,9 @@ namespace ServiceXpert.Domain.Abstractions.Repositories
         Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> condition, IncludeOptions<TEntity>? includeOptions = null);
 
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null);
+
+        Task<(IEnumerable<TEntity>, PaginationMetadata)> GetPagedAllAsync(
+            int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null);
 
         Task CreateAsync(TEntity entity);
 

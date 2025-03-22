@@ -3,6 +3,7 @@ using FluentBuilder.Core;
 using ServiceXpert.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Domain.Abstractions.Repositories;
 using ServiceXpert.Domain.Entities;
+using ServiceXpert.Domain.Shared;
 using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Application.Abstractions.Concretes.Services
@@ -52,6 +53,47 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
                 {
                     issues = await this.issueRepository.GetAllAsync(
                         i => (i.IssueStatusId != (int)SxpEnums.IssueStatus.Resolved) && (i.IssueStatusId != (int)SxpEnums.IssueStatus.Closed), includeOptions);
+                }
+            }
+        Return:
+            return issues;
+        }
+
+        public async Task<(IEnumerable<Issue>, PaginationMetadata)> GetPagedAllAsync(
+            string status, int pageNumber, int pageSize, IncludeOptions<Issue>? includeOptions = null)
+        {
+            var issues = (Enumerable.Empty<Issue>(), new PaginationMetadata());
+
+            if (Enum.TryParse(status, ignoreCase: true, out SxpEnums.IssueStatus statusEnum))
+            {
+                switch (statusEnum)
+                {
+                    case SxpEnums.IssueStatus.Resolved:
+                        issues = await this.issueRepository.GetPagedAllAsync(
+                            pageNumber, pageSize, i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Resolved, includeOptions);
+                        break;
+                    case SxpEnums.IssueStatus.Closed:
+                        issues = await this.issueRepository.GetPagedAllAsync(
+                            pageNumber, pageSize, i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Closed, includeOptions);
+                        break;
+                    default:
+                        goto Return;
+                }
+            }
+            else
+            {
+                if (string.Equals(status, "All", StringComparison.OrdinalIgnoreCase))
+                {
+                    issues = await this.issueRepository.GetPagedAllAsync(
+                            pageNumber, pageSize, includeOptions: includeOptions);
+                }
+                else if (string.Equals(status, "Open", StringComparison.OrdinalIgnoreCase))
+                {
+                    issues = await this.issueRepository.GetPagedAllAsync(
+                        pageNumber,
+                        pageSize,
+                        i => (i.IssueStatusId != (int)SxpEnums.IssueStatus.Resolved) && (i.IssueStatusId != (int)SxpEnums.IssueStatus.Closed),
+                        includeOptions);
                 }
             }
         Return:
