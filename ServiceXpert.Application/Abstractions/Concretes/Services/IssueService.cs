@@ -19,13 +19,13 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
             this.mapper = mapper;
         }
 
-        public async Task<Issue?> GetByIdAsync(string issueKey, IncludeOptions<Issue>? includeOptions = null)
+        public async Task<Issue?> GetByIssueKey(string issueKey, IncludeOptions<Issue>? includeOptions = null)
         {
-            var issueId = GetIdFromKey(issueKey);
-            return await this.issueRepository.GetAsync(issueId, includeOptions);
+            var issueId = GetIdFromIssueKey(issueKey);
+            return await this.issueRepository.GetByIdAsync(issueId, includeOptions);
         }
 
-        public async Task<IEnumerable<Issue>> GetAllAsync(string status, IncludeOptions<Issue>? includeOptions = null)
+        public async Task<IEnumerable<Issue>> GetAllByStatusAsync(string status, IncludeOptions<Issue>? includeOptions = null)
         {
             var issues = Enumerable.Empty<Issue>();
 
@@ -52,14 +52,15 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
                 else if (string.Equals(status, "Open", StringComparison.OrdinalIgnoreCase))
                 {
                     issues = await this.issueRepository.GetAllAsync(
-                        i => (i.IssueStatusId != (int)SxpEnums.IssueStatus.Resolved) && (i.IssueStatusId != (int)SxpEnums.IssueStatus.Closed), includeOptions);
+                        i => (i.IssueStatusId != (int)SxpEnums.IssueStatus.Resolved) && (i.IssueStatusId != (int)SxpEnums.IssueStatus.Closed),
+                        includeOptions);
                 }
             }
         Return:
             return issues;
         }
 
-        public async Task<(IEnumerable<Issue>, PaginationMetadata)> GetPagedAllAsync(
+        public async Task<(IEnumerable<Issue>, PaginationMetadata)> GetPagedAllByStatusAsync(
             string status, int pageNumber, int pageSize, IncludeOptions<Issue>? includeOptions = null)
         {
             var issues = (Enumerable.Empty<Issue>(), new PaginationMetadata());
@@ -70,14 +71,20 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
                 {
                     case SxpEnums.IssueStatus.Resolved:
                         issues = await this.issueRepository.GetPagedAllAsync(
-                            pageNumber, pageSize, i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Resolved, includeOptions);
+                            pageNumber,
+                            pageSize,
+                            i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Resolved,
+                            includeOptions);
                         break;
                     case SxpEnums.IssueStatus.Closed:
                         issues = await this.issueRepository.GetPagedAllAsync(
-                            pageNumber, pageSize, i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Closed, includeOptions);
+                            pageNumber,
+                            pageSize,
+                            i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Closed,
+                            includeOptions);
                         break;
                     default:
-                        goto Return;
+                        return issues;
                 }
             }
             else
@@ -96,13 +103,12 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
                         includeOptions);
                 }
             }
-        Return:
             return issues;
         }
 
-        public async Task UpdateByIdAsync(string issueKey, Issue issue)
+        public async Task UpdateByIssueKeyAsync(string issueKey, Issue issue)
         {
-            var issueToUpdate = await this.issueRepository.GetAsync(GetIdFromKey(issueKey));
+            var issueToUpdate = await this.issueRepository.GetByIdAsync(GetIdFromIssueKey(issueKey));
 
             if (issueToUpdate != null)
             {
@@ -113,17 +119,17 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
             }
         }
 
-        public async Task DeleteByIdAsync(string issueKey)
+        public async Task DeleteByIssueKeyAsync(string issueKey)
         {
-            await this.issueRepository.DeleteByIdAsync(GetIdFromKey(issueKey));
+            await this.issueRepository.DeleteByIdAsync(GetIdFromIssueKey(issueKey));
         }
 
-        public async Task<bool> IsExistsByIdAsync(string issueKey)
+        public async Task<bool> IsExistsByIssueKeyAsync(string issueKey)
         {
-            return await this.issueRepository.IsExistsByIdAsync(GetIdFromKey(issueKey));
+            return await this.issueRepository.IsExistsByIdAsync(GetIdFromIssueKey(issueKey));
         }
 
-        public int GetIdFromKey(string issueKey)
+        public int GetIdFromIssueKey(string issueKey)
         {
             if (int.TryParse(issueKey.Split('-')[1], out int issueID))
             {

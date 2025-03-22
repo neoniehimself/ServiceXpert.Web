@@ -6,19 +6,19 @@ namespace ServiceXpert.Application.Abstractions.Interfaces.Services
 {
     public interface IIssueService : IServiceBase<int, Issue>
     {
-        Task<Issue?> GetByIdAsync(string issueKey, IncludeOptions<Issue>? includeOptions = null);
+        Task<Issue?> GetByIssueKey(string issueKey, IncludeOptions<Issue>? includeOptions = null);
 
-        Task<IEnumerable<Issue>> GetAllAsync(string status, IncludeOptions<Issue>? includeOptions = null);
+        Task<IEnumerable<Issue>> GetAllByStatusAsync(string status, IncludeOptions<Issue>? includeOptions = null);
 
-        Task<(IEnumerable<Issue>, PaginationMetadata)> GetPagedAllAsync(
+        Task<(IEnumerable<Issue>, PaginationMetadata)> GetPagedAllByStatusAsync(
             string status, int pageNumber, int pageSize, IncludeOptions<Issue>? includeOptions = null);
 
-        Task UpdateByIdAsync(string issueKey, Issue issue);
+        Task UpdateByIssueKeyAsync(string issueKey, Issue issue);
 
-        Task DeleteByIdAsync(string issueKey);
+        Task DeleteByIssueKeyAsync(string issueKey);
 
-        Task<bool> IsExistsByIdAsync(string issueKey);
+        Task<bool> IsExistsByIssueKeyAsync(string issueKey);
 
-        int GetIdFromKey(string issueKey);
+        int GetIdFromIssueKey(string issueKey);
     }
 }

@@ -7,6 +7,7 @@ using ServiceXpert.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Application.DataObjects;
 using ServiceXpert.Domain.Abstractions.Repositories;
 using ServiceXpert.Domain.Entities;
+using ServiceXpert.Domain.Shared;
 using System.Linq.Expressions;
 
 namespace ServiceXpert.Application.Abstractions.Concretes.Services
@@ -24,13 +25,18 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
 
         public async Task<TEntity?> GetByIdAsync(TEntityId entityId, IncludeOptions<TEntity>? includeOptions = null)
         {
-            TEntity? entity = await this.repositoryBase.GetAsync(GetLambdaForId(entityId), includeOptions);
+            TEntity? entity = await this.repositoryBase.GetByIdAsync(entityId, includeOptions);
             return entity;
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
         {
             return await this.repositoryBase.GetAllAsync(condition, includeOptions);
+        }
+
+        public async Task<(IEnumerable<TEntity>, PaginationMetadata)> GetPagedAllAsync(int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
+        {
+            return await this.repositoryBase.GetPagedAllAsync(pageNumber, pageSize, condition, includeOptions);
         }
 
         public async Task<TEntityId> CreateAsync<TDataObject>(TDataObject dataObject)
@@ -47,7 +53,7 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
             TEntityId entityId, JsonPatchDocument<TDataObject> patchDocument, ModelStateDictionary modelState)
             where TDataObject : DataObjectBase
         {
-            TEntity? entity = await this.repositoryBase.GetAsync(GetLambdaForId(entityId));
+            TEntity? entity = await this.repositoryBase.GetByIdAsync(entityId);
             TDataObject? patchObject = default;
 
             if (entity != null)
@@ -70,9 +76,9 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
             return (patchObject, modelState);
         }
 
-        public async Task UpdateByIdAsync(TEntityId entityId, TEntity entity)
+        public async Task UpdateAsync(TEntityId entityId, TEntity entity)
         {
-            TEntity? entityToUpdate = await this.repositoryBase.GetAsync(GetLambdaForId(entityId));
+            TEntity? entityToUpdate = await this.repositoryBase.GetByIdAsync(entityId);
 
             if (entityToUpdate != null)
             {
@@ -102,16 +108,6 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
             return propIdValue != null && propId.GetValue(entity) != null
                 ? (TEntityId)propId.GetValue(entity)!
                 : throw new NullReferenceException($"{typeof(TEntity).Name}Id is null.");
-        }
-
-        private Expression<Func<TEntity, bool>> GetLambdaForId(TEntityId id)
-        {
-            var parameter = Expression.Parameter(typeof(TEntity), "e");
-            var property = Expression.Property(parameter, string.Concat(typeof(TEntity).Name, "Id"));
-            var constant = Expression.Constant(id);
-            var equality = Expression.Equal(property, Expression.Convert(constant, property.Type));
-
-            return Expression.Lambda<Func<TEntity, bool>>(equality, parameter);
         }
     }
 }

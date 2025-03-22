@@ -30,16 +30,10 @@ namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
             this.dbContext.Set<TEntity>().Attach(entity);
         }
 
-        public async Task<TEntity?> GetAsync(TEntityId entityId, IncludeOptions<TEntity>? includeOptions = null)
+        public async Task<TEntity?> GetByIdAsync(TEntityId entityId, IncludeOptions<TEntity>? includeOptions = null)
         {
             IQueryable<TEntity> query = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
             return await query.SingleOrDefaultAsync(e => EF.Property<TEntityId>(e, this.EntityId)!.Equals(entityId));
-        }
-
-        public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> condition, IncludeOptions<TEntity>? includeOptions = null)
-        {
-            IQueryable<TEntity> query = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
-            return await query.SingleOrDefaultAsync(condition);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
@@ -57,11 +51,7 @@ namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
         public async Task<(IEnumerable<TEntity>, PaginationMetadata)> GetPagedAllAsync(
             int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
         {
-            var dbSet = this.dbContext.Set<TEntity>();
-
-            IQueryable<TEntity> query = QueryBuilder.Build(dbSet, includeOptions);
-
-            var paginationMetadata = new PaginationMetadata(await dbSet.CountAsync(), pageSize, pageNumber);
+            IQueryable<TEntity> query = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
 
             if (condition != null)
             {
@@ -74,7 +64,9 @@ namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
                 .Take(pageSize)
                 .ToListAsync();
 
-            return (entities, paginationMetadata);
+            var metadata = new PaginationMetadata(await this.dbContext.Set<TEntity>().CountAsync(), pageSize, pageNumber);
+
+            return (entities, metadata);
         }
 
         public async Task CreateAsync(TEntity entity)

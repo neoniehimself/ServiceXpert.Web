@@ -72,10 +72,11 @@ namespace ServiceXpert.Web.Controllers
 
             try
             {
-                var (issues, paginationMetaData) = await this.issueService.GetPagedAllAsync(tab, pageNumber, pageSize);
+                var (issues, paginationMetaData) = await this.issueService.GetPagedAllByStatusAsync(tab, pageNumber, pageSize);
                 return PartialView("~/Views/Issue/_TabContent.cshtml", new IssueViewModel()
                 {
-                    Issues = issues.ToList()
+                    Issues = issues.ToList(),
+                    Metadata = paginationMetaData
                 });
             }
             catch (Exception)
