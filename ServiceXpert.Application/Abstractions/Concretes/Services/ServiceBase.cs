@@ -82,8 +82,8 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
 
             if (entityToUpdate != null)
             {
+                this.repositoryBase.Attach(entityToUpdate);
                 this.mapper.Map(entity, entityToUpdate);
-                this.repositoryBase.Update(entityToUpdate);
                 await this.repositoryBase.SaveChangesAsync();
             }
         }

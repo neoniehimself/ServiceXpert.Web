@@ -20,8 +20,6 @@ namespace ServiceXpert.Domain.Abstractions.Repositories
 
         Task CreateAsync(TEntity entity);
 
-        void Update(TEntity entity);
-
         Task DeleteByIdAsync(TEntityId entityId);
 
         Task<bool> IsExistsByIdAsync(TEntityId entityId);

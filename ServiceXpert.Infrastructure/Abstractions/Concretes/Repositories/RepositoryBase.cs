@@ -76,11 +76,6 @@ namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
             await this.dbContext.Set<TEntity>().AddAsync(entity);
         }
 
-        public void Update(TEntity entity)
-        {
-            this.dbContext.Set<TEntity>().Update(entity);
-        }
-
         public async Task DeleteByIdAsync(TEntityId entityId)
         {
             await this.dbContext.Set<TEntity>().Where(e => EF.Property<TEntityId>(e, this.EntityId)!.Equals(entityId)).ExecuteDeleteAsync();

@@ -112,9 +112,8 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
 
             if (issueToUpdate != null)
             {
-                this.issueRepository.Attach(issueToUpdate); // Attach to track the changes
+                this.issueRepository.Attach(issueToUpdate);
                 this.mapper.Map(issue, issueToUpdate);
-                this.issueRepository.Update(issueToUpdate);
                 await this.issueRepository.SaveChangesAsync();
             }
         }
