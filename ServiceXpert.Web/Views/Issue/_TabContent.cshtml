@@ -11,7 +11,7 @@
                 <th scope="col">Summary</th>
                 <th scope="col">Assignee</th>
                 <th scope="col">Reporter</th>
-                <th scope="col">Created On</th>
+                <th scope="col">Created</th>
                 <th scope="col">Priority</th>
                 <th scope="col">Status</th>
             </tr>
@@ -49,7 +49,7 @@
 @if (Model.Metadata.TotalPageCount > 1)
 {
     <nav aria-label="Table Navigation">
-        <ul class="pagination justify-content-lg-center">
+        <ul class="pagination justify-content-center justify-content-lg-end mt-3">
             @if (Model.Metadata.CurrentPage > 1)
             {
                 <li class="page-item">

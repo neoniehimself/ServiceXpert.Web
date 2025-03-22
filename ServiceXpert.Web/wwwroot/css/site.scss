@@ -56,11 +56,8 @@ a {
 
 #issue-tabs-content {
   table {
-    thead {
-      border-bottom: 1px solid $nav-tabs-border-color;
-    }
-
     tbody {
+      border-top: 1px solid $nav-tabs-border-color;
       border-bottom: 1px solid $nav-tabs-border-color;
 
       span {
@@ -108,8 +105,6 @@ a {
 }
 
 .pagination {
-  margin-bottom: 0;
-
   .page-item {
     &.active {
       .page-link {

@@ -12010,10 +12010,8 @@ html[data-bs-theme=dark] a {
   color: #f8f9fa !important;
 }
 
-#issue-tabs-content table thead {
-  border-bottom: 1px solid var(--bs-border-color);
-}
 #issue-tabs-content table tbody {
+  border-top: 1px solid var(--bs-border-color);
   border-bottom: 1px solid var(--bs-border-color);
 }
 #issue-tabs-content table tbody span {
@@ -12047,9 +12045,6 @@ html[data-bs-theme=dark] #issue-tabs-content table tbody .issue-priority span.pr
   color: #212529;
 }
 
-.pagination {
-  margin-bottom: 0;
-}
 .pagination .page-item.active .page-link {
   background-color: #172B4D;
   border-color: #dee2e6;

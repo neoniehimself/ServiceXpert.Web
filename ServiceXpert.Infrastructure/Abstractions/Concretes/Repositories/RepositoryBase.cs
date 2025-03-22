@@ -51,20 +51,22 @@ namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
         public async Task<(IEnumerable<TEntity>, PaginationMetadata)> GetPagedAllAsync(
             int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
         {
-            IQueryable<TEntity> query = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
+            IQueryable<TEntity> selectQuery = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
+            IQueryable<TEntity> totalCountQuery = this.dbContext.Set<TEntity>();
 
             if (condition != null)
             {
-                query = query.Where(condition);
+                selectQuery = selectQuery.Where(condition);
+                totalCountQuery = totalCountQuery.Where(condition);
             }
 
-            var entities = await query
+            var entities = await selectQuery
                 .OrderBy(e => EF.Property<TEntityId>(e, this.EntityId))
                 .Skip(pageSize * (pageNumber - 1))
                 .Take(pageSize)
                 .ToListAsync();
 
-            var metadata = new PaginationMetadata(await this.dbContext.Set<TEntity>().CountAsync(), pageSize, pageNumber);
+            var metadata = new PaginationMetadata(await totalCountQuery.CountAsync(), pageSize, pageNumber);
 
             return (entities, metadata);
         }
