@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Application.DataObjects;
+using ServiceXpert.Web.Filters;
 using ServiceXpert.Web.ViewModels;
+using System.Net;
 using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Web.Controllers
 {
-    [Route("issues")]
+    [Route("Issues")]
     public class IssueController : Controller
     {
         private readonly IIssueService issueService;
@@ -16,6 +18,7 @@ namespace ServiceXpert.Web.Controllers
             this.issueService = issueService;
         }
 
+        [AjaxOperation]
         [HttpGet(nameof(InitializeCreateIssue))]
         public IActionResult InitializeCreateIssue()
         {
@@ -26,6 +29,7 @@ namespace ServiceXpert.Web.Controllers
             });
         }
 
+        [AjaxOperation]
         [HttpPost(nameof(CreateIssue))]
         public async Task<IActionResult> CreateIssue(IssueDataObjectForCreate dataObject)
         {
@@ -34,11 +38,19 @@ namespace ServiceXpert.Web.Controllers
                 return BadRequest(this.ModelState);
             }
 
-            var entityId = await this.issueService.CreateAsync(dataObject);
-            return Json(new
+            try
             {
-                issueKey = string.Concat(nameof(SxpEnums.IssuePreFix.SXP) + "-" + entityId)
-            });
+                var entityId = await this.issueService.CreateAsync(dataObject);
+
+                return Json(new
+                {
+                    issueKey = string.Concat(nameof(SxpEnums.IssuePreFix.SXP) + "-" + entityId)
+                });
+            }
+            catch (Exception)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
         }
 
         [HttpGet]
@@ -47,16 +59,23 @@ namespace ServiceXpert.Web.Controllers
             return View();
         }
 
+        [AjaxOperation]
         [HttpGet(nameof(GetTabContent))]
         public async Task<IActionResult> GetTabContent(string tab)
         {
-            var issues = await this.issueService.GetAllAsync(tab);
-            var issuesConverted = issues.ToList();
-
-            return PartialView("~/Views/Issue/_TabContent.cshtml", new IssueViewModel()
+            try
             {
-                Issues = issuesConverted
-            });
+                var issues = await this.issueService.GetAllAsync(tab);
+
+                return PartialView("~/Views/Issue/_TabContent.cshtml", new IssueViewModel()
+                {
+                    Issues = issues.ToList()
+                });
+            }
+            catch (Exception)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

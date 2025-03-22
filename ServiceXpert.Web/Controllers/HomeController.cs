@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace ServiceXpert.Web.Controllers;
 
-public class MainController : Controller
+public class HomeController : Controller
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -14,6 +14,8 @@
 $(document).on('submit', '#create-issue-modal-form', function (e) {
     e.preventDefault();
 
+    console.log("test");
+
     var formData = new FormData($(this)[0]);
 
     $.ajax({

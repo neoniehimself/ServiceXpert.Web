@@ -50,13 +50,24 @@ alertContainer.on('closed.bs.alert', '.alert', function () {
 });
 
 function configureAjaxSettings() {
-    // AJAX settings
     $(document).ajaxStart(function () {
         $('body').addClass('loading'); // Change the cursor to 'wait'
     });
 
     $(document).ajaxStop(function () {
         $('body').removeClass('loading'); // Reset the cursor back to normal
+    });
+
+    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+        var errorMessage = 'An error occurred while processing your request';
+
+        if (jqxhr.responseJSON && jqxhr.responseJSON.message) {
+            errorMessage = jqxhr.responseJSON.message;
+        } else if (jqxhr.responseText) {
+            errorMessage = jqxhr.responseText;
+        }
+
+        alert('Error: ' + errorMessage);
     });
 }
 
