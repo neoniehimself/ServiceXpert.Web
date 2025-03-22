@@ -73,6 +73,18 @@ namespace ServiceXpert.Web.Controllers
             try
             {
                 var (issues, paginationMetaData) = await this.issueService.GetPagedAllByStatusAsync(tab, pageNumber, pageSize);
+
+                int startPage = Math.Max(1, paginationMetaData.CurrentPage - 2);
+                int endPage = Math.Min(paginationMetaData.TotalPageCount, startPage + 4);
+
+                if (endPage - startPage < 4)
+                {
+                    startPage = Math.Max(1, endPage - 4);
+                }
+
+                this.ViewData["PaginationStartPage"] = startPage;
+                this.ViewData["PaginationEndPage"] = endPage;
+
                 return PartialView("~/Views/Issue/_TabContent.cshtml", new IssueViewModel()
                 {
                     Issues = issues.ToList(),

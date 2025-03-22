@@ -8,29 +8,35 @@ $info: #579DFF;
 :root {
   --bs-body-font-family: 'Roboto', sans-serif;
 }
+
 html {
   overflow-y: scroll !important;
 }
+
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   margin-right: 0 !important;
   padding-right: 0 !important;
+
   &.loading {
     cursor: wait;
   }
 }
+
 footer {
-    margin-top: auto;
-    margin-right: 0 !important;
-    padding-right: 0 !important;
+  margin-top: auto;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
 }
+
 a {
   html[data-bs-theme="dark"] & {
     color: $white;
   }
 }
+
 /* Override the default border color when the navbar-toggler is focused or clicked */
 .navbar-toggler:focus, 
 .navbar-toggler:active,
@@ -47,49 +53,63 @@ a {
     }
   }
 }
-.table-issue {
-  thead {
-    border-bottom: 1px solid $nav-tabs-border-color;
-  }
-  tbody {
-    span {
-      padding: .10rem 0 .10rem;
-      display: inline-block;
+
+#issue-tabs-content {
+  table {
+    thead {
+      border-bottom: 1px solid $nav-tabs-border-color;
     }
-    .issue-name {
-      min-width: 16rem;
-    }
-    .issue-priority {
+
+    tbody {
+      border-bottom: 1px solid $nav-tabs-border-color;
+
       span {
-        color: $white;
-        border-radius: $border-radius;
-        padding-left: .5rem;
-        padding-right: .5rem;
-        text-align: center;
-        min-width: 4.5rem;
-        &.priority-1, &.priority-2 {
-          background-color: $danger;
-        }
-        &.priority-3 {
-          background-color: $orange;
-        }
-        &.priority-4 {
-          background-color: $info;
-        }
-        &.priority-5 {
-          background-color: $gray-500;
-        }
-        html[data-bs-theme="dark"] & {
+        padding: .10rem 0 .10rem;
+        display: inline-block;
+      }
+  
+      .issue-name {
+        min-width: 16rem;
+      }
+  
+      .issue-priority {
+        span {
+          color: $white;
+          border-radius: $border-radius;
+          padding-left: .5rem;
+          padding-right: .5rem;
+          text-align: center;
+          min-width: 4.5rem;
+          &.priority-1, &.priority-2 {
+            background-color: $danger;
+          }
+  
+          &.priority-3 {
+            background-color: $orange;
+          }
+  
+          &.priority-4 {
+            background-color: $info;
+          }
+  
           &.priority-5 {
-            color: $dark
+            background-color: $gray-500;
+          }
+  
+          html[data-bs-theme="dark"] & {
+            &.priority-5 {
+              color: $dark
+            }
           }
         }
       }
     }
-    border-bottom: 1px solid $nav-tabs-border-color;
   }
 }
+
 .pagination {
+  margin-bottom: 0;
+
   .page-item {
     &.active {
       .page-link {
@@ -97,6 +117,7 @@ a {
         border-color: $border-color;        
       }
     }
+
     .page-link {
       box-shadow: none !important;
     }

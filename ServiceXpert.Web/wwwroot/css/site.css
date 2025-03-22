@@ -12010,20 +12010,20 @@ html[data-bs-theme=dark] a {
   color: #f8f9fa !important;
 }
 
-.table-issue thead {
+#issue-tabs-content table thead {
   border-bottom: 1px solid var(--bs-border-color);
 }
-.table-issue tbody {
+#issue-tabs-content table tbody {
   border-bottom: 1px solid var(--bs-border-color);
 }
-.table-issue tbody span {
+#issue-tabs-content table tbody span {
   padding: 0.1rem 0 0.1rem;
   display: inline-block;
 }
-.table-issue tbody .issue-name {
+#issue-tabs-content table tbody .issue-name {
   min-width: 16rem;
 }
-.table-issue tbody .issue-priority span {
+#issue-tabs-content table tbody .issue-priority span {
   color: #fff;
   border-radius: 0.375rem;
   padding-left: 0.5rem;
@@ -12031,22 +12031,25 @@ html[data-bs-theme=dark] a {
   text-align: center;
   min-width: 4.5rem;
 }
-.table-issue tbody .issue-priority span.priority-1, .table-issue tbody .issue-priority span.priority-2 {
+#issue-tabs-content table tbody .issue-priority span.priority-1, #issue-tabs-content table tbody .issue-priority span.priority-2 {
   background-color: #dc3545;
 }
-.table-issue tbody .issue-priority span.priority-3 {
+#issue-tabs-content table tbody .issue-priority span.priority-3 {
   background-color: #fd7e14;
 }
-.table-issue tbody .issue-priority span.priority-4 {
+#issue-tabs-content table tbody .issue-priority span.priority-4 {
   background-color: #579DFF;
 }
-.table-issue tbody .issue-priority span.priority-5 {
+#issue-tabs-content table tbody .issue-priority span.priority-5 {
   background-color: #adb5bd;
 }
-html[data-bs-theme=dark] .table-issue tbody .issue-priority span.priority-5 {
+html[data-bs-theme=dark] #issue-tabs-content table tbody .issue-priority span.priority-5 {
   color: #212529;
 }
 
+.pagination {
+  margin-bottom: 0;
+}
 .pagination .page-item.active .page-link {
   background-color: #172B4D;
   border-color: #dee2e6;

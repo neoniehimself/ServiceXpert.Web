@@ -1,6 +1,10 @@
 ﻿@model IssueViewModel
+@{
+    var startPage = (int)ViewData["PaginationStartPage"]!;
+    var endPage = (int)ViewData["PaginationEndPage"]!;
+}
 <div class="table-responsive">
-    <table class="table table-hover table-borderless table-issue">
+    <table class="table table-hover table-borderless">
         <thead>
             <tr>
                 <th scope="col">Key</th>
@@ -41,21 +45,29 @@
             }
         </tbody>
     </table>
+</div>
+@if (Model.Metadata.TotalPageCount > 1)
+{
     <nav aria-label="Table Navigation">
         <ul class="pagination justify-content-lg-center">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
+            @if (Model.Metadata.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" role="button" data-page="@(Model.Metadata.CurrentPage - 1)">&laquo;</a>
+                </li>
+            }
+            @for (int i = startPage; i <= endPage; i++)
+            {
+                <li class="page-item @(i == Model.Metadata.CurrentPage ? "active" : "")">
+                    <a class="page-link" role="button" data-page="@i">@i</a>
+                </li>
+            }
+            @if (Model.Metadata.CurrentPage < Model.Metadata.TotalPageCount)
+            {
+                <li class="page-item">
+                    <a class="page-link" role="button" data-page="@(Model.Metadata.CurrentPage + 1)">&raquo;</a>
+                </li>
+            }
         </ul>
     </nav>
-</div>
+}
