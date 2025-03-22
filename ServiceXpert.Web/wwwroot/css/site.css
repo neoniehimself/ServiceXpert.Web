@@ -12013,12 +12013,12 @@ html[data-bs-theme=dark] a {
 .table-issue thead {
   border-bottom: 1px solid var(--bs-border-color);
 }
+.table-issue tbody {
+  border-bottom: 1px solid var(--bs-border-color);
+}
 .table-issue tbody span {
   padding: 0.1rem 0 0.1rem;
   display: inline-block;
-}
-.table-issue tbody .issue-key {
-  width: 4rem;
 }
 .table-issue tbody .issue-name {
   min-width: 16rem;
@@ -12045,4 +12045,12 @@ html[data-bs-theme=dark] a {
 }
 html[data-bs-theme=dark] .table-issue tbody .issue-priority span.priority-5 {
   color: #212529;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #172B4D;
+  border-color: #dee2e6;
+}
+.pagination .page-item .page-link {
+  box-shadow: none !important;
 }/*# sourceMappingURL=site.css.map */

@@ -56,9 +56,6 @@ a {
       padding: .10rem 0 .10rem;
       display: inline-block;
     }
-    .issue-key {
-      width: 4rem;
-    }
     .issue-name {
       min-width: 16rem;
     }
@@ -88,6 +85,20 @@ a {
           }
         }
       }
+    }
+    border-bottom: 1px solid $nav-tabs-border-color;
+  }
+}
+.pagination {
+  .page-item {
+    &.active {
+      .page-link {
+        background-color: $primary;
+        border-color: $border-color;        
+      }
+    }
+    .page-link {
+      box-shadow: none !important;
     }
   }
 }
