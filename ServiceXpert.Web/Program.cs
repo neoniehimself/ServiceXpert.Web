@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Rewrite;
 using ServiceXpert.Application.Shared;
 using ServiceXpert.Infrastructure.Shared;
 using ServiceXpert.Web.Helpers;
@@ -20,8 +21,15 @@ builder.Services
 
 var app = builder.Build();
 
+/* Add rewriter to redirect to a path without a trailing slash because search engines treat these routes as different
+ * Example:
+ *      Original:  https://servicexpert.com/ 
+ *      Rewritten: https://servicexpert.com
+*/
+app.UseRewriter(new RewriteOptions().AddRedirect("(.*)/$", "$1"));
+
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();

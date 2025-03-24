@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ServiceXpert.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Application.DataObjects;
 using ServiceXpert.Domain.Entities;
 using ServiceXpert.Domain.Shared;
@@ -13,13 +12,9 @@ using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 namespace ServiceXpert.Web.Controllers
 {
     [Route("issues")]
-    public class IssueController(
-        IHttpClientFactory httpClientFactory,
-        IIssueService issueService)
-        : Controller
+    public class IssueController(IHttpClientFactory httpClientFactory) : Controller
     {
         private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
-        private readonly IIssueService issueService = issueService;
 
         [AjaxOperation]
         [HttpGet(nameof(InitializeCreateIssue))]
@@ -58,8 +53,14 @@ namespace ServiceXpert.Web.Controllers
             return View();
         }
 
+        [HttpGet("{issueKey}")]
+        public IActionResult EditView(string issueKey)
+        {
+            return View();
+        }
+
         [AjaxOperation]
-        [HttpGet(nameof(GetTabContent))]
+        [HttpGet($"{nameof(GetTabContent)}")]
         public async Task<IActionResult> GetTabContent(string tab, int pageNumber = 1, int pageSize = 10)
         {
             var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
