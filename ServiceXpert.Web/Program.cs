@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient(ApiSettings.Name, configureClient =>
 {
-    var url = builder.Configuration[ApiSettings.Url] ?? throw new NullReferenceException();
+    var url = builder.Configuration[ApiSettings.Url] ?? throw new NullReferenceException("Missing API URL");
     configureClient.BaseAddress = new Uri(url);
 });
 
