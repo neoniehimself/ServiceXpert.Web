@@ -10,7 +10,7 @@
             }
         }
 
-        public static string ClientName
+        public static string Name
         {
             get
             {

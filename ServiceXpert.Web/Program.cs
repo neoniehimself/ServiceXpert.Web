@@ -4,7 +4,7 @@ using ServiceXpert.Web.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHttpClient(ApiSettings.ClientName, configureClient =>
+builder.Services.AddHttpClient(ApiSettings.Name, configureClient =>
 {
     var url = builder.Configuration[ApiSettings.Url] ?? throw new NullReferenceException();
     configureClient.BaseAddress = new Uri(url);

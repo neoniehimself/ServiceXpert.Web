@@ -2,6 +2,7 @@
 using ServiceXpert.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Application.DataObjects;
 using ServiceXpert.Domain.Entities;
+using ServiceXpert.Domain.Shared;
 using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Web.Controllers.Api
@@ -26,16 +27,14 @@ namespace ServiceXpert.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Issue>>> GetAllAsync(string status, int pageNumber = 1, int pageSize = MaxTabContentPageSize)
+        public async Task<ActionResult<(IEnumerable<Issue>, PaginationMetadata)>> GetAllAsync(string status, int pageNumber = 1, int pageSize = MaxTabContentPageSize)
         {
             if (pageSize > MaxTabContentPageSize)
             {
                 pageSize = MaxTabContentPageSize;
             }
 
-            var (issues, paginationMetaData) = await this.issueService.GetPagedAllByStatusAsync(status, pageNumber, pageSize);
-
-            throw new NotImplementedException();
+            return await this.issueService.GetPagedAllByStatusAsync(status, pageNumber, pageSize);
         }
     }
 }

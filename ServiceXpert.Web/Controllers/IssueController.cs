@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Application.DataObjects;
+using ServiceXpert.Domain.Entities;
+using ServiceXpert.Domain.Shared;
+using ServiceXpert.Web.Factories;
 using ServiceXpert.Web.Filters;
 using ServiceXpert.Web.Helpers;
 using ServiceXpert.Web.ViewModels;
-using System.Net;
-using System.Text;
 using NewtonsoftJson = Newtonsoft.Json;
 using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 
@@ -17,7 +18,6 @@ namespace ServiceXpert.Web.Controllers
         IIssueService issueService)
         : Controller
     {
-        private const int MaxTabContentPageSize = 10;
         private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
         private readonly IIssueService issueService = issueService;
 
@@ -34,30 +34,22 @@ namespace ServiceXpert.Web.Controllers
 
         [AjaxOperation]
         [HttpPost(nameof(CreateIssue))]
-        public async Task<IActionResult> CreateIssue(IssueDataObjectForCreate dataObject)
+        public async Task<IActionResult> CreateIssue(IssueDataObjectForCreate issue)
         {
             if (!this.ModelState.IsValid)
             {
                 return BadRequest(this.ModelState);
             }
 
-            var httpClient = this.httpClientFactory.CreateClient(ApiSettings.ClientName);
-            var serializedObject = NewtonsoftJson.JsonConvert.SerializeObject(dataObject);
-
-            var requestContent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", requestContent);
+            var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
+            var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentFactory.SerializeContent(issue));
 
             if (!response.IsSuccessStatusCode)
             {
                 return StatusCode((int)response.StatusCode);
             }
 
-            var issueKey = response.Content.ReadAsStringAsync().Result;
-
-            return Json(new
-            {
-                issueKey
-            });
+            return Json(new { issueKey = response.Content.ReadAsStringAsync().Result });
         }
 
         [HttpGet]
@@ -68,38 +60,35 @@ namespace ServiceXpert.Web.Controllers
 
         [AjaxOperation]
         [HttpGet(nameof(GetTabContent))]
-        public async Task<IActionResult> GetTabContent(string tab, int pageNumber = 1, int pageSize = MaxTabContentPageSize)
+        public async Task<IActionResult> GetTabContent(string tab, int pageNumber = 1, int pageSize = 10)
         {
-            if (pageSize > MaxTabContentPageSize)
+            var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
+            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues?Status={tab}&PageNumber={pageNumber}&PageSize={pageSize}");
+
+            if (!response.IsSuccessStatusCode)
             {
-                pageSize = MaxTabContentPageSize;
+                return StatusCode((int)response.StatusCode);
             }
 
-            try
+            var result = response.Content.ReadAsStringAsync().Result;
+            var (issues, paginationMetaData) = NewtonsoftJson.JsonConvert.DeserializeObject<(List<Issue>, PaginationMetadata)>(result);
+
+            int startPage = Math.Max(1, paginationMetaData.CurrentPage - 2);
+            int endPage = Math.Min(paginationMetaData.TotalPageCount, startPage + 4);
+
+            if (endPage - startPage < 4)
             {
-                var (issues, paginationMetaData) = await this.issueService.GetPagedAllByStatusAsync(tab, pageNumber, pageSize);
-
-                int startPage = Math.Max(1, paginationMetaData.CurrentPage - 2);
-                int endPage = Math.Min(paginationMetaData.TotalPageCount, startPage + 4);
-
-                if (endPage - startPage < 4)
-                {
-                    startPage = Math.Max(1, endPage - 4);
-                }
-
-                this.ViewData["PaginationStartPage"] = startPage;
-                this.ViewData["PaginationEndPage"] = endPage;
-
-                return PartialView("~/Views/Issue/_TabContent.cshtml", new IssueViewModel()
-                {
-                    Issues = issues.ToList(),
-                    Metadata = paginationMetaData
-                });
+                startPage = Math.Max(1, endPage - 4);
             }
-            catch (Exception)
+
+            this.ViewData["PaginationStartPage"] = startPage;
+            this.ViewData["PaginationEndPage"] = endPage;
+
+            return PartialView("~/Views/Issue/_TabContent.cshtml", new IssueViewModel()
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
+                Issues = issues.ToList(),
+                Metadata = paginationMetaData
+            });
         }
     }
 }
