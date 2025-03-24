@@ -12,16 +12,13 @@ using System.Linq.Expressions;
 
 namespace ServiceXpert.Application.Abstractions.Concretes.Services
 {
-    public abstract class ServiceBase<TEntityId, TEntity> : IServiceBase<TEntityId, TEntity> where TEntity : EntityBase
+    public abstract class ServiceBase<TEntityId, TEntity>(
+        IRepositoryBase<TEntityId, TEntity> repositoryBase,
+        IMapper mapper)
+        : IServiceBase<TEntityId, TEntity> where TEntity : EntityBase
     {
-        private readonly IRepositoryBase<TEntityId, TEntity> repositoryBase;
-        private readonly IMapper mapper;
-
-        protected ServiceBase(IRepositoryBase<TEntityId, TEntity> repositoryBase, IMapper mapper)
-        {
-            this.repositoryBase = repositoryBase;
-            this.mapper = mapper;
-        }
+        private readonly IRepositoryBase<TEntityId, TEntity> repositoryBase = repositoryBase;
+        private readonly IMapper mapper = mapper;
 
         public async Task<TEntity?> GetByIdAsync(TEntityId entityId, IncludeOptions<TEntity>? includeOptions = null)
         {

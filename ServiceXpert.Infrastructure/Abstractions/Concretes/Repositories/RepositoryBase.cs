@@ -9,14 +9,10 @@ using System.Linq.Expressions;
 
 namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
 {
-    public abstract class RepositoryBase<TEntityId, TEntity> : IRepositoryBase<TEntityId, TEntity> where TEntity : EntityBase
+    public abstract class RepositoryBase<TEntityId, TEntity>(SxpDbContext dbContext)
+        : IRepositoryBase<TEntityId, TEntity> where TEntity : EntityBase
     {
-        private SxpDbContext dbContext;
-
-        protected RepositoryBase(SxpDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
+        private SxpDbContext dbContext = dbContext;
 
         protected string EntityId { get => string.Concat(typeof(TEntity).Name, "Id"); }
 

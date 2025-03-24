@@ -8,16 +8,13 @@ using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Application.Abstractions.Concretes.Services
 {
-    public class IssueService : ServiceBase<int, Issue>, IIssueService
+    public class IssueService(
+        IIssueRepository issueRepository,
+        IMapper mapper)
+        : ServiceBase<int, Issue>(issueRepository, mapper), IIssueService
     {
-        private readonly IIssueRepository issueRepository;
-        private readonly IMapper mapper;
-
-        public IssueService(IIssueRepository issueRepository, IMapper mapper) : base(issueRepository, mapper)
-        {
-            this.issueRepository = issueRepository;
-            this.mapper = mapper;
-        }
+        private readonly IIssueRepository issueRepository = issueRepository;
+        private readonly IMapper mapper = mapper;
 
         public async Task<Issue?> GetByIssueKey(string issueKey, IncludeOptions<Issue>? includeOptions = null)
         {
