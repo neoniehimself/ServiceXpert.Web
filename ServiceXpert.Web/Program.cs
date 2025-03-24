@@ -1,13 +1,21 @@
 using ServiceXpert.Application.Shared;
 using ServiceXpert.Infrastructure.Shared;
+using ServiceXpert.Web.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddApplicationLayerServices()
+builder.Services.AddHttpClient(ApiSettings.ClientName, configureClient =>
+{
+    var url = builder.Configuration[ApiSettings.Url] ?? throw new NullReferenceException();
+    configureClient.BaseAddress = new Uri(url);
+});
+
+builder.Services
+    .AddApplicationLayerServices()
     .AddInfrastructureLayerServices();
 
-builder.Services.AddControllersWithViews(options => options.ReturnHttpNotAcceptable = true)
+builder.Services
+    .AddControllersWithViews(options => options.ReturnHttpNotAcceptable = true)
     .AddNewtonsoftJson();
 
 var app = builder.Build();

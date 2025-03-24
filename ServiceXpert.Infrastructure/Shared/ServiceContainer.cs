@@ -11,7 +11,6 @@ namespace ServiceXpert.Infrastructure.Shared
         public static IServiceCollection AddInfrastructureLayerServices(this IServiceCollection services)
         {
             services.AddDbContext<SxpDbContext>();
-
             services.TryAddScoped<IIssueRepository, IssueRepository>();
 
             return services;

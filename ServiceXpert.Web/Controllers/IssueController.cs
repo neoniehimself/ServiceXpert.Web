@@ -2,23 +2,24 @@
 using ServiceXpert.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Application.DataObjects;
 using ServiceXpert.Web.Filters;
+using ServiceXpert.Web.Helpers;
 using ServiceXpert.Web.ViewModels;
 using System.Net;
+using System.Text;
+using NewtonsoftJson = Newtonsoft.Json;
 using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Web.Controllers
 {
-    [Route("Issues")]
-    public class IssueController : Controller
+    [Route("issues")]
+    public class IssueController(
+        IHttpClientFactory httpClientFactory,
+        IIssueService issueService)
+        : Controller
     {
         private const int MaxTabContentPageSize = 10;
-
-        private readonly IIssueService issueService;
-
-        public IssueController(IIssueService issueService)
-        {
-            this.issueService = issueService;
-        }
+        private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
+        private readonly IIssueService issueService = issueService;
 
         [AjaxOperation]
         [HttpGet(nameof(InitializeCreateIssue))]
@@ -40,19 +41,23 @@ namespace ServiceXpert.Web.Controllers
                 return BadRequest(this.ModelState);
             }
 
-            try
-            {
-                var entityId = await this.issueService.CreateAsync(dataObject);
+            var httpClient = this.httpClientFactory.CreateClient(ApiSettings.ClientName);
+            var serializedObject = NewtonsoftJson.JsonConvert.SerializeObject(dataObject);
 
-                return Json(new
-                {
-                    issueKey = string.Concat(nameof(SxpEnums.IssuePreFix.SXP) + "-" + entityId)
-                });
-            }
-            catch (Exception)
+            var requestContent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", requestContent);
+
+            if (!response.IsSuccessStatusCode)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError);
+                return StatusCode((int)response.StatusCode);
             }
+
+            var issueKey = response.Content.ReadAsStringAsync().Result;
+
+            return Json(new
+            {
+                issueKey
+            });
         }
 
         [HttpGet]
