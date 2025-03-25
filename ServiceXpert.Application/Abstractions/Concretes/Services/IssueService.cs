@@ -127,12 +127,19 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
 
         public int GetIdFromIssueKey(string issueKey)
         {
-            if (int.TryParse(issueKey.Split('-')[1], out int issueID))
+            try
             {
-                return issueID;
+                if (int.TryParse(issueKey.Split('-')[1], out int issueID))
+                {
+                    return issueID;
+                }
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                throw new IndexOutOfRangeException("Failed to extract Id from Key", e);
             }
 
-            throw new InvalidOperationException();
+            return 0;
         }
     }
 }

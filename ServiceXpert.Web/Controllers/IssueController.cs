@@ -6,7 +6,6 @@ using ServiceXpert.Web.Factories;
 using ServiceXpert.Web.Filters;
 using ServiceXpert.Web.Helpers;
 using ServiceXpert.Web.ViewModels;
-using NewtonsoftJson = Newtonsoft.Json;
 using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Web.Controllers
@@ -48,26 +47,10 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        [ActionName("Index")]
+        public IActionResult IssueListPage()
         {
-            return View();
-        }
-
-        [HttpGet("{issueKey}")]
-        public async Task<IActionResult> EditView(string issueKey)
-        {
-            var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return StatusCode((int)response.StatusCode);
-            }
-
-            var result = response.Content.ReadAsStringAsync().Result;
-            var issue = NewtonsoftJson.JsonConvert.DeserializeObject<Issue>(result);
-
-            return View();
+            return View(nameof(IssueListPage));
         }
 
         [AjaxOperation]
@@ -82,8 +65,7 @@ namespace ServiceXpert.Web.Controllers
                 return StatusCode((int)response.StatusCode);
             }
 
-            var result = response.Content.ReadAsStringAsync().Result;
-            var (issues, paginationMetaData) = NewtonsoftJson.JsonConvert.DeserializeObject<(List<Issue>, PaginationMetadata)>(result);
+            var (issues, paginationMetaData) = HttpContentFactory.DeserializeContent<(IEnumerable<Issue>, PaginationMetadata)>(response);
 
             int startPage = Math.Max(1, paginationMetaData.CurrentPage - 2);
             int endPage = Math.Min(paginationMetaData.TotalPageCount, startPage + 4);
@@ -102,6 +84,31 @@ namespace ServiceXpert.Web.Controllers
                 Issues = issues.ToList(),
                 Metadata = paginationMetaData
             });
+        }
+
+        [HttpGet("{issueKey}")]
+        public async Task<IActionResult> IssuePage(string issueKey)
+        {
+            try
+            {
+                _ = int.TryParse(issueKey.Split('-')[1], out _);
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return NotFound();
+            }
+
+            var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
+            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int)response.StatusCode);
+            }
+
+            var issue = HttpContentFactory.DeserializeContent<Issue>(response);
+
+            return View(nameof(IssuePage));
         }
     }
 }

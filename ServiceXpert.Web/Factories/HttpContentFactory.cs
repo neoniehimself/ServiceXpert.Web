@@ -8,8 +8,12 @@ namespace ServiceXpert.Web.Factories
     {
         public static StringContent SerializeContent(object value)
         {
-            var serializedObject = NewtonsoftJson.JsonConvert.SerializeObject(value);
-            return new StringContent(serializedObject, Encoding.UTF8, HttpMediaType.ApplicationJson);
+            return new StringContent(NewtonsoftJson.JsonConvert.SerializeObject(value), Encoding.UTF8, HttpMediaType.ApplicationJson);
+        }
+
+        public static T? DeserializeContent<T>(HttpResponseMessage response)
+        {
+            return NewtonsoftJson.JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
         }
     }
 }
