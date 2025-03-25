@@ -16,7 +16,7 @@ namespace ServiceXpert.Web.Controllers
         private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
 
         [AjaxOperation]
-        [HttpGet(nameof(InitializeCreateIssue))]
+        [HttpGet("InitializeCreateIssue")]
         public IActionResult InitializeCreateIssue()
         {
             return PartialView("_CreateIssueModal", new CreateIssueViewModel()
@@ -27,7 +27,7 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [AjaxOperation]
-        [HttpPost(nameof(CreateIssue))]
+        [HttpPost("CreateIssue")]
         public async Task<IActionResult> CreateIssue(IssueDataObjectForCreate issue)
         {
             if (!this.ModelState.IsValid)
@@ -47,14 +47,13 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [HttpGet]
-        [ActionName("Index")]
-        public IActionResult IssueListPage()
+        public IActionResult Index()
         {
-            return View(nameof(IssueListPage));
+            return View();
         }
 
         [AjaxOperation]
-        [HttpGet($"{nameof(GetTabContent)}")]
+        [HttpGet("GetTabContent")]
         public async Task<IActionResult> GetTabContent(string tab, int pageNumber = 1, int pageSize = 10)
         {
             var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
@@ -86,8 +85,8 @@ namespace ServiceXpert.Web.Controllers
             });
         }
 
-        [HttpGet("{issueKey}")]
-        public async Task<IActionResult> IssuePage(string issueKey)
+        [HttpGet("{issueKey}", Name = "IssueDetails")]
+        public async Task<IActionResult> Details(string issueKey)
         {
             try
             {
@@ -108,7 +107,7 @@ namespace ServiceXpert.Web.Controllers
 
             var issue = HttpContentFactory.DeserializeContent<Issue>(response);
 
-            return View(nameof(IssuePage), new IssuePageViewModel(issue!));
+            return View(new IssuePageViewModel(issue!));
         }
     }
 }

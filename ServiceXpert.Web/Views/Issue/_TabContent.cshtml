@@ -21,26 +21,22 @@
             {
                 <tr>
                     <th scope="row">
-                        <span><a href="#">@issue.IssueKey</a></span>
+                        <span>
+                            <a asp-route="IssueDetails" asp-route-issueKey="@issue.IssueKey">@issue.IssueKey</a>
+                        </span>
                     </th>
                     <td>
-                        <span class="issue-name"><a href="#">@issue.Name</a></span>
+                        <span class="issue-name">
+                            <a asp-route="IssueDetails" asp-route-issueKey="@issue.IssueKey">@issue.Name</a>
+                        </span>
                     </td>
-                    <td>
-                        <span>Lorem Ipsum</span>
-                    </td>
-                    <td>
-                        <span>Lorem Ipsum</span>
-                    </td>
-                    <td>
-                        <span>@issue.CreateDateFormatted</span>
-                    </td>
+                    <td><span>Lorem Ipsum</span></td>
+                    <td><span>Lorem Ipsum</span></td>
+                    <td><span>@issue.CreateDateFormatted</span></td>
                     <td class="issue-priority">
                         <span class="priority-@issue.IssuePriorityId">@issue.IssuePriority!.Name</span>
                     </td>
-                    <td class="issue-status">
-                        <span>@issue.IssueStatus!.Name</span>
-                    </td>
+                    <td class="issue-status"><span>@issue.IssueStatus!.Name</span></td>
                 </tr>
             }
         </tbody>
