@@ -10,7 +10,7 @@ using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Web.Controllers
 {
-    [Route("issues")]
+    [Route("Issues")]
     public class IssueController(IHttpClientFactory httpClientFactory) : Controller
     {
         private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
@@ -108,7 +108,7 @@ namespace ServiceXpert.Web.Controllers
 
             var issue = HttpContentFactory.DeserializeContent<Issue>(response);
 
-            return View(nameof(IssuePage));
+            return View(nameof(IssuePage), new IssuePageViewModel(issue!));
         }
     }
 }

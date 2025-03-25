@@ -1,9 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Issue";
+﻿@model IssuePageViewModel
+@{
+    ViewData["Title"] = Model.Issue.IssueKey;
 }
 
 <div class="row">
     <div class="col-12">
-        <h1>IssuePage</h1>
+        <h1>@Model.Issue.IssueKey</h1>
     </div>
 </div>
