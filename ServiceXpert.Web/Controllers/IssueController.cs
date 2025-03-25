@@ -54,8 +54,19 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [HttpGet("{issueKey}")]
-        public IActionResult EditView(string issueKey)
+        public async Task<IActionResult> EditView(string issueKey)
         {
+            var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
+            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int)response.StatusCode);
+            }
+
+            var result = response.Content.ReadAsStringAsync().Result;
+            var issue = NewtonsoftJson.JsonConvert.DeserializeObject<Issue>(result);
+
             return View();
         }
 

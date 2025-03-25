@@ -36,5 +36,12 @@ namespace ServiceXpert.Web.Controllers.Api
 
             return await this.issueService.GetPagedAllByStatusAsync(status, pageNumber, pageSize);
         }
+
+        [HttpGet("{issueKey}")]
+        public async Task<ActionResult<Issue>> GetByIssueKeyAsync(string issueKey)
+        {
+            var issue = await this.issueService.GetByIssueKey(issueKey);
+            return issue != null ? issue : NotFound();
+        }
     }
 }
