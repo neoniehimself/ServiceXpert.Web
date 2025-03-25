@@ -1,4 +1,4 @@
-﻿@model IssueViewModel
+﻿@model IssueListPageViewModel
 @{
     var startPage = (int)ViewData["PaginationStartPage"]!;
     var endPage = (int)ViewData["PaginationEndPage"]!;
@@ -57,12 +57,6 @@
                 </li>
             }
             @for (int i = startPage; i <= endPage; i++)
-            {
-                <li class="page-item @(i == Model.Metadata.CurrentPage ? "active" : "")">
-                    <a class="page-link" role="button" data-page="@i">@i</a>
-                </li>
-            }
-            @if (Model.Metadata.CurrentPage < Model.Metadata.TotalPageCount)
             {
                 <li class="page-item">
                     <a class="page-link" role="button" data-page="@(Model.Metadata.CurrentPage + 1)">&raquo;</a>

@@ -79,7 +79,7 @@ namespace ServiceXpert.Web.Controllers
             this.ViewData["PaginationEndPage"] = endPage;
 
             this.Response.Headers.Append("SXP-Issues-Tab-Pagination", System.Text.Json.JsonSerializer.Serialize(paginationMetaData));
-            return PartialView("~/Views/Issue/_TabContent.cshtml", new IssueViewModel()
+            return PartialView("~/Views/Issue/_TabContent.cshtml", new IssueListPageViewModel()
             {
                 Issues = issues.ToList(),
                 Metadata = paginationMetaData

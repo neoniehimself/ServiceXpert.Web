@@ -3,13 +3,13 @@ using ServiceXpert.Domain.Shared;
 
 namespace ServiceXpert.Web.ViewModels
 {
-    public class IssueViewModel
+    public class IssueListPageViewModel
     {
         public List<Issue> Issues { get; set; }
 
         public PaginationMetadata Metadata { get; set; }
 
-        public IssueViewModel()
+        public IssueListPageViewModel()
         {
             this.Issues = [];
             this.Metadata = new();
