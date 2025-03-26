@@ -9,7 +9,7 @@ namespace ServiceXpert.Web.Filters
         {
             if (!context.HttpContext.Request.Headers["X-Requested-With"].Equals("XMLHttpRequest"))
             {
-                context.Result = new BadRequestObjectResult(new { message = "Bad Request: Ajax operation only!" });
+                context.Result = new UnauthorizedObjectResult(new { message = "Unauthorized Request: Direct URL access not allowed." });
             }
             base.OnActionExecuting(context);
         }

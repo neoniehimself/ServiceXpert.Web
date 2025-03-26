@@ -27,7 +27,7 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [AjaxOperation]
-        [HttpPost("CreateIssue")]
+        [HttpPost]
         public async Task<IActionResult> CreateIssue(IssueDataObjectForCreate issue)
         {
             if (!this.ModelState.IsValid)
@@ -85,7 +85,7 @@ namespace ServiceXpert.Web.Controllers
             });
         }
 
-        [HttpGet("{issueKey}", Name = "Issue_Details")]
+        [HttpGet("{issueKey}", Name = "Issues_Details", Order = 1)]
         public async Task<IActionResult> Details(string issueKey)
         {
             try
