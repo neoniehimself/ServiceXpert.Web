@@ -85,7 +85,7 @@ namespace ServiceXpert.Web.Controllers
             });
         }
 
-        [HttpGet("{issueKey}", Name = "Issues_Details", Order = 1)]
+        [HttpGet("{issueKey}", Name = "Issues_Details")]
         public async Task<IActionResult> Details(string issueKey)
         {
             try
