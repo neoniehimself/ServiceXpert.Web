@@ -32,6 +32,12 @@ footer {
 }
 
 a {
+  color: $primary;
+
+  &:hover {
+    color: $primary;
+  }
+
   html[data-bs-theme="dark"] & {
     color: $white;
   }

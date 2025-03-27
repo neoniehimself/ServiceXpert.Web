@@ -17,17 +17,17 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (var issue in Model.Issues)
-        {
+            @foreach (var issue in Model.Issues)
+            {
             <tr>
                 <th scope="row">
                     <span>
-                        <a asp-route="Issues_Details" asp-route-issueKey="@issue.IssueKey">@issue.IssueKey</a>
+                        @await Html.PartialAsync(nameof(_IssueKeyAnchorTag), new _IssueKeyAnchorTag(issue.IssueKey, issue.Name))
                     </span>
                 </th>
                 <td>
                     <span class="issue-name">
-                        <a asp-route="Issues_Details" asp-route-issueKey="@issue.IssueKey">@issue.Name</a>
+                        @await Html.PartialAsync(nameof(_IssueKeyAnchorTag), new _IssueKeyAnchorTag(issue.IssueKey, issue.Name, false))
                     </span>
                 </td>
                 <td>
@@ -46,7 +46,7 @@
                     <span>@issue.IssueStatus!.Name</span>
                 </td>
             </tr>
-        }
+            }
         </tbody>
     </table>
 </div>
@@ -61,6 +61,12 @@
                 </li>
             }
             @for (int i = startPage; i <= endPage; i++)
+            {
+                <li class="page-item @(i == Model.Metadata.CurrentPage ? "active" : "")">
+                    <a class="page-link" role="button" data-page="@i">@i</a>
+                </li>
+            }
+            @if (Model.Metadata.CurrentPage < Model.Metadata.TotalPageCount)
             {
                 <li class="page-item">
                     <a class="page-link" role="button" data-page="@(Model.Metadata.CurrentPage + 1)">&raquo;</a>
