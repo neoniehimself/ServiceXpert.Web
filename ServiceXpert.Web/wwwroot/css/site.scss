@@ -19,40 +19,35 @@ body {
   flex-direction: column;
   margin-right: 0 !important;
   padding-right: 0 !important;
-
   &.loading {
     cursor: wait;
   }
 }
 
 .navbar {
+  .nav-item {
+    .nav-link {
+      opacity: .75;
+      &:hover  {
+        opacity: 1;
+      }
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
   .navbar-toggler {
-    border: none; // Removes default border
-  
+    border: none;
+    opacity: .75;
+    &:hover {
+      opacity: 1;
+    }
     &:focus, &:active {
       box-shadow: none;
     }
-
-    .navbar-toggler-icon {
-      filter: invert(1); // Makes the toggler lines white
-      opacity: 1;
-    }
   }
-
   .btn-close {
-    filter: invert(1); // Converts the default black icon to white
-    opacity: 1; // Ensures full visibility
-  }
-}
-
-.navbar-nav {  
-  .dropdown-item {
-    color: $gray-400;
-    position: relative;
-
-    &:active {
-      color: $light !important;
-    }
+    filter: invert(1);
   }
 }
 
@@ -64,11 +59,9 @@ footer {
 
 a {
   color: $primary;
-
   &:hover {
     color: $primary;
   }
-
   html[data-bs-theme="dark"] & {
     color: $white;
   }
@@ -83,16 +76,13 @@ a {
     tbody {
       border-top: 1px solid $nav-tabs-border-color;
       border-bottom: 1px solid $nav-tabs-border-color;
-
       span {
         padding: .10rem 0 .10rem;
         display: inline-block;
       }
-  
       .issue-name {
         min-width: 16rem;
       }
-  
       .issue-priority {
         span {
           color: $white;
@@ -104,19 +94,15 @@ a {
           &.priority-1, &.priority-2 {
             background-color: $danger;
           }
-  
           &.priority-3 {
             background-color: $orange;
           }
-  
           &.priority-4 {
             background-color: $info;
           }
-  
           &.priority-5 {
             background-color: $gray-500;
           }
-  
           html[data-bs-theme="dark"] & {
             &.priority-5 {
               color: $dark
@@ -136,7 +122,6 @@ a {
         border-color: $border-color;        
       }
     }
-
     .page-link {
       box-shadow: none !important;
     }

@@ -21,19 +21,22 @@
             <div class="container">
                 <div class="d-flex align-items-center">
                     <button class="navbar-toggler d-lg-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-navbar">
-                        <span class="navbar-toggler-icon"></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#fff" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                        </svg>
                     </button>
-                    <a asp-controller="Home" asp-action="Index" class="navbar-brand d-none d-lg-block fw-semibold text-light">@navbarBrand</a>
+                    <a asp-controller="Home" asp-action="Index" class="navbar-brand d-none d-lg-block fw-medium text-light">@navbarBrand</a>
                 </div>
                 <div class="offcanvas offcanvas-start bg-primary" tabindex="-1" id="offcanvas-navbar">
                     <div class="offcanvas-header">
-                        <h5 class="offcanvas-title d-lg-none fw-semibold text-light" id="offcanvas-navbar-label">@navbarBrand</h5>
+                        <h5 class="offcanvas-title d-lg-none fw-medium text-light" id="offcanvas-navbar-label">@navbarBrand</h5>
                         <button type="button" class="btn btn-close" data-bs-dismiss="offcanvas"></button>
                     </div>
                     <div class="offcanvas-body">
                         <ul class="navbar-nav">
-                            <li class="nav-item"><a asp-controller="Home" asp-action="Index" class="nav-link text-light">Dashboard</a></li>
-                            <li class="nav-item"><a asp-controller="Issues" asp-action="Index" class="nav-link text-light">Issues</a></li>
+                            <li class="nav-item mx-lg-1"><a asp-controller="Home" asp-action="Index" class="nav-link @Html.IsActive("Home", "Index") text-light">Dashboard</a></li>
+                            <li class="nav-item mx-lg-1"><a asp-controller="Issues" asp-action="Index" class="nav-link @Html.IsActive("Issues", "Index") text-light">Issues</a></li>
+                            <li class="nav-item ms-lg-2 me-lg-1 mt-2 mt-lg-0"><button class="btn btn-success" type="button" id="btn-create-issue">Create</button></li>
                         </ul>
                     </div>
                 </div>

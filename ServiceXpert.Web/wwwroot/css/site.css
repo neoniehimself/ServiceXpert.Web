@@ -11985,27 +11985,27 @@ body.loading {
   cursor: wait;
 }
 
+.navbar .nav-item .nav-link {
+  opacity: 0.75;
+}
+.navbar .nav-item .nav-link:hover {
+  opacity: 1;
+}
+.navbar .nav-item .nav-link.active {
+  opacity: 1;
+}
 .navbar .navbar-toggler {
   border: none;
+  opacity: 0.75;
+}
+.navbar .navbar-toggler:hover {
+  opacity: 1;
 }
 .navbar .navbar-toggler:focus, .navbar .navbar-toggler:active {
   box-shadow: none;
 }
-.navbar .navbar-toggler .navbar-toggler-icon {
-  filter: invert(1);
-  opacity: 1;
-}
 .navbar .btn-close {
   filter: invert(1);
-  opacity: 1;
-}
-
-.navbar-nav .dropdown-item {
-  color: #ced4da;
-  position: relative;
-}
-.navbar-nav .dropdown-item:active {
-  color: #f8f9fa !important;
 }
 
 footer {
