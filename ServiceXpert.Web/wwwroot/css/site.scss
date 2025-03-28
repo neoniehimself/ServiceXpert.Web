@@ -25,6 +25,37 @@ body {
   }
 }
 
+.navbar {
+  .navbar-toggler {
+    border: none; // Removes default border
+  
+    &:focus, &:active {
+      box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+      filter: invert(1); // Makes the toggler lines white
+      opacity: 1;
+    }
+  }
+
+  .btn-close {
+    filter: invert(1); // Converts the default black icon to white
+    opacity: 1; // Ensures full visibility
+  }
+}
+
+.navbar-nav {  
+  .dropdown-item {
+    color: $gray-400;
+    position: relative;
+
+    &:active {
+      color: $light !important;
+    }
+  }
+}
+
 footer {
   margin-top: auto;
   margin-right: 0 !important;
@@ -43,21 +74,8 @@ a {
   }
 }
 
-/* Override the default border color when the navbar-toggler is focused or clicked */
-.navbar-toggler:focus, 
-.navbar-toggler:active,
 .btn {
   box-shadow: none !important;
-}
-.navbar-nav {  
-  .dropdown-item {
-    color: $gray-400;
-    position: relative;
-
-    &:active {
-      color: $light !important;
-    }
-  }
 }
 
 #issue-tabs-content {

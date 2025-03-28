@@ -11985,6 +11985,29 @@ body.loading {
   cursor: wait;
 }
 
+.navbar .navbar-toggler {
+  border: none;
+}
+.navbar .navbar-toggler:focus, .navbar .navbar-toggler:active {
+  box-shadow: none;
+}
+.navbar .navbar-toggler .navbar-toggler-icon {
+  filter: invert(1);
+  opacity: 1;
+}
+.navbar .btn-close {
+  filter: invert(1);
+  opacity: 1;
+}
+
+.navbar-nav .dropdown-item {
+  color: #ced4da;
+  position: relative;
+}
+.navbar-nav .dropdown-item:active {
+  color: #f8f9fa !important;
+}
+
 footer {
   margin-top: auto;
   margin-right: 0 !important;
@@ -12001,19 +12024,8 @@ html[data-bs-theme=dark] a {
   color: #fff;
 }
 
-/* Override the default border color when the navbar-toggler is focused or clicked */
-.navbar-toggler:focus,
-.navbar-toggler:active,
 .btn {
   box-shadow: none !important;
-}
-
-.navbar-nav .dropdown-item {
-  color: #ced4da;
-  position: relative;
-}
-.navbar-nav .dropdown-item:active {
-  color: #f8f9fa !important;
 }
 
 #issue-tabs-content table tbody {

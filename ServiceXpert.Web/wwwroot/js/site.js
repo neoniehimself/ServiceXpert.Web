@@ -90,38 +90,6 @@ function showSpinner(show, spinner) {
     }
 }
 
-function themeModalFormSubmitAction() {
-    $('#theme-modal-form').submit(function (e) {
-        e.preventDefault();
-
-        const html = document.documentElement;
-        var newTheme = '';
-
-        var rbSelectedThemeID = $('input[name="theme-modal-rb"]:checked').attr('id');
-
-        if (rbSelectedThemeID == 'theme-modal-form-rb-light') {
-            $(rbSelectedThemeID).prop('checked', true);
-            newTheme = 'light';
-        } else {
-            $(rbSelectedThemeID).removeProp('checked');
-            newTheme = 'dark';
-        }
-
-        html.setAttribute("data-bs-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-
-        $('#theme-modal').modal('hide');
-    });
-}
-
 $(document).ready(function () {
     configureAjaxSettings();
-    themeModalFormSubmitAction();
-
-    // Configure Theme Modal RBs on Page Load
-    if (SAVED_THEME == 'light') {
-        $('#theme-modal-form-rb-light').prop('checked', true);
-    } else {
-        $('#theme-modal-form-rb-dark').prop('checked', true);
-    }
 });
