@@ -12028,6 +12028,20 @@ html[data-bs-theme=dark] a {
   box-shadow: none !important;
 }
 
+#issue-tabs .nav-link {
+  transition: none;
+}
+#issue-tabs .nav-link.active {
+  color: #172B4D !important;
+  border-bottom: 3px solid #172B4D !important;
+}
+#issue-tabs .nav-link:hover {
+  border-bottom: 3px solid #172B4D;
+}
+
+#issue-tabs-content table thead th {
+  background-color: #2C3E5D !important;
+}
 #issue-tabs-content table tbody {
   border-top: 1px solid var(--bs-border-color);
   border-bottom: 1px solid var(--bs-border-color);

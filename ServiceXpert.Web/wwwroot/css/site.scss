@@ -71,8 +71,26 @@ a {
   box-shadow: none !important;
 }
 
+#issue-tabs {
+  .nav-link {
+    transition: none;
+    &.active {
+      color: $primary !important;
+      border-bottom: 3px solid $primary !important;
+    }
+    &:hover {
+      border-bottom: 3px solid $primary;
+    }
+  }
+}
+
 #issue-tabs-content {
   table {
+    thead {
+      th {
+        background-color: #2C3E5D !important;
+      }
+    }
     tbody {
       border-top: 1px solid $nav-tabs-border-color;
       border-bottom: 1px solid $nav-tabs-border-color;
