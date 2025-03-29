@@ -40,8 +40,7 @@
             </div>
         </div>
         <div class="tab-content" id="issue-tabs-content">
-            @{ ViewData["SpinnerId"] = "issue-tabs-content-spinner"; }
-            <partial name="_Spinner" />
+            @await Html.PartialAsync("_Spinner", "issue-tabs-content-spinner")
             <div class="tab-pane fade" id="all-issues-tab-content" role="tabpanel"></div>
             <div class="tab-pane fade" id="open-issues-tab-content" role="tabpanel"></div>
             <div class="tab-pane fade" id="resolved-issues-tab-content" role="tabpanel"></div>
