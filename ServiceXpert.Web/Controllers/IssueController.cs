@@ -130,6 +130,8 @@ namespace ServiceXpert.Web.Controllers
             return new ViewDataDictionary(new EmptyModelMetadataProvider(), modelState)
             {
                 Model = pagination,
+                ["PaginationStartIndex"] = ((pagination.CurrentPage - 1) * pagination.PageSize) + 1,
+                ["PaginationEndIndex"] = Math.Min(pagination.CurrentPage * pagination.PageSize, pagination.TotalCount),
                 ["PaginationStartPage"] = startPage,
                 ["PaginationEndPage"] = endPage
             };
