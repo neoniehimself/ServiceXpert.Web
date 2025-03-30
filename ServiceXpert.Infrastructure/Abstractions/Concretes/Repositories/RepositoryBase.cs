@@ -44,7 +44,7 @@ namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<(IEnumerable<TEntity>, PaginationMetadata)> GetPagedAllAsync(
+        public async Task<(IEnumerable<TEntity>, Pagination)> GetPagedAllAsync(
             int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
         {
             IQueryable<TEntity> selectQuery = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
@@ -62,7 +62,7 @@ namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
                 .Take(pageSize)
                 .ToListAsync();
 
-            var metadata = new PaginationMetadata(await totalCountQuery.CountAsync(), pageSize, pageNumber);
+            var metadata = new Pagination(await totalCountQuery.CountAsync(), pageSize, pageNumber);
 
             return (entities, metadata);
         }

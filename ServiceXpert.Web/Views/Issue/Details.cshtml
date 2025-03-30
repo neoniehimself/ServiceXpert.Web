@@ -1,11 +1,10 @@
-﻿@model IssuePageViewModel
+﻿@model IssueDetailsViewModel
 @{
     ViewData["Title"] = Model.Issue.IssueKey;
 }
 
 <div class="row">
     <div class="col-12">
-        @await Html.PartialAsync(nameof(_IssueKeyAnchorTag), new _IssueKeyAnchorTag(Model.Issue.IssueKey, Model.Issue.Name))
         <h4 class="mt-1">@Model.Issue.Name</h4>
     </div>
 </div>

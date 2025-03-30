@@ -12039,21 +12039,14 @@ html[data-bs-theme=dark] a {
   border-bottom: 3px solid #172B4D;
 }
 
-#issue-tabs-content table thead th {
-  background-color: #2C3E5D !important;
-}
-#issue-tabs-content table tbody {
-  border-top: 1px solid var(--bs-border-color);
-  border-bottom: 1px solid var(--bs-border-color);
-}
-#issue-tabs-content table tbody span {
+#table-issue tbody span {
   padding: 0.1rem 0 0.1rem;
   display: inline-block;
 }
-#issue-tabs-content table tbody .issue-name {
-  min-width: 16rem;
+#table-issue tbody .issue-name {
+  width: 24rem;
 }
-#issue-tabs-content table tbody .issue-priority span {
+#table-issue tbody .issue-priority span {
   color: #fff;
   border-radius: 0.375rem;
   padding-left: 0.5rem;
@@ -12061,22 +12054,27 @@ html[data-bs-theme=dark] a {
   text-align: center;
   min-width: 4.5rem;
 }
-#issue-tabs-content table tbody .issue-priority span.priority-1, #issue-tabs-content table tbody .issue-priority span.priority-2 {
+#table-issue tbody .issue-priority span.priority-1, #table-issue tbody .issue-priority span.priority-2 {
   background-color: #dc3545;
 }
-#issue-tabs-content table tbody .issue-priority span.priority-3 {
+#table-issue tbody .issue-priority span.priority-3 {
   background-color: #fd7e14;
 }
-#issue-tabs-content table tbody .issue-priority span.priority-4 {
+#table-issue tbody .issue-priority span.priority-4 {
   background-color: #579DFF;
 }
-#issue-tabs-content table tbody .issue-priority span.priority-5 {
+#table-issue tbody .issue-priority span.priority-5 {
   background-color: #adb5bd;
 }
-html[data-bs-theme=dark] #issue-tabs-content table tbody .issue-priority span.priority-5 {
+html[data-bs-theme=dark] #table-issue tbody .issue-priority span.priority-5 {
   color: #212529;
 }
 
+.pagination {
+  flex-wrap: wrap;
+  width: -moz-max-content;
+  width: max-content;
+}
 .pagination .page-item.active .page-link {
   background-color: #172B4D;
   border-color: #dee2e6;

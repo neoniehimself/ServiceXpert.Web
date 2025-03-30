@@ -31,7 +31,7 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
             return await this.repositoryBase.GetAllAsync(condition, includeOptions);
         }
 
-        public async Task<(IEnumerable<TEntity>, PaginationMetadata)> GetPagedAllAsync(int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
+        public async Task<(IEnumerable<TEntity>, Pagination)> GetPagedAllAsync(int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
         {
             return await this.repositoryBase.GetPagedAllAsync(pageNumber, pageSize, condition, includeOptions);
         }

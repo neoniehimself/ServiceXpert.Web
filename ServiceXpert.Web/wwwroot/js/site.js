@@ -71,25 +71,6 @@ function configureAjaxSettings() {
     });
 }
 
-function showSpinner(show, spinner) {
-    if (spinner == null) {
-        console.error('Cannot identify spinner');
-    }
-
-    if (!(spinner instanceof jQuery)) {
-        console.error(spinner + ' is not a jQuery object');
-    } 
-
-    if (show) {
-        if (!spinner.hasClass('d-flex')) {
-            $(spinner).addClass('d-flex');
-        }
-    } else {
-        $(spinner).removeClass('d-flex');
-        $(spinner).addClass('d-none');
-    }
-}
-
 $(document).ready(function () {
     configureAjaxSettings();
 });

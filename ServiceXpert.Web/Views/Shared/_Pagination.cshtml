@@ -1,0 +1,30 @@
+﻿@using ServiceXpert.Domain.Shared
+@model Pagination
+@{
+    var startPage = (int)ViewData["PaginationStartPage"]!;
+    var endPage = (int)ViewData["PaginationEndPage"]!;
+}
+
+@if (Model.TotalPageCount > 1)
+{
+<ul class="pagination">
+@if (Model.CurrentPage > 1)
+{
+    <li class="page-item">
+        <a class="page-link" role="button" data-page="@(Model.CurrentPage - 1)">&laquo;</a>
+    </li>
+}
+@for (int i = startPage; i <= endPage; i++)
+{
+    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+        <a class="page-link" role="button" data-page="@i">@i</a>
+    </li>
+}
+@if (Model.CurrentPage < Model.TotalPageCount)
+{
+    <li class="page-item">
+        <a class="page-link" role="button" data-page="@(Model.CurrentPage + 1)">&raquo;</a>
+    </li>
+}
+</ul>
+}
