@@ -3,9 +3,9 @@
 {
 <tr>
     @* Issue Key *@
-    <th><span>@await Html.PartialAsync(nameof(_IssueKeyAnchorTag), new _IssueKeyAnchorTag(issue.IssueKey, issue.Name))</span></th>
+    <th class="view-issue" scope="row" data-key="@issue.IssueKey"><span>@issue.IssueKey</span></th>
     @* Summary *@
-    <td><span class="issue-name">@await Html.PartialAsync(nameof(_IssueKeyAnchorTag), new _IssueKeyAnchorTag(issue.IssueKey, issue.Name, false))</span></td>
+    <td class="view-issue" data-key="@issue.IssueKey"><span>@issue.Name</span></td>
     @* Assignee *@
     <td><span>Lorem Ipsum</span></td>
     @* Reporter *@

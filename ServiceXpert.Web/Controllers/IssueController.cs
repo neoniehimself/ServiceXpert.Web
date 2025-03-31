@@ -7,8 +7,10 @@ using ServiceXpert.Application.DataObjects;
 using ServiceXpert.Domain.Entities;
 using ServiceXpert.Domain.Shared;
 using ServiceXpert.Web.Factories;
+using ServiceXpert.Web.Filters;
 using ServiceXpert.Web.Helpers;
 using ServiceXpert.Web.ViewModels;
+using System.Net;
 using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Web.Controllers
@@ -25,6 +27,7 @@ namespace ServiceXpert.Web.Controllers
         private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
         private readonly ICompositeViewEngine compositeViewEngine = compositeViewEngine;
 
+        [AjaxOperation]
         [HttpGet("InitializeCreateIssue")]
         public IActionResult InitializeCreateIssue()
         {
@@ -35,6 +38,7 @@ namespace ServiceXpert.Web.Controllers
             });
         }
 
+        [AjaxOperation]
         [HttpPost]
         public async Task<IActionResult> CreateIssue(IssueDataObjectForCreate issue)
         {
@@ -64,6 +68,7 @@ namespace ServiceXpert.Web.Controllers
             });
         }
 
+        [AjaxOperation]
         [HttpGet("GetTabContent")]
         public async Task<IActionResult> GetTabContent(string tab, int pageNumber = 1, int pageSize = 10)
         {
@@ -137,8 +142,9 @@ namespace ServiceXpert.Web.Controllers
             };
         }
 
-        [HttpGet("{issueKey}", Name = "Issues_Details")]
-        public async Task<IActionResult> Details(string issueKey)
+        [AjaxOperation]
+        [HttpGet("ViewDetails")]
+        public async Task<IActionResult> ViewDetails(string issueKey)
         {
             try
             {
@@ -146,7 +152,7 @@ namespace ServiceXpert.Web.Controllers
             }
             catch (IndexOutOfRangeException)
             {
-                return NotFound();
+                return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue Key: {issueKey}");
             }
 
             using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
@@ -159,7 +165,7 @@ namespace ServiceXpert.Web.Controllers
 
             var issue = HttpContentFactory.DeserializeContent<Issue>(response);
 
-            return View(new IssueDetailsViewModel(issue!));
+            return PartialView("~/Views/Issue/_ViewDetails.cshtml", issue);
         }
     }
 }

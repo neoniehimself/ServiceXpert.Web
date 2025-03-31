@@ -12043,6 +12043,14 @@ html[data-bs-theme=dark] a {
   padding: 0.1rem 0 0.1rem;
   display: inline-block;
 }
+#table-issue tbody .view-issue {
+  color: #172B4D;
+}
+#table-issue tbody .view-issue span:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.375em;
+  cursor: pointer;
+}
 #table-issue tbody .issue-name {
   width: 24rem;
 }
