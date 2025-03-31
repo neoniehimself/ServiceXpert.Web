@@ -28,7 +28,7 @@ namespace ServiceXpert.Web.Controllers
         private readonly ICompositeViewEngine compositeViewEngine = compositeViewEngine;
 
         [AjaxOperation]
-        [HttpGet("InitializeCreateIssue")]
+        [HttpGet(nameof(InitializeCreateIssue))]
         public IActionResult InitializeCreateIssue()
         {
             return PartialView("_CreateIssueModal", new CreateIssueViewModel()
@@ -69,7 +69,7 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [AjaxOperation]
-        [HttpGet("GetTabContent")]
+        [HttpGet(nameof(GetTabContent))]
         public async Task<IActionResult> GetTabContent(string tab, int pageNumber = 1, int pageSize = 10)
         {
             using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
@@ -143,7 +143,7 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [AjaxOperation]
-        [HttpGet("ViewDetails")]
+        [HttpGet(nameof(ViewDetails))]
         public async Task<IActionResult> ViewDetails(string issueKey)
         {
             try

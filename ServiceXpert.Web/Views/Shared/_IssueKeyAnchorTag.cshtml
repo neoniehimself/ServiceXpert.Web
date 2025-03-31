@@ -1,9 +1,0 @@
-﻿@using ServiceXpert.Web.ViewModels.Components
-@model _IssueKeyAnchorTag
-@{
-    var link = Model.IsKeyAsLinkName ? Model.IssueKey : Model.Name;
-}
-<a asp-route="Issues_Details" asp-route-issueKey="@Model.IssueKey"
-   class="link-underline link-offset-3 link-underline-info link-underline-opacity-0 link-underline-opacity-100-hover">
-    @link
-</a>
