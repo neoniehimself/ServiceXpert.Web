@@ -57,16 +57,6 @@ footer {
   padding-right: 0 !important;
 }
 
-a {
-  color: $primary;
-  &:hover {
-    color: $primary;
-  }
-  html[data-bs-theme="dark"] & {
-    color: $white;
-  }
-}
-
 .btn {
   box-shadow: none !important;
 }
@@ -101,16 +91,16 @@ a {
       }
     }
     .issue-name {
-      width: 24rem;
+      width: 32rem;
     }
     .issue-priority {
       span {
         color: $white;
-        border-radius: $border-radius;
-        padding-left: .5rem;
-        padding-right: .5rem;
+        border-radius: $border-radius-xl;
+        padding-left: .6rem;
+        padding-right: .6rem;
         text-align: center;
-        min-width: 4.5rem;
+        min-width: 5rem;
         &.priority-1, &.priority-2 {
           background-color: $danger;
         }
@@ -122,11 +112,6 @@ a {
         }
         &.priority-5 {
           background-color: $gray-500;
-        }
-        html[data-bs-theme="dark"] & {
-          &.priority-5 {
-            color: $dark
-          }
         }
       }
     }

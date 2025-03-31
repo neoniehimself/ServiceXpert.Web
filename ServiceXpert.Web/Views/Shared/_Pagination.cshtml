@@ -8,8 +8,8 @@
 @if (Model.TotalPageCount > 1)
 {
 <div class="d-flex align-items-center">
-    <p class="me-3">Showing @ViewData["PaginationStartIndex"] to @ViewData["PaginationEndIndex"] of @Model.TotalCount issues</p>
-    <ul class="pagination">
+    <p class="me-3 mb-0">Showing @ViewData["PaginationStartIndex"] to @ViewData["PaginationEndIndex"] of @Model.TotalCount issues</p>
+    <ul class="pagination mb-0">
     @if (Model.CurrentPage > 1)
     {
         <li class="page-item">

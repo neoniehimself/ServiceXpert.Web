@@ -12014,16 +12014,6 @@ footer {
   padding-right: 0 !important;
 }
 
-a {
-  color: #172B4D;
-}
-a:hover {
-  color: #172B4D;
-}
-html[data-bs-theme=dark] a {
-  color: #fff;
-}
-
 .btn {
   box-shadow: none !important;
 }
@@ -12052,15 +12042,15 @@ html[data-bs-theme=dark] a {
   cursor: pointer;
 }
 #table-issue tbody .issue-name {
-  width: 24rem;
+  width: 32rem;
 }
 #table-issue tbody .issue-priority span {
   color: #fff;
-  border-radius: 0.375rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  border-radius: 1rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
   text-align: center;
-  min-width: 4.5rem;
+  min-width: 5rem;
 }
 #table-issue tbody .issue-priority span.priority-1, #table-issue tbody .issue-priority span.priority-2 {
   background-color: #dc3545;
@@ -12073,9 +12063,6 @@ html[data-bs-theme=dark] a {
 }
 #table-issue tbody .issue-priority span.priority-5 {
   background-color: #adb5bd;
-}
-html[data-bs-theme=dark] #table-issue tbody .issue-priority span.priority-5 {
-  color: #212529;
 }
 
 .pagination {
