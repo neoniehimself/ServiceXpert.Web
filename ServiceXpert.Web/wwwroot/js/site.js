@@ -1,7 +1,31 @@
 ﻿var alertContainer = $('#alert-container');
 var alertTimeInMilliseconds = 4000;
 
-// Displays the Bootstrap's alert on screen
+$(document).ready(function () {
+    configureAjaxSettings();
+});
+
+function configureAjaxSettings() {
+    $(document).ajaxStart(function () {
+        $('body').addClass('loading'); // Change the cursor to 'wait'
+    });
+
+    $(document).ajaxStop(function () {
+        $('body').removeClass('loading'); // Reset the cursor back to normal
+    });
+
+    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+        var errorMessage = 'An error occurred while processing your request';
+
+        if (jqxhr.responseJSON && jqxhr.responseJSON.message) {
+            errorMessage = jqxhr.responseJSON.message;
+        } else if (jqxhr.responseText) {
+            errorMessage = jqxhr.responseText;
+        }
+
+        alert('Error: ' + errorMessage);
+    });
+}
 function initializeAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false, isAutoClose = false, isReloadPage = false) {
     var alert = $('<div class="alert alert-' + alertClass + ' alert-dismissible fade show d-flex align-items-center" role="alert">');
     var svg = $();
@@ -47,30 +71,4 @@ function initializeAlert(alertClass = 'warning', alertMessage = 'No alert messag
 
 alertContainer.on('closed.bs.alert', '.alert', function () {
     $(this).remove();
-});
-
-function configureAjaxSettings() {
-    $(document).ajaxStart(function () {
-        $('body').addClass('loading'); // Change the cursor to 'wait'
-    });
-
-    $(document).ajaxStop(function () {
-        $('body').removeClass('loading'); // Reset the cursor back to normal
-    });
-
-    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-        var errorMessage = 'An error occurred while processing your request';
-
-        if (jqxhr.responseJSON && jqxhr.responseJSON.message) {
-            errorMessage = jqxhr.responseJSON.message;
-        } else if (jqxhr.responseText) {
-            errorMessage = jqxhr.responseText;
-        }
-
-        alert('Error: ' + errorMessage);
-    });
-}
-
-$(document).ready(function () {
-    configureAjaxSettings();
 });
