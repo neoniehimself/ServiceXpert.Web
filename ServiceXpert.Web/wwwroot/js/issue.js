@@ -11,6 +11,10 @@
             $('#table-issue-body').html(response.tabContentView);
             $('#table-issue-body').append(spinner);
             $('#table-issue-pagination').html(response.paginationView);
+
+            $('#table-issue-body a').click(function (e) {
+                e.preventDefault();
+            })
         },
         error: function (xhr, status, error) {
             console.error('AJAX Error:', status, error);
