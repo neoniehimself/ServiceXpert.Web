@@ -40,6 +40,10 @@ $(document).on('click', '#table-issue-body .view-issue', function () {
     });
 });
 
+$(document).on('hidden.bs.modal', '#view-issue-modal', function () {
+    $('.modal-container').html('');
+});
+
 $(document).on('click', '.pagination .page-link', function (e) {
     e.preventDefault();
 

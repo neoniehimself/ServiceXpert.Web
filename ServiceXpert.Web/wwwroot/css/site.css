@@ -12017,6 +12017,10 @@ footer {
 .btn {
   box-shadow: none !important;
 }
+.btn.btn-primary:focus {
+  background-color: #172B4D;
+  border-color: #172B4D;
+}
 
 #issue-tabs .nav-link {
   transition: none;
@@ -12033,10 +12037,10 @@ footer {
   padding: 0.1rem 0 0.1rem;
   display: inline-block;
 }
-#table-issue tbody .view-issue {
+#table-issue tbody span.view-issue {
   color: #172B4D;
 }
-#table-issue tbody .view-issue span:hover {
+#table-issue tbody span.view-issue:hover {
   text-decoration: underline;
   text-underline-offset: 0.375em;
   cursor: pointer;

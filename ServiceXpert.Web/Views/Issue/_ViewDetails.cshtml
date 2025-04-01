@@ -1,15 +1,56 @@
 ﻿@model Issue
-<div class="modal modal-dialog-scrollable fade" id="view-issue-modal" tabindex="-1">
-    <div class="modal-dialog">
+<div class="modal fade" id="view-issue-modal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="view-issue-modal-label">@Model.IssueKey</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div>
+                    <small class="text-muted mb-1">Created: @Model.CreateDateFormatted</small>
+                    <h1 class="modal-title fs-5 fw-bold" id="view-issue-modal-label">@Model.IssueKey</h1>
+                </div>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <form>
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Summary</label>
+                        <input asp-for="Name" class="form-control" disabled />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="3" disabled>@Model.Description</textarea>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div>
+                                <label class="form-label">Assignee</label>
+                                <input type="text" value="Lorem Ipsum" class="form-control" disabled />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <label class="form-label">Reporter</label>
+                                <input type="text" value="Lorem Ipsum" class="form-control" disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div>
+                                <label asp-for="IssuePriority" class="form-label">Priority</label>
+                                <input asp-for="IssuePriority.Name" class="form-control" disabled />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <label asp-for="IssueStatus" class="form-label">Status</label>
+                                <input asp-for="IssueStatus.Name" class="form-control" disabled />
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Edit</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

@@ -59,6 +59,13 @@ footer {
 
 .btn {
   box-shadow: none !important;
+  &.btn-primary {
+    // Focus state (when clicked or focused via keyboard)
+    &:focus {
+      background-color: $primary;
+      border-color: $primary;
+    }
+  }
 }
 
 #issue-tabs {
@@ -79,10 +86,8 @@ footer {
     span {
       padding: .10rem 0 .10rem;
       display: inline-block;
-    }
-    .view-issue {
-      color: $primary;
-      span {
+      &.view-issue {
+        color: $primary;
         &:hover {
           text-decoration: underline;
           text-underline-offset: .375em;
