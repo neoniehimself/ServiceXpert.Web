@@ -10,7 +10,7 @@ namespace ServiceXpert.Application.Abstractions.Interfaces.Services
 
         Task<IEnumerable<Issue>> GetAllByStatusAsync(string status, IncludeOptions<Issue>? includeOptions = null);
 
-        Task<(IEnumerable<Issue>, PaginationMetadata)> GetPagedAllByStatusAsync(
+        Task<(IEnumerable<Issue>, Pagination)> GetPagedAllByStatusAsync(
             string status, int pageNumber, int pageSize, IncludeOptions<Issue>? includeOptions = null);
 
         Task UpdateByIssueKeyAsync(string issueKey, Issue issue);

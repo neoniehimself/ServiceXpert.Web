@@ -1,15 +1,14 @@
 ﻿@using SxpEnums = ServiceXpert.Domain.Shared.Enums;
 @model CreateIssueViewModel
 
-<div class="modal modal-dialog-scrollable fade" id="create-issue-modal" tabindex="-1" aria-labelledby="create-issue-modal-label"
-    aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="create-issue-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="create-issue-modal-label">
                     Create Issue
                 </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form method="post" id="create-issue-modal-form" role="form">
@@ -18,26 +17,22 @@
                             <label for="create-issue-modal-name-field" class="form-label">
                                 Title <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control" id="create-issue-modal-name-field"
-                                name="@nameof(IssueDataObjectForCreate.Name)" required />
+                            <input type="text" class="form-control" id="create-issue-modal-name-field" name="@nameof(IssueDataObjectForCreate.Name)" required />
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-12">
                             <label for="create-issue-modal-description-field" class="form-label">Description</label>
-                            <textarea class="form-control" id="create-issue-modal-description-field" rows="3"
-                                      name="@nameof(IssueDataObjectForCreate.Description)"></textarea>
+                            <textarea class="form-control" id="create-issue-modal-description-field" rows="3" name="@nameof(IssueDataObjectForCreate.Description)"></textarea>
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-12">
                             <label for="create-issue-modal-priority-field" class="form-label">Priority</label>
-                            <select class="form-select" id="create-issue-modal-priority-field" aria-label="Issue Priority"
-                                    name="@nameof(IssueDataObjectForCreate.IssuePriorityId)">
+                            <select class="form-select" id="create-issue-modal-priority-field" name="@nameof(IssueDataObjectForCreate.IssuePriorityId)">
                                 @foreach (var priority in Model.IssuePriorities)
                                 {
-                                    <option value="@priority.Key" 
-                                        selected="@(priority.Key == (int)SxpEnums.IssuePriority.Low)">
+                                    <option value="@priority.Key" selected="@(priority.Key == (int)SxpEnums.IssuePriority.Low)">
                                             @priority.Value
                                     </option>
                                 }

@@ -1,77 +1,20 @@
-﻿@model IssueListPageViewModel
-@{
-    var startPage = (int)ViewData["PaginationStartPage"]!;
-    var endPage = (int)ViewData["PaginationEndPage"]!;
-}
-<div class="table-responsive">
-    <table class="table table-hover table-borderless">
-        <thead>
-            <tr>
-                <th scope="col">Key</th>
-                <th scope="col">Summary</th>
-                <th scope="col">Assignee</th>
-                <th scope="col">Reporter</th>
-                <th scope="col">Created</th>
-                <th scope="col">Priority</th>
-                <th scope="col">Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var issue in Model.Issues)
-            {
-            <tr>
-                <th scope="row">
-                    <span>
-                        @await Html.PartialAsync(nameof(_IssueKeyAnchorTag), new _IssueKeyAnchorTag(issue.IssueKey, issue.Name))
-                    </span>
-                </th>
-                <td>
-                    <span class="issue-name">
-                        @await Html.PartialAsync(nameof(_IssueKeyAnchorTag), new _IssueKeyAnchorTag(issue.IssueKey, issue.Name, false))
-                    </span>
-                </td>
-                <td>
-                    <span>Lorem Ipsum</span>
-                </td>
-                <td>
-                    <span>Lorem Ipsum</span>
-                </td>
-                <td>
-                    <span>@issue.CreateDateFormatted</span>
-                </td>
-                <td class="issue-priority">
-                    <span class="priority-@issue.IssuePriorityId">@issue.IssuePriority!.Name</span>
-                </td>
-                <td class="issue-status">
-                    <span>@issue.IssueStatus!.Name</span>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-</div>
-@if (Model.Metadata.TotalPageCount > 1)
+﻿@model List<Issue>
+@foreach (var issue in Model)
 {
-    <nav aria-label="Table Navigation">
-        <ul class="pagination justify-content-center justify-content-lg-end mt-3">
-            @if (Model.Metadata.CurrentPage > 1)
-            {
-                <li class="page-item">
-                    <a class="page-link" role="button" data-page="@(Model.Metadata.CurrentPage - 1)">&laquo;</a>
-                </li>
-            }
-            @for (int i = startPage; i <= endPage; i++)
-            {
-                <li class="page-item @(i == Model.Metadata.CurrentPage ? "active" : "")">
-                    <a class="page-link" role="button" data-page="@i">@i</a>
-                </li>
-            }
-            @if (Model.Metadata.CurrentPage < Model.Metadata.TotalPageCount)
-            {
-                <li class="page-item">
-                    <a class="page-link" role="button" data-page="@(Model.Metadata.CurrentPage + 1)">&raquo;</a>
-                </li>
-            }
-        </ul>
-    </nav>
+<tr>
+    @* Issue Key *@
+    <th scope="row"><span class="view-issue" data-key="@issue.IssueKey">@issue.IssueKey</span></th>
+    @* Summary *@
+    <td class="issue-name"><span class="view-issue" data-key="@issue.IssueKey">@issue.Name</span></td>
+    @* Assignee *@
+    <td><span>Lorem Ipsum</span></td>
+    @* Reporter *@
+    <td><span>Lorem Ipsum</span></td>
+    @* Created *@
+    <td><span>@issue.CreateDateFormatted</span></td>
+    @* Issue Priority *@
+    <td class="issue-priority"><span class="priority-@issue.IssuePriorityId">@issue.IssuePriority!.Name</span></td>
+    @* Issue Status *@
+    <td class="issue-status"><span>@issue.IssueStatus!.Name</span></td>
+</tr>
 }

@@ -1,7 +1,31 @@
 ﻿var alertContainer = $('#alert-container');
 var alertTimeInMilliseconds = 4000;
 
-// Displays the Bootstrap's alert on screen
+$(document).ready(function () {
+    configureAjaxSettings();
+});
+
+function configureAjaxSettings() {
+    $(document).ajaxStart(function () {
+        $('body').addClass('loading'); // Change the cursor to 'wait'
+    });
+
+    $(document).ajaxStop(function () {
+        $('body').removeClass('loading'); // Reset the cursor back to normal
+    });
+
+    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+        var errorMessage = 'An error occurred while processing your request';
+
+        if (jqxhr.responseJSON && jqxhr.responseJSON.message) {
+            errorMessage = jqxhr.responseJSON.message;
+        } else if (jqxhr.responseText) {
+            errorMessage = jqxhr.responseText;
+        }
+
+        alert('Error: ' + errorMessage);
+    });
+}
 function initializeAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false, isAutoClose = false, isReloadPage = false) {
     var alert = $('<div class="alert alert-' + alertClass + ' alert-dismissible fade show d-flex align-items-center" role="alert">');
     var svg = $();
@@ -47,81 +71,4 @@ function initializeAlert(alertClass = 'warning', alertMessage = 'No alert messag
 
 alertContainer.on('closed.bs.alert', '.alert', function () {
     $(this).remove();
-});
-
-function configureAjaxSettings() {
-    $(document).ajaxStart(function () {
-        $('body').addClass('loading'); // Change the cursor to 'wait'
-    });
-
-    $(document).ajaxStop(function () {
-        $('body').removeClass('loading'); // Reset the cursor back to normal
-    });
-
-    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-        var errorMessage = 'An error occurred while processing your request';
-
-        if (jqxhr.responseJSON && jqxhr.responseJSON.message) {
-            errorMessage = jqxhr.responseJSON.message;
-        } else if (jqxhr.responseText) {
-            errorMessage = jqxhr.responseText;
-        }
-
-        alert('Error: ' + errorMessage);
-    });
-}
-
-function showSpinner(show, spinner) {
-    if (spinner == null) {
-        console.error('Cannot identify spinner');
-    }
-
-    if (!(spinner instanceof jQuery)) {
-        console.error(spinner + ' is not a jQuery object');
-    } 
-
-    if (show) {
-        if (!spinner.hasClass('d-flex')) {
-            $(spinner).addClass('d-flex');
-        }
-    } else {
-        $(spinner).removeClass('d-flex');
-        $(spinner).addClass('d-none');
-    }
-}
-
-function themeModalFormSubmitAction() {
-    $('#theme-modal-form').submit(function (e) {
-        e.preventDefault();
-
-        const html = document.documentElement;
-        var newTheme = '';
-
-        var rbSelectedThemeID = $('input[name="theme-modal-rb"]:checked').attr('id');
-
-        if (rbSelectedThemeID == 'theme-modal-form-rb-light') {
-            $(rbSelectedThemeID).prop('checked', true);
-            newTheme = 'light';
-        } else {
-            $(rbSelectedThemeID).removeProp('checked');
-            newTheme = 'dark';
-        }
-
-        html.setAttribute("data-bs-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-
-        $('#theme-modal').modal('hide');
-    });
-}
-
-$(document).ready(function () {
-    configureAjaxSettings();
-    themeModalFormSubmitAction();
-
-    // Configure Theme Modal RBs on Page Load
-    if (SAVED_THEME == 'light') {
-        $('#theme-modal-form-rb-light').prop('checked', true);
-    } else {
-        $('#theme-modal-form-rb-dark').prop('checked', true);
-    }
 });

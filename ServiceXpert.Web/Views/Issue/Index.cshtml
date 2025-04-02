@@ -1,50 +1,48 @@
-﻿@{
+﻿@model IssueViewModel
+@{
     ViewData["Title"] = "Issues";
 }
 
 <div class="row">
     <div class="col-12">
-        <h1>@ViewData["Title"]</h1>
+        <h1 class="m-0">@ViewData["Title"]</h1>
     </div>
 </div>
-<div class="row mt-3">
+<div class="row">
     <div class="col-12">
-        <ul class="nav nav-tabs" id="issue-tabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="all-issues-tab" data-bs-toggle="tab" data-tab="All" role="tab"
-                aria-controls="All">
-                    All
+        <ul class="nav nav-underline nav-fill border-1" id="issue-tabs" role="tablist">
+            @foreach (var tab in Model.NavigationTabs)
+            {
+            <li class="nav-item " role="presentation">
+                <button class="nav-link @(tab == Model.NavigationTabs.First() ? "active" : "")" data-bs-toggle="tab" data-tab="@tab" role="tab">
+                    @tab
                 </button>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="open-issues-tab" data-bs-toggle="tab" data-tab="Open" role="tab"
-                aria-controls="Open">
-                    Open
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="resolved-issues-tab" data-bs-toggle="tab" data-tab="Resolved" role="tab"
-                aria-controls="Resolved">
-                    Resolved
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="closed-issues-tab" data-bs-toggle="tab" data-tab="Closed" role="tab"
-                        aria-controls="Closed">
-                    Closed
-                </button>
-            </li>
+            }
         </ul>
-        <div class="tab-content" id="issue-tabs-content">
-            @{ ViewData["SpinnerId"] = "issue-tabs-content-spinner"; }
-            <partial name="_Spinner" />
-            <div class="tab-pane fade" id="all-issues-tab-content" role="tabpanel"></div>
-            <div class="tab-pane fade" id="open-issues-tab-content" role="tabpanel"></div>
-            <div class="tab-pane fade" id="resolved-issues-tab-content" role="tabpanel"></div>
-            <div class="tab-pane fade" id="closed-issues-tab-content" role="tabpanel"></div>
+        <div class="table-responsive">
+            <table class="table table-hover" id="table-issue">
+                <thead id="table-issue-header">
+                    <tr>
+                    @foreach (var th in Model.TableHeaders)
+                    {
+                        <th scope="col" class="border-0 bg-primary text-light fw-medium text-wrap">@th</th>
+                    }
+                    </tr>
+                </thead>
+                <tbody id="table-issue-body">
+                    <tr id="table-issue-body-spinner">
+                        <td colspan="@(Model.TableHeaders.Count)" class="text-center border-0">
+                            @await Html.PartialAsync("_Spinner", "")
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+        <nav class="d-flex justify-content-center justify-content-lg-end mt-3 mt-lg-0" id="table-issue-pagination"></nav>
     </div>
 </div>
+
 @section Scripts {
     <script src="~/js/issue.js"></script>
 }

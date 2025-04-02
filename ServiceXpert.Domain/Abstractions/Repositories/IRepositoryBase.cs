@@ -15,7 +15,7 @@ namespace ServiceXpert.Domain.Abstractions.Repositories
 
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null);
 
-        Task<(IEnumerable<TEntity>, PaginationMetadata)> GetPagedAllAsync(
+        Task<(IEnumerable<TEntity>, Pagination)> GetPagedAllAsync(
             int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null);
 
         Task CreateAsync(TEntity entity);

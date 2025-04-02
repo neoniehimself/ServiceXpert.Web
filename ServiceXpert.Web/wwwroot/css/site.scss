@@ -19,9 +19,35 @@ body {
   flex-direction: column;
   margin-right: 0 !important;
   padding-right: 0 !important;
-
   &.loading {
     cursor: wait;
+  }
+}
+
+.navbar {
+  .nav-item {
+    .nav-link {
+      opacity: .75;
+      &:hover  {
+        opacity: 1;
+      }
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
+  .navbar-toggler {
+    border: none;
+    opacity: .75;
+    &:hover {
+      opacity: 1;
+    }
+    &:focus, &:active {
+      box-shadow: none;
+    }
+  }
+  .btn-close {
+    filter: invert(1);
   }
 }
 
@@ -31,79 +57,66 @@ footer {
   padding-right: 0 !important;
 }
 
-a {
-  color: $primary;
-
-  &:hover {
-    color: $primary;
-  }
-
-  html[data-bs-theme="dark"] & {
-    color: $white;
-  }
-}
-
-/* Override the default border color when the navbar-toggler is focused or clicked */
-.navbar-toggler:focus, 
-.navbar-toggler:active,
 .btn {
   box-shadow: none !important;
-}
-.navbar-nav {  
-  .dropdown-item {
-    color: $gray-400;
-    position: relative;
-
-    &:active {
-      color: $light !important;
+  &.btn-primary {
+    // Focus state (when clicked or focused via keyboard)
+    &:focus {
+      background-color: $primary;
+      border-color: $primary;
     }
   }
 }
 
-#issue-tabs-content {
-  table {
-    tbody {
-      border-top: 1px solid $nav-tabs-border-color;
-      border-bottom: 1px solid $nav-tabs-border-color;
+#issue-tabs {
+  .nav-link {
+    transition: none;
+    &.active {
+      color: $primary !important;
+      border-bottom: 3px solid $primary !important;
+    }
+    &:hover {
+      border-bottom: 3px solid $primary;
+    }
+  }
+}
 
+#table-issue {
+  tbody {
+    span {
+      padding: .10rem 0 .10rem;
+      display: inline-block;
+      &.view-issue {
+        color: $primary;
+        &:hover {
+          text-decoration: underline;
+          text-underline-offset: .375em;
+          cursor: pointer;
+        }
+      }
+    }
+    .issue-name {
+      width: 32rem;
+    }
+    .issue-priority {
       span {
-        padding: .10rem 0 .10rem;
-        display: inline-block;
-      }
-  
-      .issue-name {
-        min-width: 16rem;
-      }
-  
-      .issue-priority {
-        span {
-          color: $white;
-          border-radius: $border-radius;
-          padding-left: .5rem;
-          padding-right: .5rem;
-          text-align: center;
-          min-width: 4.5rem;
-          &.priority-1, &.priority-2 {
-            background-color: $danger;
-          }
-  
-          &.priority-3 {
-            background-color: $orange;
-          }
-  
-          &.priority-4 {
-            background-color: $info;
-          }
-  
-          &.priority-5 {
-            background-color: $gray-500;
-          }
-  
-          html[data-bs-theme="dark"] & {
-            &.priority-5 {
-              color: $dark
-            }
-          }
+        color: $white;
+        border-radius: $border-radius-xl;
+        padding-left: .6rem;
+        padding-right: .6rem;
+        text-align: center;
+        min-width: 5rem;
+        &.priority-1, &.priority-2 {
+          background-color: $danger;
+        }
+        &.priority-3 {
+          background-color: $orange;
+        }
+        &.priority-4 {
+          background-color: $info;
+        }
+        &.priority-5 {
+          background-color: $gray-500;
         }
       }
     }
@@ -111,6 +124,8 @@ a {
 }
 
 .pagination {
+  flex-wrap: wrap;
+  width: max-content;
   .page-item {
     &.active {
       .page-link {
@@ -118,7 +133,6 @@ a {
         border-color: $border-color;        
       }
     }
-
     .page-link {
       box-shadow: none !important;
     }

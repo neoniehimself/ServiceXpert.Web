@@ -57,10 +57,10 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
             return issues;
         }
 
-        public async Task<(IEnumerable<Issue>, PaginationMetadata)> GetPagedAllByStatusAsync(
+        public async Task<(IEnumerable<Issue>, Pagination)> GetPagedAllByStatusAsync(
             string status, int pageNumber, int pageSize, IncludeOptions<Issue>? includeOptions = null)
         {
-            var (issues, paginationMetadata) = (Enumerable.Empty<Issue>(), new PaginationMetadata());
+            var (issues, paginationMetadata) = (Enumerable.Empty<Issue>(), new Pagination());
 
             if (Enum.TryParse(status, ignoreCase: true, out SxpEnums.IssueStatus statusEnum))
             {

@@ -1,6 +1,6 @@
 ﻿namespace ServiceXpert.Domain.Shared
 {
-    public class PaginationMetadata
+    public class Pagination
     {
         public int TotalCount { get; set; }
 
@@ -10,11 +10,11 @@
 
         public int CurrentPage { get; set; }
 
-        public PaginationMetadata()
+        public Pagination()
         {
         }
 
-        public PaginationMetadata(int totalCount, int pageSize, int currentPage)
+        public Pagination(int totalCount, int pageSize, int currentPage)
         {
             this.TotalCount = totalCount;
             this.PageSize = pageSize;
