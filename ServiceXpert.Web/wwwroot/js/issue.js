@@ -15,7 +15,7 @@ function getTabContent(tab, pageNumber = 1, pageSize = 10) {
 
     $.ajax({
         type: 'GET',
-        url: 'Issues/GetTabContent',
+        url: 'Issues/GetPagedIssuesAsync',
         data: { tab: tab, pageNumber: pageNumber, pageSize: pageSize },
         success: function (response) {
             spinner.addClass('d-none');
@@ -31,8 +31,7 @@ $(document).on('click', '#table-issue-body .view-issue', function () {
     var issueKey = $(this).data('key');
     $.ajax({
         type: 'GET',
-        url: 'Issues/ViewDetails',
-        data: { issueKey: issueKey },
+        url: 'Issues/' + issueKey,
         success: function (response) {
             $('.modal-container').html(response);
             $('#view-issue-modal').modal('show');
