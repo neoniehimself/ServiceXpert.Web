@@ -12045,6 +12045,9 @@ footer {
   text-underline-offset: 0.375em;
   cursor: pointer;
 }
+#table-issue tbody .issue-name {
+  width: 28rem;
+}
 #table-issue tbody .issue-priority span {
   color: #fff;
   border-radius: 1rem;
