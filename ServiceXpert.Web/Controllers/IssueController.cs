@@ -36,7 +36,7 @@ namespace ServiceXpert.Web.Controllers
 
         [AjaxOperation]
         [HttpPost]
-        public async Task<IActionResult> CreateIssue(IssueDataObjectForCreate issue)
+        public async Task<IActionResult> CreateIssueAsync(IssueDataObjectForCreate issue)
         {
             if (!this.ModelState.IsValid)
             {

@@ -1,16 +1,16 @@
 ﻿$(document).ready(function () {
-    getTabContent('all');
+    loadIssueTableRow('all');
 
     $('#issue-tabs button').click(function () {
         $('#issue-tabs button').removeClass('active');
         $(this).addClass('active');
 
         var tab = $(this).data('tab');
-        getTabContent(tab.toLowerCase());
+        loadIssueTableRow(tab.toLowerCase());
     });
 });
 
-function getTabContent(tab, pageNumber = 1, pageSize = 10) {
+function loadIssueTableRow(tab, pageNumber = 1, pageSize = 10) {
     var spinner = $('#table-issue-body-spinner');
 
     $.ajax({
@@ -49,6 +49,5 @@ $(document).on('click', '.pagination .page-link', function (e) {
     var tab = $('#issue-tabs button.active').data('tab');
     var pageNumber = $(this).data('page');
 
-    getTabContent(tab, pageNumber);
+    loadIssueTableRow(tab, pageNumber);
 });
-
