@@ -1,28 +1,28 @@
 ﻿$(document).ready(function () {
-    loadIssueTableRow('all');
+    loadIssueTableRows('all');
 
     $('#issue-tabs button').click(function () {
         $('#issue-tabs button').removeClass('active');
         $(this).addClass('active');
 
         var tab = $(this).data('tab');
-        loadIssueTableRow(tab.toLowerCase());
+        loadIssueTableRows(tab.toLowerCase());
     });
 });
 
-function loadIssueTableRow(tab, pageNumber = 1, pageSize = 10) {
-    var spinner = $('#table-issue-body-spinner');
-
+function loadIssueTableRows(tab, pageNumber = 1, pageSize = 10) {
     $.ajax({
         type: 'GET',
         url: 'Issues/GetPagedIssuesAsync',
         data: { tab: tab, pageNumber: pageNumber, pageSize: pageSize },
         success: function (response) {
+            var spinner = $('#table-issue-body-spinner');
             spinner.addClass('d-none');
             spinner.detach();
-            $('#table-issue-body').html(response.tabContentView);
+
+            $('#table-issue-body').html(response.issueTableRowsHtml);
             $('#table-issue-body').append(spinner);
-            $('#table-issue-pagination').html(response.paginationView);
+            $('#table-issue-pagination').html(response.paginationHtml);
         }
     });
 }
@@ -49,5 +49,5 @@ $(document).on('click', '.pagination .page-link', function (e) {
     var tab = $('#issue-tabs button.active').data('tab');
     var pageNumber = $(this).data('page');
 
-    loadIssueTableRow(tab, pageNumber);
+    loadIssueTableRows(tab, pageNumber);
 });

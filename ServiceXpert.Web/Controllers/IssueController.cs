@@ -78,10 +78,10 @@ namespace ServiceXpert.Web.Controllers
 
             var (issues, pagination) = HttpContentFactory.DeserializeContent<(IEnumerable<Issue>, Pagination)>(response);
 
-            var tabContentView = await RenderViewToHtmlStringAsync("_IssueTableRow", issues.ToList());
-            var paginationView = await RenderViewToHtmlStringAsync("_Pagination", pagination, GetPaginationViewDataDictionary(pagination, this.ModelState));
+            var issueTableRowsHtml = await RenderViewToHtmlStringAsync("_IssueTableRow", issues.ToList());
+            var paginationHtml = await RenderViewToHtmlStringAsync("_Pagination", pagination, GetPaginationViewDataDictionary(pagination, this.ModelState));
 
-            return Json(new { tabContentView, paginationView });
+            return Json(new { issueTableRowsHtml, paginationHtml });
         }
 
         [AjaxOperation]
