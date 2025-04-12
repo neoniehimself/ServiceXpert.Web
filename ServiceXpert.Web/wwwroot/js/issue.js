@@ -24,6 +24,21 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
     });
 }
 
+$(document).on('click', '#issue-table tbody .view-issue', function () {
+    $.ajax({
+        type: 'GET',
+        url: 'Issues/' + $(this).data('key'),
+        success: function (response) {
+            $('.modal-container').html(response);
+            $('#view-issue-modal').modal('show');
+        }
+    });
+});
+
+$(document).on('hidden.bs.modal', '#view-issue-modal', function () {
+    $('.modal-container').html('');
+});
+
 $(document).on('click', '.pagination .page-link', function (e) {
     e.preventDefault();
     loadIssueTableRows($('#issue-table-search-form-status-category-field').val(), $(this).data('page'));
