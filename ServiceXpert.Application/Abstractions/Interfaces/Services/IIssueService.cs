@@ -8,8 +8,6 @@ namespace ServiceXpert.Application.Abstractions.Interfaces.Services
     {
         Task<Issue?> GetByIssueKey(string issueKey, IncludeOptions<Issue>? includeOptions = null);
 
-        Task<IEnumerable<Issue>> GetAllByStatusAsync(string status, IncludeOptions<Issue>? includeOptions = null);
-
         Task<(IEnumerable<Issue>, Pagination)> GetPagedAllByStatusAsync(
             string statusCategory, int pageNumber, int pageSize, IncludeOptions<Issue>? includeOptions = null);
 

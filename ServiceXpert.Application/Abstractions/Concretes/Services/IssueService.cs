@@ -22,41 +22,6 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
             return await this.issueRepository.GetByIdAsync(issueId, includeOptions);
         }
 
-        public async Task<IEnumerable<Issue>> GetAllByStatusAsync(string status, IncludeOptions<Issue>? includeOptions = null)
-        {
-            var issues = Enumerable.Empty<Issue>();
-
-            if (Enum.TryParse(status, ignoreCase: true, out SxpEnums.IssueStatus statusEnum))
-            {
-                switch (statusEnum)
-                {
-                    case SxpEnums.IssueStatus.Resolved:
-                        issues = await this.issueRepository.GetAllAsync(i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Resolved, includeOptions);
-                        break;
-                    case SxpEnums.IssueStatus.Closed:
-                        issues = await this.issueRepository.GetAllAsync(i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Closed, includeOptions);
-                        break;
-                    default:
-                        goto Return;
-                }
-            }
-            else
-            {
-                if (string.Equals(status, "All", StringComparison.OrdinalIgnoreCase))
-                {
-                    issues = await this.issueRepository.GetAllAsync(includeOptions: includeOptions);
-                }
-                else if (string.Equals(status, "Open", StringComparison.OrdinalIgnoreCase))
-                {
-                    issues = await this.issueRepository.GetAllAsync(
-                        i => (i.IssueStatusId != (int)SxpEnums.IssueStatus.Resolved) && (i.IssueStatusId != (int)SxpEnums.IssueStatus.Closed),
-                        includeOptions);
-                }
-            }
-        Return:
-            return issues;
-        }
-
         public async Task<(IEnumerable<Issue>, Pagination)> GetPagedAllByStatusAsync(
             string statusCategory, int pageNumber, int pageSize, IncludeOptions<Issue>? includeOptions = null)
         {
