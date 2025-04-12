@@ -1,20 +1,18 @@
 ﻿@model List<Issue>
+
 @foreach (var issue in Model)
 {
-<tr>
-    @* Issue Key *@
-    <th scope="row"><span class="view-issue" data-key="@issue.IssueKey">@issue.IssueKey</span></th>
-    @* Summary *@
-    <td class="issue-name"><span class="view-issue" data-key="@issue.IssueKey">@issue.Name</span></td>
-    @* Assignee *@
-    <td><span>Lorem Ipsum</span></td>
-    @* Reporter *@
-    <td><span>Lorem Ipsum</span></td>
-    @* Created *@
-    <td><span>@issue.CreateDateFormatted</span></td>
-    @* Issue Priority *@
-    <td class="issue-priority"><span class="priority-@issue.IssuePriorityId">@issue.IssuePriority!.Name</span></td>
-    @* Issue Status *@
-    <td class="issue-status"><span>@issue.IssueStatus!.Name</span></td>
-</tr>
+    <tr>
+        @* Issue Key *@
+        <th><span class="view-issue" data-key="@issue.IssueKey">@issue.IssueKey</span></th>
+        @* Summary *@
+        <td><span class="view-issue" data-key="@issue.IssueKey">@issue.Name</span></td>
+        @* Issue Priority *@
+        <td>@issue.IssuePriority!.Name</td>
+        @* Issue Status *@
+        <td>@issue.IssueStatus!.Name</td>
+        <td></td>
+        <td></td>
+        <td>@issue.CreateDateFormatted</td>
+    </tr>
 }

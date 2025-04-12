@@ -1,6 +1,9 @@
-$primary: #172B4D;
-$blue: #0C66E4;
-$info: #579DFF;
+$neutral-800: #172B4D;
+$neutral-700: #253858;
+$neutral-600: #344563;
+$neutral-500: #42526E;
+
+$primary: $neutral-800;
 
 @import '../lib/bootstrap/scss/bootstrap.scss';
 @import 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap';
@@ -68,55 +71,32 @@ footer {
   }
 }
 
-#issue-tabs {
-  .nav-link {
-    transition: none;
-    &.active {
-      color: $primary !important;
-      border-bottom: 3px solid $primary !important;
-    }
-    &:hover {
-      border-bottom: 3px solid $primary;
-    }
+.box-shadow-none {
+  box-shadow: none !important;
+  &:focus {
+    box-shadow: none !important;
   }
 }
 
-#table-issue {
+.btn-outline-search {
+  @extend .btn-outline-primary;
+  border-color: $neutral-600;
+  color: $neutral-600;
+  &:hover {
+    background-color: #344563;
+    color: white;
+  }
+}
+
+#issue-table {
   tbody {
     span {
-      padding: .10rem 0 .10rem;
-      display: inline-block;
       &.view-issue {
         color: $primary;
         &:hover {
           text-decoration: underline;
           text-underline-offset: .375em;
           cursor: pointer;
-        }
-      }
-    }
-    .issue-name {
-      width: 28rem;
-    }
-    .issue-priority {
-      span {
-        color: $white;
-        border-radius: $border-radius-xl;
-        padding-left: .6rem;
-        padding-right: .6rem;
-        text-align: center;
-        min-width: 5rem;
-        &.priority-1, &.priority-2 {
-          background-color: $danger;
-        }
-        &.priority-3 {
-          background-color: $orange;
-        }
-        &.priority-4 {
-          background-color: $info;
-        }
-        &.priority-5 {
-          background-color: $gray-500;
         }
       }
     }

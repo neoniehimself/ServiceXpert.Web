@@ -58,49 +58,35 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
         }
 
         public async Task<(IEnumerable<Issue>, Pagination)> GetPagedAllByStatusAsync(
-            string status, int pageNumber, int pageSize, IncludeOptions<Issue>? includeOptions = null)
+            string statusCategory, int pageNumber, int pageSize, IncludeOptions<Issue>? includeOptions = null)
         {
             var (issues, paginationMetadata) = (Enumerable.Empty<Issue>(), new Pagination());
 
-            if (Enum.TryParse(status, ignoreCase: true, out SxpEnums.IssueStatus statusEnum))
+            if (Enum.TryParse(statusCategory, ignoreCase: true, out SxpEnums.IssueStatusCategory statusCategoryEnum))
             {
-                switch (statusEnum)
+                switch (statusCategoryEnum)
                 {
-                    case SxpEnums.IssueStatus.Resolved:
+                    case SxpEnums.IssueStatusCategory.All:
                         (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(
-                            pageNumber,
-                            pageSize,
-                            i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Resolved,
-                            includeOptions);
-                        break;
-                    case SxpEnums.IssueStatus.Closed:
-                        (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(
-                            pageNumber,
-                            pageSize,
-                            i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Closed,
-                            includeOptions);
-                        break;
-                    default:
-                        return (issues, paginationMetadata);
-                }
-            }
-            else
-            {
-                if (string.Equals(status, "All", StringComparison.OrdinalIgnoreCase))
-                {
-                    (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(
                             pageNumber, pageSize, includeOptions: includeOptions);
+                        break;
+                    case SxpEnums.IssueStatusCategory.Open:
+                        (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(
+                            pageNumber, pageSize, i => (i.IssueStatusId != (int)SxpEnums.IssueStatus.Resolved) && (i.IssueStatusId != (int)SxpEnums.IssueStatus.Closed), includeOptions);
+                        break;
+                    case SxpEnums.IssueStatusCategory.Resolved:
+                        (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(
+                            pageNumber, pageSize, i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Resolved, includeOptions);
+                        break;
+                    case SxpEnums.IssueStatusCategory.Closed:
+                        (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(
+                            pageNumber, pageSize, i => i.IssueStatusId == (int)SxpEnums.IssueStatus.Closed, includeOptions);
+                        break;
                 }
-                else if (string.Equals(status, "Open", StringComparison.OrdinalIgnoreCase))
-                {
-                    (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(
-                        pageNumber,
-                        pageSize,
-                        i => (i.IssueStatusId != (int)SxpEnums.IssueStatus.Resolved) && (i.IssueStatusId != (int)SxpEnums.IssueStatus.Closed),
-                        includeOptions);
-                }
+                return (issues, paginationMetadata);
             }
-            return (issues, paginationMetadata);
+
+            throw new InvalidCastException($"Cannot cast string into enum. Value: {statusCategory}");
         }
 
         public async Task UpdateByIssueKeyAsync(string issueKey, Issue issue)

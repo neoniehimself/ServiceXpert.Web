@@ -27,14 +27,14 @@ namespace ServiceXpert.Web.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<ActionResult<(IEnumerable<Issue>, Pagination)>> GetPagedAllByStatusAsync(string status, int pageNumber = 1, int pageSize = MaxTabContentPageSize)
+        public async Task<ActionResult<(IEnumerable<Issue>, Pagination)>> GetPagedAllByStatusAsync(string statusCategory, int pageNumber = 1, int pageSize = MaxTabContentPageSize)
         {
             if (pageSize > MaxTabContentPageSize)
             {
                 pageSize = MaxTabContentPageSize;
             }
 
-            return await this.issueService.GetPagedAllByStatusAsync(status, pageNumber, pageSize);
+            return await this.issueService.GetPagedAllByStatusAsync(statusCategory, pageNumber, pageSize);
         }
 
         [HttpGet("{issueKey}")]

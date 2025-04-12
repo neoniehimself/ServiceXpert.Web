@@ -19,18 +19,13 @@ namespace ServiceXpert.Web.Controllers
     {
         private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
 
-        private List<string> NavigationTabs { get; } = ["All", "Open", "Resolved", "Closed"];
-
-        private List<string> TableHeaders { get; } = ["Key", "Summary", "Assignee", "Reporter", "Created", "Priority", "Status"];
-
         [AjaxOperation]
         [HttpGet(nameof(InitializeCreateIssue))]
         public IActionResult InitializeCreateIssue()
         {
             return PartialView("_CreateIssueModal", new CreateIssueViewModel()
             {
-                IssuePriorities = Enum.GetValues(typeof(SxpEnums.IssuePriority))
-                    .Cast<SxpEnums.IssuePriority>().ToDictionary(p => (int)p, p => p.ToString())
+                IssuePriorities = Enum.GetValues(typeof(SxpEnums.IssuePriority)).Cast<SxpEnums.IssuePriority>().ToDictionary(p => (int)p, p => p.ToString())
             });
         }
 
@@ -59,17 +54,16 @@ namespace ServiceXpert.Web.Controllers
         {
             return base.View(new IssueViewModel()
             {
-                NavigationTabs = this.NavigationTabs,
-                TableHeaders = this.TableHeaders
+                StatusCategories = Enum.GetNames(typeof(SxpEnums.IssueStatusCategory)).ToList(),
             });
         }
 
         [AjaxOperation]
         [HttpGet(nameof(GetPagedIssuesAsync))]
-        public async Task<IActionResult> GetPagedIssuesAsync(string tab, int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> GetPagedIssuesAsync(string statusCategory, int pageNumber = 1, int pageSize = 10)
         {
             using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues?Status={tab}&PageNumber={pageNumber}&PageSize={pageSize}");
+            var response = await httpClient.GetAsync(@$"{httpClient.BaseAddress}/Issues?StatusCategory={statusCategory}&PageNumber={pageNumber}&PageSize={pageSize}");
 
             if (!response.IsSuccessStatusCode)
             {
