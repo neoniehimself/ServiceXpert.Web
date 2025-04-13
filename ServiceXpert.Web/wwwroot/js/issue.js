@@ -2,12 +2,15 @@
     loadIssueTableRows('all');
     $('#issue-table-search-form').submit(function (e) {
         e.preventDefault();
-        $('#issue-table-spinner').removeClass('d-none').addClass('d-flex');
         loadIssueTableRows($('#issue-table-search-form-status-category-field').val());
     });
 });
 
 function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
+    $('#issue-table tbody').html(''); // Empty the table
+    $('#issue-table-pagination').remove(); // Remove pagination (dynamically rendered)
+    $('#no-show').remove(); // Remove no show text (dynamically rendered)
+    $('#issue-table-spinner').removeClass('d-none').addClass('d-flex'); // Show spinner
     $.ajax({
         type: 'GET',
         url: 'Issues/GetPagedIssuesAsync',
@@ -19,7 +22,16 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
         success: function (response) {
             $('#issue-table-spinner').removeClass('d-flex').addClass('d-none');
             $('#issue-table tbody').html(response.issueTableRowsHtml);
-            $('#issue-table-pagination').html(response.paginationHtml);
+            if ($('#issue-table tbody tr').length > 0) {
+                if ($('#issue-table-pagination').length === 0) {
+                    $('.table-responsive').append('<nav class="d-flex justify-content-center justify-content-lg-end mt-3" id="issue-table-pagination"></nav>');
+                }
+                $('#issue-table-pagination').html(response.paginationHtml);
+            } else {
+                if ($('#no-show').length === 0) {
+                    $('.table-responsive').append('<p class="mt-3 text-lg-center fw-medium" id="no-show">Nothing to show</p>');
+                }
+            }
         }
     });
 }
