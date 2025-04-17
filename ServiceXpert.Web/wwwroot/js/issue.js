@@ -9,7 +9,7 @@
 function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
     $('#issue-table tbody').html(''); // Empty the table
     $('#issue-table-pagination').remove(); // Remove pagination (dynamically rendered)
-    $('#no-show').remove(); // Remove no show text (dynamically rendered)
+    $('#no-data').remove(); // Remove no show text (dynamically rendered)
     $('#issue-table-spinner').removeClass('d-none').addClass('d-flex'); // Show spinner
     $.ajax({
         type: 'GET',
@@ -28,8 +28,8 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
                 }
                 $('#issue-table-pagination').html(response.paginationHtml);
             } else {
-                if ($('#no-show').length === 0) {
-                    $('.table-responsive').append('<p class="mt-3 text-lg-center fw-medium" id="no-show">Nothing to show</p>');
+                if ($('#no-data').length === 0) {
+                    $('.table-responsive').append('<p class="mt-3 fw-medium" id="no-data">No data available</p>');
                 }
             }
         }
