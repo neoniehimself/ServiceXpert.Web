@@ -79,6 +79,7 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [AjaxOperation]
+        [Route($"{nameof(ViewIssueAsync)}")]
         [HttpGet("{issueKey}")]
         public async Task<IActionResult> ViewIssueAsync(string issueKey)
         {
@@ -102,6 +103,33 @@ namespace ServiceXpert.Web.Controllers
             var issue = HttpContentFactory.DeserializeContent<Issue>(response);
 
             return PartialView("~/Views/Issue/_ViewIssueModal.cshtml", issue);
+        }
+
+        [AjaxOperation]
+        [Route($"{nameof(EditIssueAsync)}")]
+        [HttpGet("{issueKey}")]
+        public async Task<IActionResult> EditIssueAsync(string issueKey)
+        {
+            try
+            {
+                _ = int.TryParse(issueKey.Split('-')[1], out _);
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue Key: {issueKey}");
+            }
+
+            using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
+            var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int)response.StatusCode);
+            }
+
+            var issue = HttpContentFactory.DeserializeContent<Issue>(response);
+
+            return PartialView("~/Views/Issue/_EditIssueModal.cshtml", issue);
         }
     }
 }

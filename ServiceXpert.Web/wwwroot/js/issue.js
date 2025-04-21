@@ -39,7 +39,8 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
 $(document).on('click', '#issue-table tbody .view-issue', function () {
     $.ajax({
         type: 'GET',
-        url: 'Issues/' + $(this).data('key'),
+        url: 'Issues/ViewIssueAsync',
+        data: { issueKey: $(this).data('key') },
         success: function (response) {
             $('.modal-container').html(response);
             $('#view-issue-modal').modal('show');
@@ -49,6 +50,32 @@ $(document).on('click', '#issue-table tbody .view-issue', function () {
 
 $(document).on('hidden.bs.modal', '#view-issue-modal', function () {
     $('.modal-container').html('');
+});
+
+$(document).on('click', '#btn-edit-issue', function () {
+    $.ajax({
+        type: 'GET',
+        url: 'Issues/EditIssueAsync',
+        data: { issueKey: $('#view-issue-modal-label').text() },
+        success: function (response) {
+            $('#view-issue-modal').modal('hide');
+            $('.modal-container').html(response);
+            $('#edit-issue-modal').modal('show');
+        }
+    });
+});
+
+$(document).on('click', '#btn-back-to-view', function () {
+    $.ajax({
+        type: 'GET',
+        url: 'Issues/ViewIssueAsync',
+        data: { issueKey: $('#edit-issue-modal-label').text() },
+        success: function (response) {
+            $('#edit-issue-modal').modal('hide');
+            $('.modal-container').html(response);
+            $('#view-issue-modal').modal('show');
+        }
+    });
 });
 
 $(document).on('click', '.pagination .page-link', function (e) {
