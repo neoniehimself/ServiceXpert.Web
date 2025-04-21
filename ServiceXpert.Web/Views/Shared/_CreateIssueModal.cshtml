@@ -1,4 +1,4 @@
-﻿@using SxpEnums = ServiceXpert.Domain.Shared.Enums;
+﻿@using DomainEnums = ServiceXpert.Domain.Shared.Enums;
 @model CreateIssueViewModel
 
 <div class="modal fade" id="create-issue-modal" tabindex="-1">
@@ -32,7 +32,7 @@
                             <select class="form-select" id="create-issue-modal-priority-field" name="@nameof(IssueDataObjectForCreate.IssuePriorityId)">
                                 @foreach (var priority in Model.IssuePriorities)
                                 {
-                                    <option value="@priority.Key" selected="@(priority.Key == (int)SxpEnums.IssuePriority.Low)">
+                                    <option value="@priority.Key" selected="@(priority.Key == (int)DomainEnums.IssuePriority.Low)">
                                             @priority.Value
                                     </option>
                                 }

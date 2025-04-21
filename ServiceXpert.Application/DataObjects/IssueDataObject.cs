@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using SxpEnums = ServiceXpert.Domain.Shared.Enums;
+using DomainEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Application.DataObjects
 {
@@ -12,9 +12,9 @@ namespace ServiceXpert.Application.DataObjects
         [MaxLength(4096)]
         public string? Description { get; set; }
 
-        public int IssueStatusId { get; } = (int)SxpEnums.IssueStatus.New;
+        public int IssueStatusId { get; } = (int)DomainEnums.IssueStatus.New;
 
-        public int IssuePriorityId { get; set; } = (int)SxpEnums.IssuePriority.Low;
+        public int IssuePriorityId { get; set; } = (int)DomainEnums.IssuePriority.Low;
     }
 
     public class IssueDataObjectForUpdate : DataObjectBase

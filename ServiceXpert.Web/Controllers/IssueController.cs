@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using ServiceXpert.Application.DataObjects;
 using ServiceXpert.Domain.Entities;
 using ServiceXpert.Domain.Shared;
+using ServiceXpert.Domain.Shared.Helpers;
 using ServiceXpert.Web.Factories;
 using ServiceXpert.Web.Filters;
 using ServiceXpert.Web.Helpers;
 using ServiceXpert.Web.ViewModels;
 using System.Net;
-using SxpEnums = ServiceXpert.Domain.Shared.Enums;
+using DomainEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Web.Controllers
 {
@@ -25,7 +26,7 @@ namespace ServiceXpert.Web.Controllers
         {
             return PartialView("_CreateIssueModal", new CreateIssueViewModel()
             {
-                IssuePriorities = Enum.GetValues(typeof(SxpEnums.IssuePriority)).Cast<SxpEnums.IssuePriority>().ToDictionary(p => (int)p, p => p.ToString())
+                IssuePriorities = SxpEnumFactory.ToDictionary<DomainEnums.IssuePriority>()
             });
         }
 
@@ -54,7 +55,7 @@ namespace ServiceXpert.Web.Controllers
         {
             return base.View(new IssueViewModel()
             {
-                StatusCategories = Enum.GetNames(typeof(SxpEnums.IssueStatusCategory)).ToList(),
+                StatusCategories = SxpEnumFactory.ToList<DomainEnums.IssueStatusCategory>(),
             });
         }
 
@@ -131,8 +132,8 @@ namespace ServiceXpert.Web.Controllers
 
             return PartialView("~/Views/Issue/_EditIssueModal.cshtml", new EditIssueViewModel(issue!)
             {
-                IssuePriorities = Enum.GetValues(typeof(SxpEnums.IssuePriority)).Cast<SxpEnums.IssuePriority>().ToDictionary(p => (int)p, p => p.ToString()),
-                IssueStatuses = Enum.GetValues(typeof(SxpEnums.IssueStatus)).Cast<SxpEnums.IssueStatus>().ToDictionary(s => (int)s, s => s.ToString())
+                IssuePriorities = SxpEnumFactory.ToDictionary<DomainEnums.IssuePriority>(),
+                IssueStatuses = SxpEnumFactory.ToDictionary<DomainEnums.IssueStatus>()
             });
         }
 

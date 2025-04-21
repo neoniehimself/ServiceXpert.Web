@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ServiceXpert.Domain.Entities;
-using SxpEnums = ServiceXpert.Domain.Shared.Enums;
+using DomainEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Infrastructure.Contexts
 {
@@ -17,35 +17,35 @@ namespace ServiceXpert.Infrastructure.Contexts
             issuePriority.HasData(
                 new IssuePriority()
                 {
-                    IssuePriorityId = (int)SxpEnums.IssuePriority.Outage,
+                    IssuePriorityId = (int)DomainEnums.IssuePriority.Outage,
                     Name = "Outage",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityId = (int)SxpEnums.IssuePriority.Critical,
+                    IssuePriorityId = (int)DomainEnums.IssuePriority.Critical,
                     Name = "Critical",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityId = (int)SxpEnums.IssuePriority.High,
+                    IssuePriorityId = (int)DomainEnums.IssuePriority.High,
                     Name = "High",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityId = (int)SxpEnums.IssuePriority.Medium,
+                    IssuePriorityId = (int)DomainEnums.IssuePriority.Medium,
                     Name = "Medium",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssuePriority()
                 {
-                    IssuePriorityId = (int)SxpEnums.IssuePriority.Low,
+                    IssuePriorityId = (int)DomainEnums.IssuePriority.Low,
                     Name = "Low",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime

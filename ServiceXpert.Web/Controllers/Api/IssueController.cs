@@ -3,7 +3,7 @@ using ServiceXpert.Application.Abstractions.Interfaces.Services;
 using ServiceXpert.Application.DataObjects;
 using ServiceXpert.Domain.Entities;
 using ServiceXpert.Domain.Shared;
-using SxpEnums = ServiceXpert.Domain.Shared.Enums;
+using DomainEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Web.Controllers.Api
 {
@@ -23,7 +23,7 @@ namespace ServiceXpert.Web.Controllers.Api
             }
 
             var issueId = await this.issueService.CreateAsync(issue);
-            return string.Concat(nameof(SxpEnums.IssuePreFix.SXP) + "-" + issueId);
+            return string.Concat(nameof(DomainEnums.IssuePreFix.SXP) + "-" + issueId);
         }
 
         [HttpGet]

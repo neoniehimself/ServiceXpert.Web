@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ServiceXpert.Domain.Entities;
-using SxpEnums = ServiceXpert.Domain.Shared.Enums;
+using DomainEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Infrastructure.Contexts
 {
@@ -17,35 +17,35 @@ namespace ServiceXpert.Infrastructure.Contexts
             issueStatus.HasData(
                 new IssueStatus()
                 {
-                    IssueStatusId = (int)SxpEnums.IssueStatus.New,
+                    IssueStatusId = (int)DomainEnums.IssueStatus.New,
                     Name = "New",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusId = (int)SxpEnums.IssueStatus.ForAnalysis,
+                    IssueStatusId = (int)DomainEnums.IssueStatus.ForAnalysis,
                     Name = "For Analysis",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusId = (int)SxpEnums.IssueStatus.InProgress,
+                    IssueStatusId = (int)DomainEnums.IssueStatus.InProgress,
                     Name = "In Progress",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusId = (int)SxpEnums.IssueStatus.Resolved,
+                    IssueStatusId = (int)DomainEnums.IssueStatus.Resolved,
                     Name = "Resolved",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
                 },
                 new IssueStatus()
                 {
-                    IssueStatusId = (int)SxpEnums.IssueStatus.Closed,
+                    IssueStatusId = (int)DomainEnums.IssueStatus.Closed,
                     Name = "Closed",
                     CreateDate = this.dateTime,
                     ModifyDate = this.dateTime
