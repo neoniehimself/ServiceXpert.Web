@@ -78,6 +78,24 @@ $(document).on('click', '#btn-back-to-view', function () {
     });
 });
 
+$(document).on('submit', '#edit-issue-modal-form', function (e) {
+    e.preventDefault();
+    var formData = new FormData($(this)[0]);
+
+    $.ajax({
+        type: 'PUT',
+        url: 'Issues',
+        cache: false,
+        processData: false,
+        contentType: false,
+        dataType: 'JSON',
+        data: formData,
+        success: function (response) {
+
+        }
+    });
+});
+
 $(document).on('click', '.pagination .page-link', function (e) {
     e.preventDefault();
     loadIssueTableRows($('#issue-table-search-form-status-category-field').val(), $(this).data('page'));

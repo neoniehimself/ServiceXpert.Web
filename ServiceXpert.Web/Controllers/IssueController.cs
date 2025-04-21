@@ -138,7 +138,6 @@ namespace ServiceXpert.Web.Controllers
         }
 
         [AjaxOperation]
-        [Route($"{nameof(FullUpdateIssueAsync)}")]
         [HttpPut]
         public Task<IActionResult> FullUpdateIssueAsync(IssueDataObjectForUpdate issue)
         {

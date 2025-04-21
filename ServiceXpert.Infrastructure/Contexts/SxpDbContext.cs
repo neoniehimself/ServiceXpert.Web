@@ -48,22 +48,28 @@ namespace ServiceXpert.Infrastructure.Contexts
             base.OnModelCreating(modelBuilder);
         }
 
+        public override int SaveChanges()
+        {
+            UpdateTimestamps();
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            UpdateTimestamps();
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
         private void UpdateTimestamps()
         {
-            var entries = this.ChangeTracker.Entries<EntityBase>();
-
-            foreach (var entry in entries)
+            var utcNow = DateTime.UtcNow;
+            foreach (var entry in this.ChangeTracker.Entries<EntityBase>().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified))
             {
-                switch (entry.State)
+                if (entry.State == EntityState.Added)
                 {
-                    case EntityState.Added:
-                        entry.Entity.CreateDate = DateTime.UtcNow;
-                        entry.Entity.ModifyDate = DateTime.UtcNow;
-                        break;
-                    case EntityState.Modified:
-                        entry.Entity.ModifyDate = DateTime.UtcNow;
-                        break;
+                    entry.Entity.CreateDate = utcNow;
                 }
+                entry.Entity.ModifyDate = utcNow;
             }
         }
     }

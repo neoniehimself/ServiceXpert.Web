@@ -5,7 +5,8 @@
             <div class="modal-header">
                 <div>
                     <small class="text-muted mb-1">Created: @Model.Issue.CreateDateFormatted</small>
-                    <h1 class="modal-title fs-5 fw-bold" id="edit-issue-modal-label" form="edit-issue-modal-form" name="@nameof(IssueDataObjectForUpdate.IssueKey)">@Model.Issue.IssueKey</h1>
+                    <h1 class="modal-title fs-5 fw-bold" id="edit-issue-modal-label">@Model.Issue.IssueKey</h1>
+                    <input type="hidden" form="edit-issue-modal-form" name="@nameof(IssueDataObjectForUpdate.IssueKey)" value="@Model.Issue.IssueKey" />
                 </div>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -70,7 +71,7 @@
                     </div>
                     <div class="col-6 px-0 d-flex justify-content-end">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-success ms-2">Save</button>
+                        <button type="submit" class="btn btn-success ms-2" form="edit-issue-modal-form">Save</button>
                     </div>
                 </div>
             </div>
