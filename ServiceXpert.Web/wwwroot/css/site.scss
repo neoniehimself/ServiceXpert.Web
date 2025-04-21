@@ -3,7 +3,13 @@ $neutral-700: #253858;
 $neutral-600: #344563;
 $neutral-500: #42526E;
 
+$neutral-40: #DFE1E6;
+$neutral-30: #EBECF0;
+$neutral-20: #F4F5F7;
+
 $primary: $neutral-800;
+
+$form-element-background-color: $neutral-20;
 
 @import '../lib/bootstrap/scss/bootstrap.scss';
 @import 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap';
@@ -116,5 +122,20 @@ footer {
     .page-link {
       box-shadow: none !important;
     }
+  }
+}
+
+form {
+  .form-control {
+    background-color: $form-element-background-color;
+    &:focus {
+      background-color: $form-element-background-color;
+    }
+    &:disabled {
+      background-color: $form-element-background-color;
+    }
+  }
+  .form-select {
+    background-color: $form-element-background-color;
   }
 }

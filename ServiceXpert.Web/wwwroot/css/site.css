@@ -12058,4 +12058,17 @@ footer {
 }
 .pagination .page-item .page-link {
   box-shadow: none !important;
+}
+
+form .form-control {
+  background-color: #F4F5F7;
+}
+form .form-control:focus {
+  background-color: #F4F5F7;
+}
+form .form-control:disabled {
+  background-color: #F4F5F7;
+}
+form .form-select {
+  background-color: #F4F5F7;
 }/*# sourceMappingURL=site.css.map */

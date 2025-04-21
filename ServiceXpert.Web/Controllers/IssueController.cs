@@ -129,7 +129,19 @@ namespace ServiceXpert.Web.Controllers
 
             var issue = HttpContentFactory.DeserializeContent<Issue>(response);
 
-            return PartialView("~/Views/Issue/_EditIssueModal.cshtml", issue);
+            return PartialView("~/Views/Issue/_EditIssueModal.cshtml", new EditIssueViewModel(issue!)
+            {
+                IssuePriorities = Enum.GetValues(typeof(SxpEnums.IssuePriority)).Cast<SxpEnums.IssuePriority>().ToDictionary(p => (int)p, p => p.ToString()),
+                IssueStatuses = Enum.GetValues(typeof(SxpEnums.IssueStatus)).Cast<SxpEnums.IssueStatus>().ToDictionary(s => (int)s, s => s.ToString())
+            });
+        }
+
+        [AjaxOperation]
+        [Route($"{nameof(FullUpdateIssueAsync)}")]
+        [HttpPut]
+        public Task<IActionResult> FullUpdateIssueAsync(IssueDataObjectForUpdate issue)
+        {
+            throw new NotImplementedException();
         }
     }
 }
