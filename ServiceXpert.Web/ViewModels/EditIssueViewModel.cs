@@ -1,20 +1,19 @@
-﻿using ServiceXpert.Domain.Entities;
+﻿using ServiceXpert.Web.Models;
 
-namespace ServiceXpert.Web.ViewModels
+namespace ServiceXpert.Web.ViewModels;
+
+public class EditIssueViewModel
 {
-    public class EditIssueViewModel
+    public Issue Issue { get; set; }
+
+    public Dictionary<int, string> IssuePriorities { get; set; }
+
+    public Dictionary<int, string> IssueStatuses { get; set; }
+
+    public EditIssueViewModel(Issue issue)
     {
-        public Issue Issue { get; set; }
-
-        public Dictionary<int, string> IssuePriorities { get; set; }
-
-        public Dictionary<int, string> IssueStatuses { get; set; }
-
-        public EditIssueViewModel(Issue issue)
-        {
-            this.Issue = issue;
-            this.IssuePriorities = [];
-            this.IssueStatuses = [];
-        }
+        this.Issue = issue;
+        this.IssuePriorities = [];
+        this.IssueStatuses = [];
     }
 }

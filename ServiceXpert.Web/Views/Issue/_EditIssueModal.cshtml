@@ -6,7 +6,7 @@
                 <div>
                     <small class="text-muted mb-1">Created: @Model.Issue.CreateDateFormatted</small>
                     <h1 class="modal-title fs-5 fw-bold" id="edit-issue-modal-label">@Model.Issue.IssueKey</h1>
-                    <input type="hidden" form="edit-issue-modal-form" name="@nameof(IssueDataObjectForUpdate.IssueKey)" value="@Model.Issue.IssueKey" />
+                    <input type="hidden" form="edit-issue-modal-form" name="@nameof(Issue.IssueKey)" value="@Model.Issue.IssueKey" />
                 </div>
                 <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -16,18 +16,18 @@
                         <label for="edit-issue-modal-name-field" class="form-label">
                             Title <span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form-control" id="edit-issue-modal-name-field" name="@nameof(IssueDataObjectForUpdate.Name)" value="@Model.Issue.Name" required />
+                        <input type="text" class="form-control" id="edit-issue-modal-name-field" name="@nameof(IssueForUpdate.Name)" value="@Model.Issue.Name" required />
                     </div>
                     <div class="row mb-3">
                         <div class="col-12">
                             <label for="edit-issue-modal-description-field" class="form-label">Description</label>
-                            <textarea class="form-control" id="edit-issue-modal-description-field" rows="3" name="@nameof(IssueDataObjectForUpdate.Description)">@Model.Issue.Description</textarea>
+                            <textarea class="form-control" id="edit-issue-modal-description-field" rows="3" name="@nameof(IssueForUpdate.Description)">@Model.Issue.Description</textarea>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-6">
                             <label for="edit-issue-modal-priority-field" class="form-label">Priority</label>
-                            <select class="form-select" id="edit-issue-modal-priority-field" name="@nameof(IssueDataObjectForUpdate.IssuePriorityId)">
+                            <select class="form-select" id="edit-issue-modal-priority-field" name="@nameof(IssueForUpdate.IssuePriorityId)">
                                 @foreach (var priority in Model.IssuePriorities)
                                 {
                                     <option value="@priority.Key" selected="@(priority.Key == Model.Issue.IssuePriorityId)">
@@ -38,7 +38,7 @@
                         </div>
                         <div class="col-6">
                             <label for="edit-issue-modal-status-field" class="form-label">Status</label>
-                            <select class="form-select" id="edit-issue-modal-status-field" name="@nameof(IssueDataObjectForUpdate.IssueStatusId)">
+                            <select class="form-select" id="edit-issue-modal-status-field" name="@nameof(IssueForUpdate.IssueStatusId)">
                                 @foreach (var status in Model.IssueStatuses)
                                 {
                                     <option value="@status.Key" selected="@(status.Key == Model.Issue.IssueStatusId)">

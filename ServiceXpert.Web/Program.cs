@@ -1,23 +1,15 @@
 using Microsoft.AspNetCore.Rewrite;
-using ServiceXpert.Application.Shared;
-using ServiceXpert.Infrastructure.Shared;
-using ServiceXpert.Web.Helpers;
+using ServiceXpert.Web.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient(ApiSettings.Name, configureClient =>
 {
-    var url = builder.Configuration[ApiSettings.Url] ?? throw new NullReferenceException("Missing API URL");
+    var url = builder.Configuration[ApiSettings.Url] ?? throw new NullReferenceException("Missing Api Url");
     configureClient.BaseAddress = new Uri(url);
 });
 
-builder.Services
-    .AddApplicationLayerServices()
-    .AddInfrastructureLayerServices();
-
-builder.Services
-    .AddControllersWithViews(options => options.ReturnHttpNotAcceptable = true)
-    .AddNewtonsoftJson();
+builder.Services.AddControllersWithViews(options => options.ReturnHttpNotAcceptable = true).AddNewtonsoftJson();
 
 var app = builder.Build();
 

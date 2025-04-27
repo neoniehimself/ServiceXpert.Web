@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35818.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceXpert.Web", "ServiceXpert.Web\ServiceXpert.Web.csproj", "{FAAF83DA-E2BB-46C5-AAB0-CE81B8F71F4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FAAF83DA-E2BB-46C5-AAB0-CE81B8F71F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAAF83DA-E2BB-46C5-AAB0-CE81B8F71F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAAF83DA-E2BB-46C5-AAB0-CE81B8F71F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAAF83DA-E2BB-46C5-AAB0-CE81B8F71F4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {41181682-CFE7-45C1-8C4D-F3FB529C690C}
+	EndGlobalSection
+EndGlobal

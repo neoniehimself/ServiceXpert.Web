@@ -8,22 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.15" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ServiceXpert.Application\ServiceXpert.Application.csproj" />
-    <ProjectReference Include="..\ServiceXpert.Infrastructure\ServiceXpert.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="FluentBuilder.Core">
-      <HintPath>..\lib\FluentBuilder.Core.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

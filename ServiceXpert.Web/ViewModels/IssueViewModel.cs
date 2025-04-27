@@ -1,12 +1,10 @@
-﻿namespace ServiceXpert.Web.ViewModels
+﻿namespace ServiceXpert.Web.ViewModels;
+public class IssueViewModel
 {
-    public class IssueViewModel
-    {
-        public List<string> StatusCategories { get; set; }
+    public List<string> StatusCategories { get; set; }
 
-        public IssueViewModel()
-        {
-            this.StatusCategories = [];
-        }
+    public IssueViewModel()
+    {
+        this.StatusCategories = [];
     }
 }

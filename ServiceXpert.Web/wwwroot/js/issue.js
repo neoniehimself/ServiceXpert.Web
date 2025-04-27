@@ -13,7 +13,7 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
     $('#issue-table-spinner').removeClass('d-none').addClass('d-flex'); // Show spinner
     $.ajax({
         type: 'GET',
-        url: 'Issues/GetPagedIssuesAsync',
+        url: 'Issues/GetPagedIssuesByStatusAsync',
         data: {
             statusCategory: statusCategory,
             pageNumber: pageNumber,
@@ -37,58 +37,45 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
 }
 
 $(document).on('click', '#issue-table tbody .view-issue', function () {
-    $.ajax({
-        type: 'GET',
-        url: 'Issues/ViewIssueAsync',
-        data: { issueKey: $(this).data('key') },
-        success: function (response) {
-            $('.modal-container').html(response);
-            $('#view-issue-modal').modal('show');
-        }
+    $.get(`Issues/ViewIssueAsync/${$(this).data('key')}`, function (response) {
+        $('.modal-container').html(response);
+        $('#view-issue-modal').modal('show');
     });
 });
 
 $(document).on('click', '#btn-edit-issue', function () {
-    $.ajax({
-        type: 'GET',
-        url: 'Issues/EditIssueAsync',
-        data: { issueKey: $('#view-issue-modal-label').text() },
-        success: function (response) {
-            $('#view-issue-modal').modal('hide');
-            $('.modal-container').html(response);
-            $('#edit-issue-modal').modal('show');
-        }
+    $.get(`Issues/EditIssueAsync/${$('#view-issue-modal-label').text()}`, function (response) {
+        $('#view-issue-modal').modal('hide');
+        $('.modal-container').html(response);
+        $('#edit-issue-modal').modal('show');
     });
 });
 
 $(document).on('click', '#btn-back-to-view', function () {
-    $.ajax({
-        type: 'GET',
-        url: 'Issues/ViewIssueAsync',
-        data: { issueKey: $('#edit-issue-modal-label').text() },
-        success: function (response) {
-            $('#edit-issue-modal').modal('hide');
-            $('.modal-container').html(response);
-            $('#view-issue-modal').modal('show');
-        }
+    $.get(`Issues/ViewIssueAsync/${$('#edit-issue-modal-label').text()}`, function (response) {
+        $('#edit-issue-modal').modal('hide');
+        $('.modal-container').html(response);
+        $('#view-issue-modal').modal('show');
     });
 });
 
 $(document).on('submit', '#edit-issue-modal-form', function (e) {
     e.preventDefault();
-    var formData = new FormData($(this)[0]);
+
+    var issueKey = $('#edit-issue-modal-label').text();
 
     $.ajax({
         type: 'PUT',
-        url: 'Issues',
+        url: `Issues/UpdateIssueAsync/${issueKey}`,
+        data: new FormData($(this)[0]),
         cache: false,
         processData: false,
         contentType: false,
-        dataType: 'JSON',
-        data: formData,
         success: function (response) {
-            if (response.statusCode === 204) {
-                $('#edit-issue-modal').modal('hide')
+            // If StatusCode Is In 200, Then Operation Was Successful
+            if (response.statusCode >= 200 && response.statusCode <= 299) {
+                $('#edit-issue-modal').modal('hide');
+                initializeAlert('success', `Issue key: ${issueKey} was updated successfully!`, false, true, true);
             }
         }
     });
