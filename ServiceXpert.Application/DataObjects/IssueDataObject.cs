@@ -22,14 +22,6 @@ namespace ServiceXpert.Application.DataObjects
         [Required]
         public required string IssueKey { get; set; }
 
-        public int IssueId
-        {
-            get
-            {
-                return int.TryParse(this.IssueKey.Split('-')[1], out int issueId) ? issueId : throw new IndexOutOfRangeException();
-            }
-        }
-
         [Required]
         [MaxLength(256)]
         public required string Name { get; set; }
@@ -40,5 +32,9 @@ namespace ServiceXpert.Application.DataObjects
         public required int IssueStatusId { get; set; }
 
         public required int IssuePriorityId { get; set; }
+
+        public IssueDataObjectForUpdate() : base(isSkipCreateDate: true)
+        {
+        }
     }
 }

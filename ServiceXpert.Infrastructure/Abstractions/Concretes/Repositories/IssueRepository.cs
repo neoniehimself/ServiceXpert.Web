@@ -4,7 +4,10 @@ using ServiceXpert.Infrastructure.Contexts;
 
 namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
 {
-    public class IssueRepository(SxpDbContext dbContext) : RepositoryBase<int, Issue>(dbContext), IIssueRepository
+    public class IssueRepository : RepositoryBase<int, Issue>, IIssueRepository
     {
+        public IssueRepository(SxpDbContext dbContext) : base(dbContext)
+        {
+        }
     }
 }

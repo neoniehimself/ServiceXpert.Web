@@ -9,6 +9,8 @@ namespace ServiceXpert.Application.MapperProfiles
         public IssueProfile()
         {
             CreateMap<IssueDataObjectForCreate, Issue>();
+            CreateMap<IssueDataObjectForUpdate, Issue>()
+                .ForMember(dest => dest.CreateDate, opt => opt.Ignore());
         }
     }
 }

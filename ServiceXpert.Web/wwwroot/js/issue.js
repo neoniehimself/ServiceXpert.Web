@@ -48,10 +48,6 @@ $(document).on('click', '#issue-table tbody .view-issue', function () {
     });
 });
 
-$(document).on('hidden.bs.modal', '#view-issue-modal', function () {
-    $('.modal-container').html('');
-});
-
 $(document).on('click', '#btn-edit-issue', function () {
     $.ajax({
         type: 'GET',
@@ -91,7 +87,9 @@ $(document).on('submit', '#edit-issue-modal-form', function (e) {
         dataType: 'JSON',
         data: formData,
         success: function (response) {
-
+            if (response.statusCode === 204) {
+                $('#edit-issue-modal').modal('hide')
+            }
         }
     });
 });

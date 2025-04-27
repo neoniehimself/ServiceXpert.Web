@@ -4,7 +4,6 @@ using ServiceXpert.Application.DataObjects;
 using ServiceXpert.Domain.Entities;
 using ServiceXpert.Domain.Shared;
 using ServiceXpert.Domain.Shared.Helpers;
-using ServiceXpert.Web.Factories;
 using ServiceXpert.Web.Filters;
 using ServiceXpert.Web.Helpers;
 using ServiceXpert.Web.ViewModels;
@@ -16,7 +15,8 @@ namespace ServiceXpert.Web.Controllers
     [Route("Issues")]
     public class IssueController(
         IHttpClientFactory httpClientFactory,
-        ICompositeViewEngine compositeViewEngine) : SxpController(compositeViewEngine)
+        ICompositeViewEngine compositeViewEngine)
+        : SxpController(compositeViewEngine)
     {
         private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
 
@@ -40,7 +40,7 @@ namespace ServiceXpert.Web.Controllers
             }
 
             using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-            var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentFactory.SerializeContent(issue));
+            var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContent(issue));
 
             if (!response.IsSuccessStatusCode)
             {
@@ -71,7 +71,7 @@ namespace ServiceXpert.Web.Controllers
                 return StatusCode((int)response.StatusCode);
             }
 
-            var (issues, pagination) = HttpContentFactory.DeserializeContent<(IEnumerable<Issue>, Pagination)>(response);
+            var (issues, pagination) = HttpContentUtil.DeserializeContent<(IEnumerable<Issue>, Pagination)>(response);
 
             var issueTableRowsHtml = await RenderViewToHtmlStringAsync("_IssueTableRow", issues.ToList());
             var paginationHtml = await RenderViewToHtmlStringAsync("_Pagination", pagination, GetPaginationViewDataDictionary(pagination, this.ModelState));
@@ -101,7 +101,7 @@ namespace ServiceXpert.Web.Controllers
                 return StatusCode((int)response.StatusCode);
             }
 
-            var issue = HttpContentFactory.DeserializeContent<Issue>(response);
+            var issue = HttpContentUtil.DeserializeContent<Issue>(response);
 
             return PartialView("~/Views/Issue/_ViewIssueModal.cshtml", issue);
         }
@@ -128,7 +128,7 @@ namespace ServiceXpert.Web.Controllers
                 return StatusCode((int)response.StatusCode);
             }
 
-            var issue = HttpContentFactory.DeserializeContent<Issue>(response);
+            var issue = HttpContentUtil.DeserializeContent<Issue>(response);
 
             return PartialView("~/Views/Issue/_EditIssueModal.cshtml", new EditIssueViewModel(issue!)
             {
@@ -139,9 +139,22 @@ namespace ServiceXpert.Web.Controllers
 
         [AjaxOperation]
         [HttpPut]
-        public Task<IActionResult> FullUpdateIssueAsync(IssueDataObjectForUpdate issue)
+        public async Task<IActionResult> UpdateIssueAsync(IssueDataObjectForUpdate issue)
         {
-            throw new NotImplementedException();
+            if (!this.ModelState.IsValid)
+            {
+                return BadRequest(this.ModelState);
+            }
+
+            using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
+            var response = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issue.IssueKey}", HttpContentUtil.SerializeContent(issue));
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int)response.StatusCode);
+            }
+
+            return Json(new { statusCode = response.StatusCode });
         }
     }
 }

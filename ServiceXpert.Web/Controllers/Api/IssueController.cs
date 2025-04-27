@@ -43,5 +43,12 @@ namespace ServiceXpert.Web.Controllers.Api
             var issue = await this.issueService.GetByIssueKey(issueKey);
             return issue != null ? issue : NotFound();
         }
+
+        [HttpPut("{issueKey}")]
+        public async Task<ActionResult> UpdateByIssueKeyAsync(string issueKey, IssueDataObjectForUpdate issue)
+        {
+            await this.issueService.UpdateByIssueKeyAsync(issueKey, issue);
+            return NoContent();
+        }
     }
 }

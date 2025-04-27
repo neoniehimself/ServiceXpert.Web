@@ -4,6 +4,6 @@ namespace ServiceXpert.Infrastructure.Contexts
 {
     internal abstract class DbContextBase
     {
-        protected string ToVarcharColumn(int length) => $"{nameof(DatabaseDataType.VARCHAR)}({length})";
+        protected static string ToVarcharColumn(int length) => $"{nameof(DatabaseDataType.VARCHAR)}({length})";
     }
 }

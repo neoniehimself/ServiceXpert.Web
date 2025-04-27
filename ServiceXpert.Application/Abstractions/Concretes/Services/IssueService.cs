@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentBuilder.Core;
 using ServiceXpert.Application.Abstractions.Interfaces.Services;
+using ServiceXpert.Application.DataObjects;
 using ServiceXpert.Domain.Abstractions.Repositories;
 using ServiceXpert.Domain.Entities;
 using ServiceXpert.Domain.Shared;
@@ -8,13 +9,19 @@ using DomainEnums = ServiceXpert.Domain.Shared.Enums;
 
 namespace ServiceXpert.Application.Abstractions.Concretes.Services
 {
-    public class IssueService(
-        IIssueRepository issueRepository,
-        IMapper mapper)
-        : ServiceBase<int, Issue>(issueRepository, mapper), IIssueService
+    public class IssueService : ServiceBase<int, Issue>, IIssueService
     {
-        private readonly IIssueRepository issueRepository = issueRepository;
-        private readonly IMapper mapper = mapper;
+        private readonly IIssueRepository issueRepository;
+        private readonly IMapper mapper;
+
+        public IssueService(
+            IIssueRepository issueRepository,
+            IMapper mapper)
+            : base(issueRepository, mapper)
+        {
+            this.issueRepository = issueRepository;
+            this.mapper = mapper;
+        }
 
         public async Task<Issue?> GetByIssueKey(string issueKey, IncludeOptions<Issue>? includeOptions = null)
         {
@@ -54,7 +61,7 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
             throw new InvalidCastException($"Cannot cast string into enum. Value: {statusCategory}");
         }
 
-        public async Task UpdateByIssueKeyAsync(string issueKey, Issue issue)
+        public async Task UpdateByIssueKeyAsync(string issueKey, IssueDataObjectForUpdate issue)
         {
             var issueToUpdate = await this.issueRepository.GetByIdAsync(GetIdFromIssueKey(issueKey));
 

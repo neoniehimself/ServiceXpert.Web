@@ -1,10 +1,9 @@
-﻿using ServiceXpert.Web.Helpers;
-using System.Text;
+﻿using System.Text;
 using NewtonsoftJson = Newtonsoft.Json;
 
-namespace ServiceXpert.Web.Factories
+namespace ServiceXpert.Web.Helpers
 {
-    public static class HttpContentFactory
+    public static class HttpContentUtil
     {
         public static StringContent SerializeContent(object value)
         {

@@ -9,10 +9,14 @@ using System.Linq.Expressions;
 
 namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
 {
-    public abstract class RepositoryBase<TEntityId, TEntity>(SxpDbContext dbContext)
-        : IRepositoryBase<TEntityId, TEntity> where TEntity : EntityBase
+    public abstract class RepositoryBase<TEntityId, TEntity> : IRepositoryBase<TEntityId, TEntity> where TEntity : EntityBase
     {
-        private SxpDbContext dbContext = dbContext;
+        private SxpDbContext dbContext;
+
+        protected RepositoryBase(SxpDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
 
         protected string EntityId { get => string.Concat(typeof(TEntity).Name, "Id"); }
 
@@ -32,20 +36,7 @@ namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
             return await query.SingleOrDefaultAsync(e => EF.Property<TEntityId>(e, this.EntityId)!.Equals(entityId));
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
-        {
-            IQueryable<TEntity> query = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
-
-            if (condition != null)
-            {
-                query = query.Where(condition);
-            }
-
-            return await query.ToListAsync();
-        }
-
-        public async Task<(IEnumerable<TEntity>, Pagination)> GetPagedAllAsync(
-            int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
+        public async Task<(IEnumerable<TEntity>, Pagination)> GetPagedAllAsync(int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
         {
             IQueryable<TEntity> selectQuery = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
             IQueryable<TEntity> totalCountQuery = this.dbContext.Set<TEntity>();
