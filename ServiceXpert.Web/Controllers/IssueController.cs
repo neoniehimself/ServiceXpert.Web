@@ -26,7 +26,7 @@ namespace ServiceXpert.Web.Controllers
         {
             return PartialView("_CreateIssueModal", new CreateIssueViewModel()
             {
-                IssuePriorities = SxpEnumFactory.ToDictionary<DomainEnums.IssuePriority>()
+                IssuePriorities = SxpEnumUtil.ToDictionary<DomainEnums.IssuePriority>()
             });
         }
 
@@ -55,7 +55,7 @@ namespace ServiceXpert.Web.Controllers
         {
             return base.View(new IssueViewModel()
             {
-                StatusCategories = SxpEnumFactory.ToList<DomainEnums.IssueStatusCategory>(),
+                StatusCategories = SxpEnumUtil.ToList<DomainEnums.IssueStatusCategory>(),
             });
         }
 
@@ -132,8 +132,8 @@ namespace ServiceXpert.Web.Controllers
 
             return PartialView("~/Views/Issue/_EditIssueModal.cshtml", new EditIssueViewModel(issue!)
             {
-                IssuePriorities = SxpEnumFactory.ToDictionary<DomainEnums.IssuePriority>(),
-                IssueStatuses = SxpEnumFactory.ToDictionary<DomainEnums.IssueStatus>()
+                IssuePriorities = SxpEnumUtil.ToDictionary<DomainEnums.IssuePriority>(),
+                IssueStatuses = SxpEnumUtil.ToDictionary<DomainEnums.IssueStatus>()
             });
         }
 

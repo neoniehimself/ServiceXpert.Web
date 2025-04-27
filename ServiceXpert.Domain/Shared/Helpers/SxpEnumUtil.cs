@@ -1,6 +1,6 @@
 ﻿namespace ServiceXpert.Domain.Shared.Helpers
 {
-    public static class SxpEnumFactory
+    public static class SxpEnumUtil
     {
         /// <summary>
         /// Converts an enum into a dictionary where the key is the enum's integer value and the value is its name as a string.
