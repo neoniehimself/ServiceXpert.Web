@@ -44,15 +44,16 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
                         break;
                     case DomainEnums.IssueStatusCategory.Open:
                         (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(
-                            pageNumber, pageSize, i => (i.IssueStatusId != (int)DomainEnums.IssueStatus.Resolved) && (i.IssueStatusId != (int)DomainEnums.IssueStatus.Closed), includeOptions);
+                            pageNumber, pageSize, i => (i.IssueStatusId != (int)DomainEnums.IssueStatus.Resolved)
+                                && (i.IssueStatusId != (int)DomainEnums.IssueStatus.Closed), includeOptions);
                         break;
                     case DomainEnums.IssueStatusCategory.Resolved:
-                        (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(
-                            pageNumber, pageSize, i => i.IssueStatusId == (int)DomainEnums.IssueStatus.Resolved, includeOptions);
+                        (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(pageNumber, pageSize,
+                            i => i.IssueStatusId == (int)DomainEnums.IssueStatus.Resolved, includeOptions);
                         break;
                     case DomainEnums.IssueStatusCategory.Closed:
-                        (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(
-                            pageNumber, pageSize, i => i.IssueStatusId == (int)DomainEnums.IssueStatus.Closed, includeOptions);
+                        (issues, paginationMetadata) = await this.issueRepository.GetPagedAllAsync(pageNumber, pageSize,
+                            i => i.IssueStatusId == (int)DomainEnums.IssueStatus.Closed, includeOptions);
                         break;
                 }
                 return (issues, paginationMetadata);

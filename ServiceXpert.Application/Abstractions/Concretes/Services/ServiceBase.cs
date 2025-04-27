@@ -28,7 +28,8 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
             return entity;
         }
 
-        public async Task<(IEnumerable<TEntity>, Pagination)> GetPagedAllAsync(int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
+        public async Task<(IEnumerable<TEntity>, Pagination)> GetPagedAllAsync(int pageNumber, int pageSize,
+            Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
         {
             return await this.repositoryBase.GetPagedAllAsync(pageNumber, pageSize, condition, includeOptions);
         }
@@ -43,7 +44,8 @@ namespace ServiceXpert.Application.Abstractions.Concretes.Services
             return GetId(entity);
         }
 
-        public async Task UpdateByIdAsync<TDataObject>(TEntityId entityId, TDataObject dataObject) where TDataObject : DataObjectBase
+        public async Task UpdateByIdAsync<TDataObject>(TEntityId entityId, TDataObject dataObject)
+            where TDataObject : DataObjectBase
         {
             TEntity? entityToUpdate = await this.repositoryBase.GetByIdAsync(entityId);
 

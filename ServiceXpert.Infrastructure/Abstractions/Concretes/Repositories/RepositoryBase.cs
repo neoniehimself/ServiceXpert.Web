@@ -9,7 +9,8 @@ using System.Linq.Expressions;
 
 namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
 {
-    public abstract class RepositoryBase<TEntityId, TEntity> : IRepositoryBase<TEntityId, TEntity> where TEntity : EntityBase
+    public abstract class RepositoryBase<TEntityId, TEntity> : IRepositoryBase<TEntityId, TEntity>
+        where TEntity : EntityBase
     {
         private SxpDbContext dbContext;
 
@@ -36,7 +37,8 @@ namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
             return await query.SingleOrDefaultAsync(e => EF.Property<TEntityId>(e, this.EntityId)!.Equals(entityId));
         }
 
-        public async Task<(IEnumerable<TEntity>, Pagination)> GetPagedAllAsync(int pageNumber, int pageSize, Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
+        public async Task<(IEnumerable<TEntity>, Pagination)> GetPagedAllAsync(int pageNumber, int pageSize,
+            Expression<Func<TEntity, bool>>? condition = null, IncludeOptions<TEntity>? includeOptions = null)
         {
             IQueryable<TEntity> selectQuery = QueryBuilder.Build(this.dbContext.Set<TEntity>(), includeOptions);
             IQueryable<TEntity> totalCountQuery = this.dbContext.Set<TEntity>();
@@ -65,12 +67,14 @@ namespace ServiceXpert.Infrastructure.Abstractions.Concretes.Repositories
 
         public async Task DeleteByIdAsync(TEntityId entityId)
         {
-            await this.dbContext.Set<TEntity>().Where(e => EF.Property<TEntityId>(e, this.EntityId)!.Equals(entityId)).ExecuteDeleteAsync();
+            await this.dbContext.Set<TEntity>().Where(e => EF.Property<TEntityId>(
+                e, this.EntityId)!.Equals(entityId)).ExecuteDeleteAsync();
         }
 
         public async Task<bool> IsExistsByIdAsync(TEntityId entityId)
         {
-            return await this.dbContext.Set<TEntity>().AnyAsync(e => EF.Property<TEntityId>(e, this.EntityId)!.Equals(entityId));
+            return await this.dbContext.Set<TEntity>().AnyAsync(
+                e => EF.Property<TEntityId>(e, this.EntityId)!.Equals(entityId));
         }
     }
 }

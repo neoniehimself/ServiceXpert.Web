@@ -5,9 +5,10 @@ namespace ServiceXpert.Web.Helpers
 {
     public static class HttpContentUtil
     {
-        public static StringContent SerializeContent(object value)
+        public static StringContent SerializeContentWithApplicationJson(object value)
         {
-            return new StringContent(NewtonsoftJson.JsonConvert.SerializeObject(value), Encoding.UTF8, HttpMediaType.ApplicationJson);
+            return new StringContent(NewtonsoftJson.JsonConvert.SerializeObject(value), Encoding.UTF8,
+                HttpMediaType.ApplicationJson);
         }
 
         public static T? DeserializeContent<T>(HttpResponseMessage response)

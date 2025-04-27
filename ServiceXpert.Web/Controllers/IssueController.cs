@@ -40,7 +40,8 @@ namespace ServiceXpert.Web.Controllers
             }
 
             using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-            var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContent(issue));
+            var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues",
+                HttpContentUtil.SerializeContentWithApplicationJson(issue));
 
             if (!response.IsSuccessStatusCode)
             {
@@ -64,7 +65,10 @@ namespace ServiceXpert.Web.Controllers
         public async Task<IActionResult> GetPagedIssuesAsync(string statusCategory, int pageNumber = 1, int pageSize = 10)
         {
             using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-            var response = await httpClient.GetAsync(@$"{httpClient.BaseAddress}/Issues?StatusCategory={statusCategory}&PageNumber={pageNumber}&PageSize={pageSize}");
+            var response = await httpClient.GetAsync(@$"
+                {httpClient.BaseAddress}/Issues?StatusCategory={statusCategory}&PageNumber={pageNumber}
+                &PageSize={pageSize}
+            ");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -74,7 +78,8 @@ namespace ServiceXpert.Web.Controllers
             var (issues, pagination) = HttpContentUtil.DeserializeContent<(IEnumerable<Issue>, Pagination)>(response);
 
             var issueTableRowsHtml = await RenderViewToHtmlStringAsync("_IssueTableRow", issues.ToList());
-            var paginationHtml = await RenderViewToHtmlStringAsync("_Pagination", pagination, GetPaginationViewDataDictionary(pagination, this.ModelState));
+            var paginationHtml = await RenderViewToHtmlStringAsync("_Pagination", pagination,
+                GetPaginationViewDataDictionary(pagination, this.ModelState));
 
             return Json(new { issueTableRowsHtml, paginationHtml });
         }
@@ -147,7 +152,8 @@ namespace ServiceXpert.Web.Controllers
             }
 
             using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-            var response = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issue.IssueKey}", HttpContentUtil.SerializeContent(issue));
+            var response = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issue.IssueKey}",
+                HttpContentUtil.SerializeContentWithApplicationJson(issue));
 
             if (!response.IsSuccessStatusCode)
             {
