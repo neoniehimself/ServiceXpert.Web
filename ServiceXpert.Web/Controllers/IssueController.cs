@@ -58,22 +58,13 @@ public class IssueController(IHttpClientFactory httpClientFactory, ICompositeVie
 
         using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
         var issueResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
-        var commentResponse = await httpClient.GetAsync(
-            $"{httpClient.BaseAddress}/Issues/{IssueUtil.GetIdFromIssueKey(issueKey)}/Comments"
-        );
 
-        if (!issueResponse.IsSuccessStatusCode || !commentResponse.IsSuccessStatusCode)
+        if (!issueResponse.IsSuccessStatusCode)
         {
-            return StatusCode((int)(
-                !issueResponse.IsSuccessStatusCode
-                ? issueResponse.StatusCode
-                : commentResponse.StatusCode)
-            );
+            return StatusCode((int)(issueResponse.StatusCode));
         }
 
         var issue = HttpContentUtil.DeserializeContent<Issue>(issueResponse);
-        issue!.Comments = HttpContentUtil.DeserializeContent<List<Comment>>(commentResponse) ?? [];
-
         return View("~/Views/Issue/ViewIssue.cshtml", issue);
     }
 
