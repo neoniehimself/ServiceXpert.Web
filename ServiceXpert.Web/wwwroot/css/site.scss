@@ -98,8 +98,9 @@ footer {
 
 #issue-table {
   tbody {
-    span {
+    a {
       &.view-issue {
+        text-decoration: none;
         color: $primary;
         &:hover {
           text-decoration: underline;

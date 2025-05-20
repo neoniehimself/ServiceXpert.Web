@@ -12038,10 +12038,11 @@ footer {
   color: white;
 }
 
-#issue-table tbody span.view-issue {
+#issue-table tbody a.view-issue {
+  text-decoration: none;
   color: #172B4D;
 }
-#issue-table tbody span.view-issue:hover {
+#issue-table tbody a.view-issue:hover {
   text-decoration: underline;
   text-underline-offset: 0.375em;
   cursor: pointer;

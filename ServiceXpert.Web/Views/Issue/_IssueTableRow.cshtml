@@ -4,9 +4,9 @@
 {
     <tr>
         @* Issue Key *@
-        <th><span class="view-issue" data-key="@issue.IssueKey">@issue.IssueKey</span></th>
+        <th><a asp-route="ViewIssueAsync" asp-route-issueKey="@issue.IssueKey" class="view-issue">@issue.IssueKey</a></th>
         @* Summary *@
-        <td><span class="view-issue" data-key="@issue.IssueKey">@issue.Name</span></td>
+        <td><a asp-route="ViewIssueAsync" asp-route-issueKey="@issue.IssueKey" class="view-issue">@issue.Name</a></td>
         @* Issue Priority *@
         <td>@issue.IssuePriority!.Name</td>
         @* Issue Status *@

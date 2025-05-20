@@ -48,25 +48,33 @@ public class IssueController(IHttpClientFactory httpClientFactory, ICompositeVie
         return Json(new { issueTableRowsHtml, paginationHtml });
     }
 
-    [HttpGet("ViewIssueAsync/{issueKey}")]
+    [HttpGet("{issueKey}", Name = "ViewIssueAsync")]
     public async Task<IActionResult> ViewIssueAsync(string issueKey)
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue Key: {issueKey}");
+            return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue key: {issueKey}");
         }
 
         using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-        var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        var issueResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        var commentResponse = await httpClient.GetAsync(
+            $"{httpClient.BaseAddress}/Issues/{IssueUtil.GetIdFromIssueKey(issueKey)}/Comments"
+        );
 
-        if (!response.IsSuccessStatusCode)
+        if (!issueResponse.IsSuccessStatusCode || !commentResponse.IsSuccessStatusCode)
         {
-            return StatusCode((int)response.StatusCode);
+            return StatusCode((int)(
+                !issueResponse.IsSuccessStatusCode
+                ? issueResponse.StatusCode
+                : commentResponse.StatusCode)
+            );
         }
 
-        var issue = HttpContentUtil.DeserializeContent<Issue>(response);
+        var issue = HttpContentUtil.DeserializeContent<Issue>(issueResponse);
+        issue!.Comments = HttpContentUtil.DeserializeContent<List<Comment>>(commentResponse) ?? [];
 
-        return PartialView("~/Views/Issue/_ViewIssueModal.cshtml", issue);
+        return View("~/Views/Issue/ViewIssue.cshtml", issue);
     }
 
     [HttpGet("EditIssueAsync/{issueKey}")]

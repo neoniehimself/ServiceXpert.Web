@@ -13,7 +13,7 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
     $('#issue-table-spinner').removeClass('d-none').addClass('d-flex'); // Show spinner
     $.ajax({
         type: 'GET',
-        url: 'Issues/GetPagedIssuesByStatusAsync',
+        url: '/Issues/GetPagedIssuesByStatusAsync',
         data: {
             statusCategory: statusCategory,
             pageNumber: pageNumber,
@@ -36,15 +36,8 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
     });
 }
 
-$(document).on('click', '#issue-table tbody .view-issue', function () {
-    $.get(`Issues/ViewIssueAsync/${$(this).data('key')}`, function (response) {
-        $('.modal-container').html(response);
-        $('#view-issue-modal').modal('show');
-    });
-});
-
 $(document).on('click', '#btn-edit-issue', function () {
-    $.get(`Issues/EditIssueAsync/${$('#view-issue-modal-label').text()}`, function (response) {
+    $.get(`/Issues/EditIssueAsync/${$('#view-issue-modal-label').text()}`, function (response) {
         $('#view-issue-modal').modal('hide');
         $('.modal-container').html(response);
         $('#edit-issue-modal').modal('show');
@@ -52,7 +45,7 @@ $(document).on('click', '#btn-edit-issue', function () {
 });
 
 $(document).on('click', '#btn-back-to-view', function () {
-    $.get(`Issues/ViewIssueAsync/${$('#edit-issue-modal-label').text()}`, function (response) {
+    $.get(`/Issues/ViewIssueAsync/${$('#edit-issue-modal-label').text()}`, function (response) {
         $('#edit-issue-modal').modal('hide');
         $('.modal-container').html(response);
         $('#view-issue-modal').modal('show');
@@ -66,7 +59,7 @@ $(document).on('submit', '#edit-issue-modal-form', function (e) {
 
     $.ajax({
         type: 'PUT',
-        url: `Issues/UpdateIssueAsync/${issueKey}`,
+        url: `/Issues/UpdateIssueAsync/${issueKey}`,
         data: new FormData($(this)[0]),
         cache: false,
         processData: false,
