@@ -39,8 +39,3 @@
     <textarea asp-for="Description" class="form-control" rows="3" disabled>@Model.Description</textarea>
 </div>
 <hr style="margin-top: 1.90rem;" />
-<h5 class="text-muted mb-3">Comments</h5>
-@foreach (var comment in Model.Comments)
-{
-    @await Html.PartialAsync("_Comment", comment)
-}
