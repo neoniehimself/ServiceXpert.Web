@@ -8,7 +8,9 @@ using System.Net;
 
 namespace ServiceXpert.Web.Controllers;
 [Route("Issues")]
-public class IssueController(IHttpClientFactory httpClientFactory, ICompositeViewEngine compositeViewEngine)
+public class IssueController(
+    IHttpClientFactory httpClientFactory,
+    ICompositeViewEngine compositeViewEngine)
     : SxpController(compositeViewEngine)
 {
     private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
@@ -57,14 +59,14 @@ public class IssueController(IHttpClientFactory httpClientFactory, ICompositeVie
         }
 
         using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-        var issueResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
 
-        if (!issueResponse.IsSuccessStatusCode)
+        if (!response.IsSuccessStatusCode)
         {
-            return StatusCode((int)(issueResponse.StatusCode));
+            return StatusCode((int)(response.StatusCode));
         }
 
-        var issue = HttpContentUtil.DeserializeContent<Issue>(issueResponse);
+        var issue = HttpContentUtil.DeserializeContent<Issue>(response);
         return View("~/Views/Issue/ViewIssue.cshtml", issue);
     }
 
@@ -144,6 +146,8 @@ public class IssueController(IHttpClientFactory httpClientFactory, ICompositeVie
             return StatusCode((int)response.StatusCode);
         }
 
-        return Json(new { issueKey = response.Content.ReadAsStringAsync().Result });
+        var issueKey = HttpContentUtil.DeserializeContent<string>(response);
+
+        return Json(new { issueKey });
     }
 }
