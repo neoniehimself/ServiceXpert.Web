@@ -1,4 +1,4 @@
-﻿using ServiceXpert.Web.Models;
+﻿using ServiceXpert.Web.Models.Issue;
 
 namespace ServiceXpert.Web.ViewModels;
 

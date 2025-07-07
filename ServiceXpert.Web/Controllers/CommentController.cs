@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Web.Constants;
-using ServiceXpert.Web.Models;
+using ServiceXpert.Web.Models.Comment;
 using ServiceXpert.Web.Utils;
 using System.Net;
 
@@ -10,7 +10,8 @@ public class CommentController(IHttpClientFactory httpClientFactory) : Controlle
 {
     private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
 
-    public async Task<IActionResult> GetAllAsync(string issueKey)
+    [HttpGet]
+    public async Task<IActionResult> GetAllByIssueKeyAsync(string issueKey)
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
         {

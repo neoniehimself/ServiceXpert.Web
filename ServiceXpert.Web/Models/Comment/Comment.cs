@@ -1,4 +1,4 @@
-﻿namespace ServiceXpert.Web.Models;
+﻿namespace ServiceXpert.Web.Models.Comment;
 public class Comment : ModelBase
 {
     public Guid CommentId { get; set; }

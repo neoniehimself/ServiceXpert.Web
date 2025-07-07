@@ -1,4 +1,4 @@
-﻿namespace ServiceXpert.Web.Models;
+﻿namespace ServiceXpert.Web.Models.Issue;
 public class Issue : ModelBase
 {
     public int IssueId { get; set; }
@@ -17,7 +17,7 @@ public class Issue : ModelBase
 
     public IssuePriority? IssuePriority { get; set; }
 
-    public List<Comment> Comments { get; set; }
+    public List<Comment.Comment> Comments { get; set; }
 
     public Issue()
     {

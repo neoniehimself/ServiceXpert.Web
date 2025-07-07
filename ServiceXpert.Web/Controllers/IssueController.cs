@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using ServiceXpert.Web.Constants;
 using ServiceXpert.Web.Models;
+using ServiceXpert.Web.Models.Issue;
 using ServiceXpert.Web.Utils;
 using ServiceXpert.Web.ViewModels;
 using System.Net;
@@ -29,7 +30,6 @@ public class IssueController(
         string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
     {
         using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-
         var response = await httpClient.GetAsync(
             string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}",
                 httpClient.BaseAddress, statusCategory, pageNumber, pageSize)
@@ -40,9 +40,9 @@ public class IssueController(
             return StatusCode((int)response.StatusCode);
         }
 
-        var result = HttpContentUtil.DeserializeContent<PagedIssuesResponse>(response);
+        var result = HttpContentUtil.DeserializeContent<PagedResult<Issue>>(response);
 
-        var issueTableRowsHtml = await RenderViewToHtmlStringAsync("_IssueTableRow", result!.Issues);
+        var issueTableRowsHtml = await RenderViewToHtmlStringAsync("_IssueTableRow", result!.Items);
 
         var paginationHtml = await RenderViewToHtmlStringAsync("_Pagination", result.Pagination,
             GetPaginationViewDataDictionary(result.Pagination, this.ModelState));
@@ -146,8 +146,6 @@ public class IssueController(
             return StatusCode((int)response.StatusCode);
         }
 
-        var issueKey = HttpContentUtil.DeserializeContent<string>(response);
-
-        return Json(new { issueKey });
+        return Json(new { issueKey = HttpContentUtil.GetResultAsString(response) });
     }
 }

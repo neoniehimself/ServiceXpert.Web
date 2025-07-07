@@ -1,7 +1,7 @@
 ﻿using ServiceXpert.Web.Utils;
 using System.ComponentModel.DataAnnotations;
 
-namespace ServiceXpert.Web.Models;
+namespace ServiceXpert.Web.Models.Comment;
 public class CommentForCreate : ModelBase
 {
     [Required]

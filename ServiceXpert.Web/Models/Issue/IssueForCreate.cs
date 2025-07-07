@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServiceXpert.Web.Models;
+namespace ServiceXpert.Web.Models.Issue;
 public class IssueForCreate : ModelBase
 {
     [Required]

@@ -15,4 +15,9 @@ public static class HttpContentUtil
     {
         return NewtonsoftJson.JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
     }
+
+    public static string GetResultAsString(HttpResponseMessage response)
+    {
+        return response.Content.ReadAsStringAsync().Result;
+    }
 }
