@@ -39,7 +39,11 @@
     <textarea asp-for="Description" class="form-control" rows="3" disabled>@Model.Description</textarea>
 </div>
 <hr style="margin-top: 1.90rem;" />
+<section id="comments">
+    <h5 class="text-muted fw-semibold">Comments</h5>
+    <button type="button" class="btn btn-primary btn-sm mt-2">Add Comment</button>
+</section>
 
 @section Scripts {
-    <script src="~/js/view-issue.js"></script>
+    <script src="~/js/comments.js"></script>
 }

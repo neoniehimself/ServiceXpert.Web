@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using ServiceXpert.Web.Constants;
 using ServiceXpert.Web.Models.Comment;
 using ServiceXpert.Web.Utils;
@@ -6,7 +7,10 @@ using System.Net;
 
 namespace ServiceXpert.Web.Controllers;
 [Route("Issues/{issueKey}/Comments")]
-public class CommentController(IHttpClientFactory httpClientFactory) : Controller
+public class CommentController(
+    IHttpClientFactory httpClientFactory,
+    ICompositeViewEngine compositeViewEngine)
+    : SxpController(compositeViewEngine)
 {
     private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
 
@@ -27,6 +31,13 @@ public class CommentController(IHttpClientFactory httpClientFactory) : Controlle
         }
 
         var comments = HttpContentUtil.DeserializeContent<List<Comment>>(response);
-        return Json(new { comments });
+
+        if (comments == null || comments.Count == 0)
+        {
+            return Json(new { hasComments = false });
+        }
+
+        var commentsHtml = await RenderViewToHtmlStringAsync("_CommentsSectionRow", comments!);
+        return Json(new { hasComments = true, commentsHtml });
     }
 }
