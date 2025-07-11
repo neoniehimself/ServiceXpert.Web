@@ -35,7 +35,11 @@
         <tbody></tbody>
     </table>
 </div>
-@await Html.PartialAsync("_Spinner", "issue-table-spinner")
+@{
+    ViewData["_SpinnerId"] = "issue-table-spinner";
+    ViewData["_SpinnerIsCentered"] = true;
+}
+@await Html.PartialAsync("_Spinner")
 
 @section Scripts {
     <script src="~/js/issue.js"></script>

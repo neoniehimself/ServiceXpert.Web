@@ -8,6 +8,8 @@
             `);
 
             $('#comments-list').html(response.commentsHtml);
+        } else {
+            $('#comments-spinner').addClass('d-none');
         }
     });
 });
