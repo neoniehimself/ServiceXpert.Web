@@ -1,0 +1,8 @@
+﻿<section id="comments">
+    <h5 class="text-muted fw-semibold">Comments</h5>
+    @{
+        ViewData["_SpinnerId"] = "comments-spinner";
+    }
+    @await Html.PartialAsync("_Spinner")
+    <button type="button" class="btn btn-primary btn-sm mt-2">Add Comment</button>
+</section>

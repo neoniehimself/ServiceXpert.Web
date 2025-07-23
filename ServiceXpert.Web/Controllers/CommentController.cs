@@ -37,7 +37,7 @@ public class CommentController(
             return Json(new { hasComments = false });
         }
 
-        var commentsHtml = await RenderViewToHtmlStringAsync("_CommentsSectionRow", comments!);
+        var commentsHtml = await RenderViewToHtmlStringAsync("~/Views/Shared/_CommentsSectionRow.cshtml", comments!);
         return Json(new { hasComments = true, commentsHtml });
     }
 }
