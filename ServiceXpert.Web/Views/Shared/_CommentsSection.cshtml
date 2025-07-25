@@ -4,5 +4,6 @@
         ViewData["_SpinnerId"] = "comments-spinner";
     }
     @await Html.PartialAsync("_Spinner")
-    <button type="button" class="btn btn-primary btn-sm mt-2">Add Comment</button>
+    <textarea class="form-control mt-3" placeholder="Add a comment..." id="add-comment-content-field" style="width: 40rem; height: 5.1rem;"></textarea>
+    <button type="button" class="btn btn-primary btn-sm mt-3">Add Comment</button>
 </section>

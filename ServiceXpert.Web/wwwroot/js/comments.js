@@ -4,7 +4,8 @@
             $('#comments').html(`
                 <h5 class="text-muted fw-semibold">Comments</h5>
                 <div id="comments-list" class="py-1"></div>
-                <button type="button" class="btn btn-primary btn-sm">Add Comment</button>
+                <textarea class="form-control" placeholder="Add a comment..." id="add-comment-content-field" style="width: 40rem; height: 5.1rem;"></textarea>
+                <button type="button" class="btn btn-primary btn-sm mt-3">Add Comment</button>
             `);
 
             $('#comments-list').html(response.commentsHtml);
