@@ -40,4 +40,24 @@ public class CommentController(
         var commentsHtml = await RenderViewToHtmlStringAsync("~/Views/Shared/_CommentsSectionRow.cshtml", comments!);
         return Json(new { hasComments = true, commentsHtml });
     }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateCommentAsync(string issueKey, CommentForCreate comment)
+    {
+        if (!IssueUtil.IsIssueKeyValid(issueKey))
+        {
+            return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue key: {issueKey}");
+        }
+
+        var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
+        var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments",
+            HttpContentUtil.SerializeContentWithApplicationJson(comment));
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return StatusCode((int)response.StatusCode);
+        }
+
+        return Json(new { });
+    }
 }

@@ -10,7 +10,7 @@ public class CommentForCreate : ModelBase
 
     [Required]
     [MaxLength(7)] // SXP-999
-    public required string IssueKey { get; set; }
+    public string IssueKey { get; set; } = null!;
 
     public int IssueId { get => IssueUtil.GetIdFromIssueKey(this.IssueKey); }
 }

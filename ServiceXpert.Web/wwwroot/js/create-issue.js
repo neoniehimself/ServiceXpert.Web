@@ -13,7 +13,6 @@ $(document).on('submit', '#create-issue-modal-form', function (e) {
         type: 'POST',
         url: '/Issues',
         data: new FormData($(this)[0]),
-        cache: false,
         processData: false,
         contentType: false,
         dataType: 'JSON',
