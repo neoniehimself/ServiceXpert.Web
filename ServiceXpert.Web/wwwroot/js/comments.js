@@ -7,7 +7,7 @@
                 <div id="comments-list" class="py-1"></div>
                 <form method="post" id="add-comment-form" role="form">
                     <textarea class="form-control" placeholder="Add a comment..." id="add-comment-content-field" name="Content" style="width: 40rem; height: 5.1rem;"></textarea>
-                    <button type="submit" class="btn btn-primary btn-sm mt-3">Add Comment</button>
+                    <button type="submit" class="btn btn-primary mt-3">Add Comment</button>
                 </form>
             `);
 
