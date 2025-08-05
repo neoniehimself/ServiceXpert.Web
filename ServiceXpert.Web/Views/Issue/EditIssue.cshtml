@@ -1,0 +1,14 @@
+﻿@model EditIssueViewModel
+@{
+    ViewData["Title"] = $"{Model.Issue.IssueKey} - {Model.Issue.Name}";
+}
+
+<div class="row">
+    <div class="col-10">
+        <h6 class="text-muted mb-1 fw-bold" id="issue-key-label">@Model.Issue.IssueKey</h6>
+        <h3 class="fw-bold">@Model.Issue.Name</h3>
+    </div>
+    <div class="col-2 d-flex justify-content-end align-items-center">
+        <button type="button" class="btn btn-outline-secondary">Cancel</button>
+    </div>
+</div>

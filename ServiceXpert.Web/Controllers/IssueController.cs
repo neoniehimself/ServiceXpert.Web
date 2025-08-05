@@ -25,7 +25,7 @@ public class IssueController(
         });
     }
 
-    [HttpGet("GetPagedIssuesByStatusAsync")]
+    [HttpGet(nameof(GetPagedIssuesByStatusAsync))]
     public async Task<IActionResult> GetPagedIssuesByStatusAsync(
         string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
     {
@@ -50,7 +50,7 @@ public class IssueController(
         return Json(new { issueTableRowsHtml, paginationHtml });
     }
 
-    [HttpGet("{issueKey}", Name = "ViewIssueAsync")]
+    [HttpGet("{issueKey}", Name = nameof(ViewIssueAsync))]
     public async Task<IActionResult> ViewIssueAsync(string issueKey)
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
@@ -70,7 +70,7 @@ public class IssueController(
         return View("~/Views/Issue/ViewIssue.cshtml", issue);
     }
 
-    [HttpGet("EditIssueAsync/{issueKey}")]
+    [HttpGet("{issueKey}/Edit", Name = nameof(EditIssueAsync))]
     public async Task<IActionResult> EditIssueAsync(string issueKey)
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
@@ -88,14 +88,15 @@ public class IssueController(
 
         var issue = HttpContentUtil.DeserializeContent<Issue>(response);
 
-        return PartialView("~/Views/Issue/_EditIssueModal.cshtml", new EditIssueViewModel(issue!)
+        return View("~/Views/Issue/EditIssue.cshtml", new EditIssueViewModel()
         {
+            Issue = issue!,
             IssuePriorities = SxpEnumUtil.ToDictionary<Enums.IssuePriority>(),
             IssueStatuses = SxpEnumUtil.ToDictionary<Enums.IssueStatus>()
         });
     }
 
-    [HttpPut("UpdateIssueAsync/{issueKey}")]
+    [HttpPut("{issueKey}/Edit")]
     public async Task<IActionResult> UpdateIssueAsync(string issueKey, IssueForUpdate issue)
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
@@ -120,7 +121,7 @@ public class IssueController(
         return Json(new { statusCode = 204 });
     }
 
-    [HttpGet("InitializeCreateIssue")]
+    [HttpGet(nameof(InitializeCreateIssue))]
     public IActionResult InitializeCreateIssue()
     {
         return PartialView("_CreateIssueModal", new CreateIssueViewModel()
