@@ -9,6 +9,38 @@
         <h3 class="fw-bold">@Model.Issue.Name</h3>
     </div>
     <div class="col-2 d-flex justify-content-end align-items-center">
-        <button type="button" class="btn btn-outline-secondary">Cancel</button>
+        <a asp-route="ViewIssueAsync" asp-route-issueKey="@Model.Issue.IssueKey" class="btn btn-secondary me-2">Cancel</a>
+        <button type="button" class="btn btn-success">Save</button>
     </div>
 </div>
+<hr class="mb-4" />
+<form method="post" id="edit-issue-form" role="form">
+    <div class="row mb-3">
+        <div class="col-6">
+            <div>
+                <label for="edit-issue-priority-field" class="form-label">Priority</label>
+                <select class="form-select" id="edit-issue-priority-field" name="">
+                    @foreach (var priority in Model.IssuePriorities)
+                    {
+                        <option value="@priority.Key" selected="@(priority.Key == (int)Model.Issue.IssuePriorityId)">
+                            @priority.Value
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-6">
+            <div>
+                <label for="edit-issue-status-field" class="form-label">Status</label>
+                <select class="form-select" id="edit-issue-status-field" name="">
+                    @foreach (var status in Model.IssueStatuses)
+                    {
+                        <option value="@status.Key" selected="@(status.Key == (int)Model.Issue.IssueStatusId)">
+                            @status.Value
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+</form>
