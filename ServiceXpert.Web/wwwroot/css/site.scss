@@ -142,3 +142,9 @@ form {
     background-color: $form-element-background-color;
   }
 }
+
+.utility {
+  &.form-editable {
+    background-color: $form-element-background-color;
+  }
+}

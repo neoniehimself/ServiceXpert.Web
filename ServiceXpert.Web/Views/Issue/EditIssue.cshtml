@@ -2,24 +2,28 @@
 @{
     ViewData["Title"] = $"{Model.Issue.IssueKey} - {Model.Issue.Name}";
 }
-
-<div class="row">
-    <div class="col-10">
-        <h6 class="text-muted mb-1 fw-bold" id="issue-key-label">@Model.Issue.IssueKey</h6>
-        <h3 class="fw-bold">@Model.Issue.Name</h3>
-    </div>
-    <div class="col-2 d-flex justify-content-end align-items-center">
-        <a asp-route="ViewIssueAsync" asp-route-issueKey="@Model.Issue.IssueKey" class="btn btn-secondary me-2">Cancel</a>
-        <button type="button" class="btn btn-success">Save</button>
-    </div>
-</div>
-<hr class="mb-4" />
 <form method="post" id="edit-issue-form" role="form">
+    <div class="row">
+        <div class="col-6">
+            <h6 class="text-muted mb-1 fw-bold" id="issue-key-label">@Model.Issue.IssueKey</h6>
+            <div>
+                <label for="edit-issue-name-field" class="form-label">
+                    Title <span class="text-danger">*</span>
+                </label>
+                <input type="text" class="form-control utility form-editable" id="edit-issue-name-field" name="@nameof(IssueForUpdate.Name)" value="@Model.Issue.Name" required />
+            </div>
+        </div>
+        <div class="col-6 d-flex justify-content-end align-items-center">
+            <a asp-route="ViewIssueAsync" asp-route-issueKey="@Model.Issue.IssueKey" class="btn btn-secondary me-2">Cancel</a>
+            <button type="submit" class="btn btn-success">Save</button>
+        </div>
+    </div>
+    <hr class="mb-4" />
     <div class="row mb-3">
         <div class="col-6">
             <div>
                 <label for="edit-issue-priority-field" class="form-label">Priority</label>
-                <select class="form-select" id="edit-issue-priority-field" name="">
+                <select class="form-select" id="edit-issue-priority-field" name="@nameof(IssueForUpdate.IssuePriorityId)">
                     @foreach (var priority in Model.IssuePriorities)
                     {
                         <option value="@priority.Key" selected="@(priority.Key == (int)Model.Issue.IssuePriorityId)">
@@ -32,7 +36,7 @@
         <div class="col-6">
             <div>
                 <label for="edit-issue-status-field" class="form-label">Status</label>
-                <select class="form-select" id="edit-issue-status-field" name="">
+                <select class="form-select" id="edit-issue-status-field" name="@nameof(IssueForUpdate.IssueStatusId)">
                     @foreach (var status in Model.IssueStatuses)
                     {
                         <option value="@status.Key" selected="@(status.Key == (int)Model.Issue.IssueStatusId)">
@@ -59,6 +63,12 @@
     </div>
     <div class="mb-4">
         <label for="edit-issue-description-field" class="form-label">Description</label>
-        <textarea class="form-control" id="edit-issue-description-field" rows="3">@Model.Issue.Description</textarea>
+        <textarea class="form-control" id="edit-issue-description-field" rows="3" name="@nameof(IssueForUpdate.Description)">@Model.Issue.Description</textarea>
     </div>
 </form>
+<hr style="margin-top: 1.90rem;" />
+@await Html.PartialAsync("_CommentsSection")
+@section Scripts {
+    <script src="~/js/comments.js"></script>
+    <script src="~/js/edit-issue.js"></script>
+}

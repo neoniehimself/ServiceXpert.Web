@@ -12072,4 +12072,8 @@ form .form-control:disabled {
 }
 form .form-select {
   background-color: #EBECF0;
+}
+
+.utility.form-editable {
+  background-color: #EBECF0;
 }/*# sourceMappingURL=site.css.map */
