@@ -13,41 +13,42 @@
     </div>
 </div>
 <hr class="mb-4" />
-<div class="row mb-3">
-    <div class="col-6">
-        <div>
-            <label asp-for="IssuePriority" class="form-label">Priority</label>
-            <input asp-for="IssuePriority.Name" class="form-control" disabled />
+<form role="form">
+    <div class="row mb-3">
+        <div class="col-6">
+            <div>
+                <label asp-for="IssuePriority" class="form-label">Priority</label>
+                <input asp-for="IssuePriority.Name" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="col-6">
+            <div>
+                <label asp-for="IssueStatus" class="form-label">Status</label>
+                <input asp-for="IssueStatus.Name" class="form-control" disabled />
+            </div>
         </div>
     </div>
-    <div class="col-6">
-        <div>
-            <label asp-for="IssueStatus" class="form-label">Status</label>
-            <input asp-for="IssueStatus.Name" class="form-control" disabled />
+    <div class="row mb-3">
+        <div class="col-12 col-md-6 mb-3 mb-md-0">
+            <div>
+                <label class="form-label">Assignee</label>
+                <input type="text" value="Lorem Ipsum" class="form-control" disabled />
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div>
+                <label class="form-label">Reporter</label>
+                <input type="text" value="Lorem Ipsum" class="form-control" disabled />
+            </div>
         </div>
     </div>
-</div>
-<div class="row mb-3">
-    <div class="col-12 col-md-6 mb-3 mb-md-0">
-        <div>
-            <label class="form-label">Assignee</label>
-            <input type="text" value="Lorem Ipsum" class="form-control" disabled />
-        </div>
+    <div class="mb-4">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control" rows="3" disabled>@Model.Description</textarea>
     </div>
-    <div class="col-12 col-md-6">
-        <div>
-            <label class="form-label">Reporter</label>
-            <input type="text" value="Lorem Ipsum" class="form-control" disabled />
-        </div>
-    </div>
-</div>
-<div class="mb-4">
-    <label asp-for="Description" class="form-label">Description</label>
-    <textarea asp-for="Description" class="form-control" rows="3" disabled>@Model.Description</textarea>
-</div>
+</form>
 <hr style="margin-top: 1.90rem;" />
 @await Html.PartialAsync("_CommentsSection")
-
 @section Scripts {
     <script src="~/js/comments.js"></script>
 }
