@@ -1,29 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using ServiceXpert.Web.Enums;
 using ServiceXpert.Web.Models;
 
 namespace ServiceXpert.Web.Controllers;
+[Authorize(Policy = nameof(Policy.Admin))]
 public class SxpController : Controller
 {
-    private readonly ICompositeViewEngine compositeViewEngine;
-
-    public SxpController(ICompositeViewEngine compositeViewEngine)
-    {
-        this.compositeViewEngine = compositeViewEngine;
-    }
+    [NonAction]
+    protected IEnumerable<string> GetModelStateErrors() => this.ModelState.Values.SelectMany(modelStateEntry => modelStateEntry.Errors).Select(modelError => modelError.ErrorMessage);
 
     [NonAction]
-    protected async Task<string> RenderViewToHtmlStringAsync(
-        string viewName, object model, ViewDataDictionary? viewData = null)
+    protected async Task<string> RenderViewToHtmlStringAsync(ICompositeViewEngine compositeViewEngine, string viewName, object model, ViewDataDictionary? viewData = null)
     {
-        var viewResult = this.compositeViewEngine.GetView(null, viewName, false);
+        var viewResult = compositeViewEngine.GetView(null, viewName, false);
 
         if (!viewResult.Success)
         {
-            viewResult = this.compositeViewEngine.FindView(this.ControllerContext, viewName, false);
+            viewResult = compositeViewEngine.FindView(this.ControllerContext, viewName, false);
 
             if (!viewResult.Success)
             {
@@ -50,8 +48,7 @@ public class SxpController : Controller
     }
 
     [NonAction]
-    protected static ViewDataDictionary GetPaginationViewDataDictionary(
-        Pagination pagination, ModelStateDictionary modelState)
+    protected static ViewDataDictionary GetPaginationViewDataDictionary(Pagination pagination, ModelStateDictionary modelState)
     {
         int startPage = Math.Max(1, pagination.CurrentPage - 2);
         int endPage = Math.Min(pagination.TotalPageCount, startPage + 4);

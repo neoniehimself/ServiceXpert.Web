@@ -14,17 +14,19 @@ function configureAjaxSettings() {
         $('body').removeClass('loading'); // Reset the cursor back to normal
     });
 
-    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-        var errorMessage = 'An error occurred while processing your request';
-
-        if (jqxhr.responseJSON && jqxhr.responseJSON.message) {
-            errorMessage = jqxhr.responseJSON.message;
-        } else if (jqxhr.responseText) {
-            errorMessage = jqxhr.responseText;
+    // Shown whenever AJAX fails
+    $(document).ajaxError(function (event, xhr, settings, error) {
+        // Ignore 400, let specific AJAX calls handle them
+        if (xhr.status === 0) {
+            alert("Network error or server is unreachable.");
+        } else if (xhr.status >= 500) {
+            alert("A server error occurred. Please try again later.");
         }
-
-        alert('Error: ' + errorMessage);
     });
+}
+
+function HasModelStateErrors(xhr) {
+    return xhr.status === 400 && Array.isArray(xhr.responseJSON);
 }
 
 function initializeAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false, isAutoClose = false, isReloadPage = false) {
