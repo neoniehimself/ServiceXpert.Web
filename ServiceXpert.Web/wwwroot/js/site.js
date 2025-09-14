@@ -26,6 +26,7 @@ function configureAjaxSettings() {
         alert('Error: ' + errorMessage);
     });
 }
+
 function initializeAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false, isAutoClose = false, isReloadPage = false) {
     var alert = $('<div class="alert alert-' + alertClass + ' alert-dismissible fade show d-flex align-items-center" role="alert">');
     var svg = $();
