@@ -1,8 +1,6 @@
 ﻿namespace ServiceXpert.Web.Models.Issue;
-public class Issue : ModelBase
+public class Issue : ModelBase<int>
 {
-    public int IssueId { get; set; }
-
     public string IssueKey { get; set; } = string.Empty;
 
     public string Name { get; set; } = string.Empty;
@@ -17,7 +15,15 @@ public class Issue : ModelBase
 
     public IssuePriority? IssuePriority { get; set; }
 
-    public List<Comment.Comment> Comments { get; set; }
+    public ICollection<Comment.Comment> Comments { get; set; }
+
+    public AspNetUserProfile.AspNetUserProfile? CreatedByUser { get; set; }
+
+    public Guid? AssigneeId { get; set; }
+
+    public AspNetUserProfile.AspNetUserProfile? Assignee { get; set; }
+
+    public AspNetUserProfile.AspNetUserProfile? ModifiedByUser { get; set; }
 
     public Issue()
     {

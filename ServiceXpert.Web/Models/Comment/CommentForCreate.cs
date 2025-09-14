@@ -2,15 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace ServiceXpert.Web.Models.Comment;
-public class CommentForCreate : ModelBase
+public class CommentForCreate : ModelBaseForCreate
 {
     [Required]
-    [MaxLength]
     public required string Content { get; set; } = string.Empty;
 
     [Required]
-    [MaxLength(7)] // SXP-999
-    public string IssueKey { get; set; } = null!;
+    public required string IssueKey { get; set; } = null!;
 
     public int IssueId { get => IssueUtil.GetIdFromIssueKey(this.IssueKey); }
 }
