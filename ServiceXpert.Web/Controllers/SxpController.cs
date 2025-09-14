@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using ServiceXpert.Web.Enums;
 using ServiceXpert.Web.Models;
 
 namespace ServiceXpert.Web.Controllers;
-[Authorize(Policy = nameof(Policy.Admin))]
 public class SxpController : Controller
 {
     [NonAction]

@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using ServiceXpert.Web;
 using ServiceXpert.Web.Constants;
@@ -13,36 +15,34 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new()
+    .AddJwtBearer(options =>
     {
-        ValidateIssuerSigningKey = true,
-        ValidateAudience = false,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ClockSkew = TimeSpan.Zero,
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration.GetSection(
-                nameof(ServiceXpertConfiguration)).Get<ServiceXpertConfiguration>()!.JwtSecretKey)
-        )
-    };
-    options.Events = new JwtBearerEvents
-    {
-        OnMessageReceived = context =>
+        options.TokenValidationParameters = new()
         {
-            if (context.Request.Cookies.ContainsKey(AuthSettings.Token))
+            ValidateIssuerSigningKey = true,
+            ValidateAudience = false,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ClockSkew = TimeSpan.Zero,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration.GetSection(
+                    nameof(ServiceXpertConfiguration)).Get<ServiceXpertConfiguration>()!.JwtSecretKey)
+            )
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
             {
-                context.Token = context.Request.Cookies[AuthSettings.Token];
+                if (context.Request.Cookies.ContainsKey(AuthSettings.Token))
+                {
+                    context.Token = context.Request.Cookies[AuthSettings.Token];
+                }
+                return Task.CompletedTask;
             }
-            return Task.CompletedTask;
-        }
-    };
-});
+        };
+    });
 
 var authBuilder = builder.Services.AddAuthorizationBuilder();
-// Admin Policies
 authBuilder.AddPolicy(nameof(Policy.Admin), policy => policy.RequireRole(nameof(Role.Admin)));
-// User Policies
 authBuilder.AddPolicy(nameof(Policy.User), policy => policy.RequireRole(nameof(Role.Admin), nameof(Role.User)));
 
 builder.Services.AddHttpClient(ApiSettings.Name, configureClient =>
@@ -52,7 +52,17 @@ builder.Services.AddHttpClient(ApiSettings.Name, configureClient =>
 });
 
 builder.Services
-    .AddControllersWithViews(options => options.ReturnHttpNotAcceptable = true)
+    .AddControllersWithViews(options =>
+    {
+        options.ReturnHttpNotAcceptable = true;
+
+        // Global Authorization Filter
+        var policy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .Build();
+
+        options.Filters.Add(new AuthorizeFilter(policy));
+    })
     .AddNewtonsoftJson();
 
 builder.Services.Configure<RouteOptions>(options => options.AppendTrailingSlash = true);
