@@ -1,26 +1,38 @@
 ﻿namespace ServiceXpert.Web.Models;
-public abstract class ModelBase
+public abstract class ModelBase<TId>
 {
-    protected readonly string dateFormat = "dd/MM/yy";
-    protected readonly string dateTimeFormat = "dd/MM/yy h:mm:ss tt";
+    protected readonly string basicDateFormat = "MM/dd/yy";
+    protected readonly string basicDateFormatWithTime = "MM/dd/yy h:mm:ss tt";
 
-    public DateTime? CreateDate { get; set; }
+    public TId Id { get; set; } = default!;
 
-    public string CreateDateFormatted => this.CreateDate != null
-        ? this.CreateDate.Value.ToString(this.dateFormat)
-        : string.Empty;
+    public Guid CreatedByUserId { get; set; }
 
-    public string CreateDateTimeFormatted => this.CreateDate != null
-        ? this.CreateDate.Value.ToString(this.dateTimeFormat)
-        : string.Empty;
+    public DateTimeOffset CreatedDate { get; set; }
 
-    public DateTime? ModifyDate { get; set; }
+    public string CreatedDateFormatted => this.CreatedDate.ToString(this.basicDateFormat);
 
-    public string ModifyDateFormatted => this.ModifyDate != null
-        ? this.ModifyDate.Value.ToString(this.dateFormat)
-        : string.Empty;
+    public string CreatedDateWithTimeFormatted => this.CreatedDate.ToString(this.basicDateFormatWithTime);
 
-    public string ModifyDateTimeFormatted => this.ModifyDate != null
-        ? this.ModifyDate.Value.ToString(this.dateTimeFormat)
-        : string.Empty;
+    public Guid? ModifiedByUserId { get; set; }
+
+    public DateTimeOffset? ModifiedDate { get; set; }
+
+    public string ModifiedDateFormatted => this.ModifiedDate != null ? this.ModifiedDate.Value.ToString(this.basicDateFormat) : string.Empty;
+
+    public string ModifiedDateWithTimeFormatted => this.ModifiedDate != null ? this.ModifiedDate.Value.ToString(this.basicDateFormatWithTime) : string.Empty;
+}
+
+public abstract class ModelBaseForCreate
+{
+    public Guid CreatedByUserId { get; set; }
+
+    public DateTimeOffset CreatedDate { get; set; }
+}
+
+public abstract class ModelBaseForUpdate
+{
+    public Guid? ModifiedByUserId { get; set; }
+
+    public DateTimeOffset? ModifiedDate { get; set; }
 }

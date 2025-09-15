@@ -1,7 +1,5 @@
 ﻿namespace ServiceXpert.Web.Models;
-public class IssuePriority : ModelBase
+public class IssuePriority : ModelBase<int>
 {
-    public int IssuePriorityId { get; set; }
-
     public string Name { get; set; } = string.Empty;
 }

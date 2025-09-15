@@ -1,43 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using ServiceXpert.Web.Constants;
+using ServiceXpert.Web.Enums;
 using ServiceXpert.Web.Models.Comment;
 using ServiceXpert.Web.Utils;
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace ServiceXpert.Web.Controllers;
+[Authorize(Policy = nameof(Policy.User))]
 [Route("Issues/{issueKey}/Comments")]
-public class CommentController(
-    IHttpClientFactory httpClientFactory,
-    ICompositeViewEngine compositeViewEngine)
-    : SxpController(compositeViewEngine)
+public class CommentController(IHttpClientFactory httpClientFactory) : SxpController
 {
-    private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
-
     [HttpGet]
-    public async Task<IActionResult> GetAllByIssueKeyAsync(string issueKey)
+    public async Task<IActionResult> GetAllByIssueKeyAsync(string issueKey, [FromServices] ICompositeViewEngine compositeViewEngine)
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
         {
             return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue key: {issueKey}");
         }
 
-        var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-        var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
+        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
+
+        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
 
         if (!response.IsSuccessStatusCode)
         {
-            return StatusCode((int)response.StatusCode);
+            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
+            return StatusCode((int)response.StatusCode, errors);
         }
 
-        var comments = HttpContentUtil.DeserializeContent<List<Comment>>(response);
+        var comments = await HttpContentUtil.DeserializeContentAsync<List<Comment>>(response);
 
         if (comments == null || comments.Count == 0)
         {
             return Json(new { hasComments = false });
         }
 
-        var commentsHtml = await RenderViewToHtmlStringAsync("~/Views/Shared/_CommentsSectionRow.cshtml", comments!);
+        var commentsHtml = await RenderViewToHtmlStringAsync(compositeViewEngine, "~/Views/Shared/_CommentsSectionRow.cshtml", comments!);
         return Json(new { hasComments = true, commentsHtml });
     }
 
@@ -49,13 +51,15 @@ public class CommentController(
             return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue key: {issueKey}");
         }
 
-        var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-        var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments",
-            HttpContentUtil.SerializeContentWithApplicationJson(comment));
+        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
+
+        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(comment));
 
         if (!response.IsSuccessStatusCode)
         {
-            return StatusCode((int)response.StatusCode);
+            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
+            return StatusCode((int)response.StatusCode, errors);
         }
 
         return Json(new { });

@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ServiceXpert.Web.Models.Issue;
-public class IssueForUpdate : ModelBase
+public class IssueForUpdate : ModelBaseForUpdate
 {
     [Required]
-    [MaxLength(256)]
     public required string Name { get; set; }
 
-    [MaxLength(4096)]
     public string? Description { get; set; }
 
     [Required]

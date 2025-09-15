@@ -1,16 +1,12 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Web.ViewModels;
 using System.Diagnostics;
 
 namespace ServiceXpert.Web.Controllers;
-
-public class HomeController : Controller
+[Route("Error")]
+public class ErrorController : SxpController
 {
-    public IActionResult Index()
-    {
-        return View();
-    }
-
+    [HttpGet("")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

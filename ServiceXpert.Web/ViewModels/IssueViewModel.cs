@@ -1,7 +1,7 @@
 ﻿namespace ServiceXpert.Web.ViewModels;
 public class IssueViewModel
 {
-    public List<string> StatusCategories { get; set; }
+    public ICollection<string> StatusCategories { get; set; }
 
     public IssueViewModel()
     {

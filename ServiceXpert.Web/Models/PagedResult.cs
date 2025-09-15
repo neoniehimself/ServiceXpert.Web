@@ -1,7 +1,8 @@
 ﻿namespace ServiceXpert.Web.Models;
+// Do not inherit ModelBase
 public class PagedResult<T>
 {
-    public List<T> Items { get; }
+    public ICollection<T> Items { get; }
 
     public Pagination Pagination { get; }
 

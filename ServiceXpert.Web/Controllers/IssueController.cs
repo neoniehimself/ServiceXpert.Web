@@ -1,22 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using ServiceXpert.Web.Constants;
+using ServiceXpert.Web.Enums;
 using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Issue;
 using ServiceXpert.Web.Utils;
 using ServiceXpert.Web.ViewModels;
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace ServiceXpert.Web.Controllers;
+[Authorize(Policy = nameof(Policy.User))]
 [Route("Issues")]
-public class IssueController(
-    IHttpClientFactory httpClientFactory,
-    ICompositeViewEngine compositeViewEngine)
-    : SxpController(compositeViewEngine)
+public class IssueController(IHttpClientFactory httpClientFactory) : SxpController
 {
-    private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
-
-    [HttpGet]
+    [HttpGet("")]
     public IActionResult Index()
     {
         return base.View(new IssueViewModel()
@@ -26,26 +25,22 @@ public class IssueController(
     }
 
     [HttpGet(nameof(GetPagedIssuesByStatusAsync))]
-    public async Task<IActionResult> GetPagedIssuesByStatusAsync(
-        string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
+    public async Task<IActionResult> GetPagedIssuesByStatusAsync([FromServices] ICompositeViewEngine compositiveViewEngine, string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
     {
-        using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-        var response = await httpClient.GetAsync(
-            string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}",
-                httpClient.BaseAddress, statusCategory, pageNumber, pageSize)
-        );
+        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
+
+        using var response = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
 
         if (!response.IsSuccessStatusCode)
         {
-            return StatusCode((int)response.StatusCode);
+            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
+            return StatusCode((int)response.StatusCode, errors);
         }
 
-        var result = HttpContentUtil.DeserializeContent<PagedResult<Issue>>(response);
-
-        var issueTableRowsHtml = await RenderViewToHtmlStringAsync("_IssueTableRow", result!.Items);
-
-        var paginationHtml = await RenderViewToHtmlStringAsync("_Pagination", result.Pagination,
-            GetPaginationViewDataDictionary(result.Pagination, this.ModelState));
+        var result = await HttpContentUtil.DeserializeContentAsync<PagedResult<Issue>>(response);
+        var issueTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_IssueTableRow", result!.Items);
+        var paginationHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_Pagination", result.Pagination, GetPaginationViewDataDictionary(result.Pagination, this.ModelState));
 
         return Json(new { issueTableRowsHtml, paginationHtml });
     }
@@ -58,15 +53,18 @@ public class IssueController(
             return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue key: {issueKey}");
         }
 
-        using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-        var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
+
+        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
 
         if (!response.IsSuccessStatusCode)
         {
-            return StatusCode((int)(response.StatusCode));
+            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
+            return StatusCode((int)response.StatusCode, errors);
         }
 
-        var issue = HttpContentUtil.DeserializeContent<Issue>(response);
+        var issue = await HttpContentUtil.DeserializeContentAsync<Issue>(response);
         return View("~/Views/Issue/ViewIssue.cshtml", issue);
     }
 
@@ -78,15 +76,18 @@ public class IssueController(
             return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue Key: {issueKey}");
         }
 
-        using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-        var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
+
+        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
 
         if (!response.IsSuccessStatusCode)
         {
-            return StatusCode((int)response.StatusCode);
+            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
+            return StatusCode((int)response.StatusCode, errors);
         }
 
-        var issue = HttpContentUtil.DeserializeContent<Issue>(response);
+        var issue = await HttpContentUtil.DeserializeContentAsync<Issue>(response);
 
         return View("~/Views/Issue/EditIssue.cshtml", new EditIssueViewModel()
         {
@@ -106,16 +107,19 @@ public class IssueController(
 
         if (!this.ModelState.IsValid)
         {
-            return BadRequest(this.ModelState);
+            var errors = GetModelStateErrors();
+            return BadRequest(errors);
         }
 
-        using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-        var response = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}",
-            HttpContentUtil.SerializeContentWithApplicationJson(issue));
+        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
+
+        using var response = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(issue));
 
         if (!response.IsSuccessStatusCode)
         {
-            return StatusCode((int)response.StatusCode);
+            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
+            return StatusCode((int)response.StatusCode, errors);
         }
 
         return Json(new { statusCode = 204 });
@@ -135,18 +139,21 @@ public class IssueController(
     {
         if (!this.ModelState.IsValid)
         {
-            return BadRequest(this.ModelState);
+            var errors = GetModelStateErrors();
+            return BadRequest(errors);
         }
 
-        using var httpClient = this.httpClientFactory.CreateClient(ApiSettings.Name);
-        var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues",
-            HttpContentUtil.SerializeContentWithApplicationJson(issue));
+        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
+
+        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContentWithApplicationJson(issue));
 
         if (!response.IsSuccessStatusCode)
         {
-            return StatusCode((int)response.StatusCode);
+            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
+            return StatusCode((int)response.StatusCode, errors);
         }
 
-        return Json(new { issueKey = HttpContentUtil.GetResultAsString(response) });
+        return Json(new { issueKey = await HttpContentUtil.GetResultAsStringAsync(response) });
     }
 }
