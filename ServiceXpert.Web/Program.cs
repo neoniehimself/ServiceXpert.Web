@@ -19,18 +19,24 @@ builder.Services
     })
     .AddJwtBearer(options =>
     {
+        var key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration.GetSection(
+                    nameof(ServiceXpertConfiguration)).Get<ServiceXpertConfiguration>()!.JwtSecretKey
+            )
+        );
+
         options.TokenValidationParameters = new()
         {
+            ValidateIssuer = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["Jwt:Audience"],
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration.GetSection(
-                    nameof(ServiceXpertConfiguration)).Get<ServiceXpertConfiguration>()!.JwtSecretKey)
-            )
+            IssuerSigningKey = key
         };
+
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context =>
