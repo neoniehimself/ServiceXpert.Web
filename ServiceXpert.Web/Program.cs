@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.IdentityModel.Tokens;
 using ServiceXpert.Web;
 using ServiceXpert.Web.Constants;
@@ -20,10 +21,11 @@ builder.Services
     {
         options.TokenValidationParameters = new()
         {
-            ValidateIssuerSigningKey = true,
-            ValidateAudience = false,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidateAudience = false,
+            ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero,
+            ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration.GetSection(
                     nameof(ServiceXpertConfiguration)).Get<ServiceXpertConfiguration>()!.JwtSecretKey)
@@ -38,6 +40,17 @@ builder.Services
                     context.Token = context.Request.Cookies[AuthSettings.Token];
                 }
                 return Task.CompletedTask;
+            },
+            OnChallenge = context =>
+            {
+                context.HandleResponse();
+                context.Response.ContentType = "text/html";
+                return context.Response.WriteAsync(@"
+                    <script>
+                        alert('Please log in to continue.');
+                        window.location.href = '/';
+                    </script>
+                ");
             }
         };
     });
@@ -66,8 +79,6 @@ builder.Services
     })
     .AddNewtonsoftJson();
 
-builder.Services.Configure<RouteOptions>(options => options.AppendTrailingSlash = true);
-
 var app = builder.Build();
 
 /* Add rewriter to redirect to a path without a trailing slash because search engines treat these routes as different
@@ -75,12 +86,12 @@ var app = builder.Build();
  *      Original:  https://servicexpert.com/ 
  *      Rewritten: https://servicexpert.com
 */
-// app.UseRewriter(new RewriteOptions().AddRedirect("(.*)/$", "$1"));
+app.UseRewriter(new RewriteOptions().AddRedirect("(.*)/$", "$1", 301));
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error/");
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 

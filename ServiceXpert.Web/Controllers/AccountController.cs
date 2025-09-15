@@ -15,8 +15,12 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
     [HttpGet("")]
     public IActionResult Index()
     {
-        // Temporary
-        this.Response.Cookies.Delete(AuthSettings.Token);
+        // this.Response.Cookies.Delete(AuthSettings.Token);
+        if (!string.IsNullOrWhiteSpace(this.BearerToken))
+        {
+            return Redirect("Dashboard");
+        }
+
         return View();
     }
 
@@ -30,7 +34,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
-        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Accounts/LoginUserAsync/", HttpContentUtil.SerializeContentWithApplicationJson(loginUser));
+        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Accounts/LoginUserAsync", HttpContentUtil.SerializeContentWithApplicationJson(loginUser));
 
         if (!response.IsSuccessStatusCode)
         {
@@ -47,6 +51,6 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
             Expires = DateTimeOffset.UtcNow.AddMinutes(Convert.ToInt16(configuration["Jwt:ExpiresInMinutes"])).UtcDateTime
         });
 
-        return Json(new { redirectUrl = "/Dashboard/" });
+        return Json(new { redirectUrl = "/Dashboard" });
     }
 }

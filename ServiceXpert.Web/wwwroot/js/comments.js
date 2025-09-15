@@ -1,5 +1,5 @@
 ﻿function loadComments() {
-    $.get(`/Issues/${$('#issue-key-label').text()}/Comments/`, function (response) {
+    $.get(`/Issues/${$('#issue-key-label').text()}/Comments`, function (response) {
         if (response && response.hasComments) {
             // Counterpart of _CommentsSection.cshtml
             $('#comments').html(`
@@ -26,7 +26,7 @@ $(document).on('submit', '#add-comment-form', function (e) {
     e.preventDefault();
     $.ajax({
         type: 'POST',
-        url: `/Issues/${$('#issue-key-label').text()}/Comments/`,
+        url: `/Issues/${$('#issue-key-label').text()}/Comments`,
         data: new FormData($(this)[0]),
         processData: false,
         contentType: false,

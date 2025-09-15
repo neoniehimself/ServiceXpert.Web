@@ -24,7 +24,7 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
         using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
 
-        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments/");
+        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -54,7 +54,7 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
         using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
 
-        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments/", HttpContentUtil.SerializeContentWithApplicationJson(comment));
+        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(comment));
 
         if (!response.IsSuccessStatusCode)
         {

@@ -14,7 +14,7 @@ public abstract class ModelBase<TId>
 
     public string CreatedDateWithTimeFormatted => this.CreatedDate.ToString(this.basicDateFormatWithTime);
 
-    public Guid ModifiedByUserId { get; set; }
+    public Guid? ModifiedByUserId { get; set; }
 
     public DateTimeOffset? ModifiedDate { get; set; }
 

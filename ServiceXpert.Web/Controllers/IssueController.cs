@@ -30,7 +30,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
 
-        using var response = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}/", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
+        using var response = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
 
         if (!response.IsSuccessStatusCode)
         {
@@ -56,7 +56,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
 
-        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/");
+        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -79,7 +79,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
 
-        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/");
+        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -114,7 +114,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
 
-        using var response = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/", HttpContentUtil.SerializeContentWithApplicationJson(issue));
+        using var response = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(issue));
 
         if (!response.IsSuccessStatusCode)
         {
@@ -146,7 +146,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
 
-        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/", HttpContentUtil.SerializeContentWithApplicationJson(issue));
+        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContentWithApplicationJson(issue));
 
         if (!response.IsSuccessStatusCode)
         {
