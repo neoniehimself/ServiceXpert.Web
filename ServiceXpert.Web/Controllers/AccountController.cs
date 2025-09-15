@@ -7,11 +7,12 @@ using ServiceXpert.Web.Utils;
 
 namespace ServiceXpert.Web.Controllers;
 [Authorize(Policy = nameof(Policy.Admin))]
+[Route("")] // Tell the framework that this is the entry point
 [Route("Accounts")]
 public class AccountController(IHttpClientFactory httpClientFactory) : SxpController
 {
     [AllowAnonymous]
-    [HttpGet]
+    [HttpGet("")]
     public IActionResult Index()
     {
         // Temporary
@@ -29,7 +30,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
-        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Accounts/LoginUserAsync", HttpContentUtil.SerializeContentWithApplicationJson(loginUser));
+        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Accounts/LoginUserAsync/", HttpContentUtil.SerializeContentWithApplicationJson(loginUser));
 
         if (!response.IsSuccessStatusCode)
         {
@@ -43,9 +44,9 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
             Secure = true,
             SameSite = SameSiteMode.Lax,
             Path = "/",
-            Expires = DateTimeOffset.UtcNow.AddMinutes(Convert.ToInt16(configuration["Jwt:ExpiresInMinutes"]))
+            Expires = DateTimeOffset.UtcNow.AddMinutes(Convert.ToInt16(configuration["Jwt:ExpiresInMinutes"])).UtcDateTime
         });
 
-        return Json(new { redirectUrl = this.Url.Action("Index", "Home") });
+        return Json(new { redirectUrl = "/Dashboard/" });
     }
 }

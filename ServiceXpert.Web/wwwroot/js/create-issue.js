@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     $('#btn-create-issue').click(() => {
-        $.get('/Issues/InitializeCreateIssue', (response) => {
+        $.get('/Issues/InitializeCreateIssue/', (response) => {
             $('.modal-container').html(response);
             $('#create-issue-modal').modal('show');
         });
@@ -11,7 +11,7 @@ $(document).on('submit', '#create-issue-modal-form', function (e) {
     e.preventDefault();
     $.ajax({
         type: 'POST',
-        url: '/Issues',
+        url: '/Issues/',
         data: new FormData($(this)[0]),
         processData: false,
         contentType: false,

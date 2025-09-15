@@ -6,6 +6,7 @@ using ServiceXpert.Web.Enums;
 using ServiceXpert.Web.Models.Comment;
 using ServiceXpert.Web.Utils;
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace ServiceXpert.Web.Controllers;
 [Authorize(Policy = nameof(Policy.User))]
@@ -21,7 +22,9 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
-        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
+
+        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments/");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -49,7 +52,9 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
-        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(comment));
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
+
+        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments/", HttpContentUtil.SerializeContentWithApplicationJson(comment));
 
         if (!response.IsSuccessStatusCode)
         {

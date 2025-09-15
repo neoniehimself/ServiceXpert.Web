@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using ServiceXpert.Web.Constants;
 using ServiceXpert.Web.Models;
 
 namespace ServiceXpert.Web.Controllers;
 public class SxpController : Controller
 {
+    protected string BearerToken => this.Request.Cookies.ContainsKey(AuthSettings.Token) ? this.Request.Cookies[AuthSettings.Token]! : string.Empty;
+
     [NonAction]
     protected IEnumerable<string> GetModelStateErrors() => this.ModelState.Values.SelectMany(modelStateEntry => modelStateEntry.Errors).Select(modelError => modelError.ErrorMessage);
 
