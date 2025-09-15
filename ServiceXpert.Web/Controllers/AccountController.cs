@@ -15,7 +15,6 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
     [HttpGet("")]
     public IActionResult Index()
     {
-        // this.Response.Cookies.Delete(AuthSettings.Token);
         if (!string.IsNullOrWhiteSpace(this.BearerToken))
         {
             return Redirect("Dashboard");
@@ -52,5 +51,13 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
         });
 
         return Json(new { redirectUrl = "/Dashboard" });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Logout()
+    {
+        this.Response.Cookies.Delete(AuthSettings.Token);
+        return Redirect("/");
     }
 }
