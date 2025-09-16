@@ -9,7 +9,7 @@ using ServiceXpert.Web.Models;
 namespace ServiceXpert.Web.Controllers;
 public class SxpController : Controller
 {
-    protected string BearerToken => this.Request.Cookies.ContainsKey(AuthSettings.Token) ? this.Request.Cookies[AuthSettings.Token]! : string.Empty;
+    protected string BearerToken => this.Request.Cookies.ContainsKey(AuthSettings.BearerTokenCookieName) ? this.Request.Cookies[AuthSettings.BearerTokenCookieName]! : string.Empty;
 
     [NonAction]
     protected IEnumerable<string> GetModelStateErrors() => this.ModelState.Values.SelectMany(modelStateEntry => modelStateEntry.Errors).Select(modelError => modelError.ErrorMessage);

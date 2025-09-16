@@ -41,9 +41,9 @@ builder.Services
         {
             OnMessageReceived = context =>
             {
-                if (context.Request.Cookies.ContainsKey(AuthSettings.Token))
+                if (context.Request.Cookies.ContainsKey(AuthSettings.BearerTokenCookieName))
                 {
-                    context.Token = context.Request.Cookies[AuthSettings.Token];
+                    context.Token = context.Request.Cookies[AuthSettings.BearerTokenCookieName];
                 }
                 return Task.CompletedTask;
             },
@@ -65,11 +65,12 @@ var authBuilder = builder.Services.AddAuthorizationBuilder();
 authBuilder.AddPolicy(nameof(Policy.Admin), policy => policy.RequireRole(nameof(Role.Admin)));
 authBuilder.AddPolicy(nameof(Policy.User), policy => policy.RequireRole(nameof(Role.Admin), nameof(Role.User)));
 
-builder.Services.AddHttpClient(ApiSettings.Name, configureClient =>
-{
-    var url = builder.Configuration[ApiSettings.Url] ?? throw new NullReferenceException("Fatal: Missing Api Url");
-    configureClient.BaseAddress = new Uri(url);
-});
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<BearerTokenHandler>();
+
+var uri = new Uri(builder.Configuration["ApiSettings:Url"] ?? throw new NullReferenceException("Fatal: Missing Api Url"));
+builder.Services.AddHttpClient(HttpClientSettings.AuthHttpClientSettings, client => client.BaseAddress = uri);
+builder.Services.AddHttpClient(HttpClientSettings.Default, client => client.BaseAddress = uri).AddHttpMessageHandler<BearerTokenHandler>();
 
 builder.Services
     .AddControllersWithViews(options =>

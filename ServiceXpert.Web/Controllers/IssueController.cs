@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
-using ServiceXpert.Web.Constants;
 using ServiceXpert.Web.Enums;
 using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Issue;
 using ServiceXpert.Web.Utils;
 using ServiceXpert.Web.ViewModels;
 using System.Net;
-using System.Net.Http.Headers;
 
 namespace ServiceXpert.Web.Controllers;
 [Authorize(Policy = nameof(Policy.User))]
@@ -27,9 +25,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     [HttpGet(nameof(GetPagedIssuesByStatusAsync))]
     public async Task<IActionResult> GetPagedIssuesByStatusAsync([FromServices] ICompositeViewEngine compositiveViewEngine, string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
     {
-        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
-
+        using var httpClient = httpClientFactory.CreateClient();
         using var response = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
 
         if (!response.IsSuccessStatusCode)
@@ -53,9 +49,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
             return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue key: {issueKey}");
         }
 
-        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
-
+        using var httpClient = httpClientFactory.CreateClient();
         using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
 
         if (!response.IsSuccessStatusCode)
@@ -76,9 +70,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
             return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue Key: {issueKey}");
         }
 
-        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
-
+        using var httpClient = httpClientFactory.CreateClient();
         using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
 
         if (!response.IsSuccessStatusCode)
@@ -111,9 +103,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
             return BadRequest(errors);
         }
 
-        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
-
+        using var httpClient = httpClientFactory.CreateClient();
         using var response = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(issue));
 
         if (!response.IsSuccessStatusCode)
@@ -143,9 +133,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
             return BadRequest(errors);
         }
 
-        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
-
+        using var httpClient = httpClientFactory.CreateClient();
         using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContentWithApplicationJson(issue));
 
         if (!response.IsSuccessStatusCode)

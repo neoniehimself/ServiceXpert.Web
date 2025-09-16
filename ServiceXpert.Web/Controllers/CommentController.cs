@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
-using ServiceXpert.Web.Constants;
 using ServiceXpert.Web.Enums;
 using ServiceXpert.Web.Models.Comment;
 using ServiceXpert.Web.Utils;
 using System.Net;
-using System.Net.Http.Headers;
 
 namespace ServiceXpert.Web.Controllers;
 [Authorize(Policy = nameof(Policy.User))]
@@ -21,9 +19,7 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
             return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue key: {issueKey}");
         }
 
-        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
-
+        using var httpClient = httpClientFactory.CreateClient();
         using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
 
         if (!response.IsSuccessStatusCode)
@@ -51,9 +47,7 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
             return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue key: {issueKey}");
         }
 
-        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
-
+        using var httpClient = httpClientFactory.CreateClient();
         using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(comment));
 
         if (!response.IsSuccessStatusCode)

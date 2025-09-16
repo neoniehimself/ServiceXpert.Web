@@ -32,7 +32,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
             return BadRequest(GetModelStateErrors());
         }
 
-        using var httpClient = httpClientFactory.CreateClient(ApiSettings.Name);
+        using var httpClient = httpClientFactory.CreateClient(HttpClientSettings.AuthHttpClientSettings);
         using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Accounts/LoginUserAsync", HttpContentUtil.SerializeContentWithApplicationJson(loginUser));
 
         if (!response.IsSuccessStatusCode)
@@ -41,7 +41,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         var token = await HttpContentUtil.GetResultAsStringAsync(response);
-        this.Response.Cookies.Append(AuthSettings.Token, token, new CookieOptions
+        this.Response.Cookies.Append(AuthSettings.BearerTokenCookieName, token, new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
@@ -57,7 +57,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
     [ValidateAntiForgeryToken]
     public IActionResult Logout()
     {
-        this.Response.Cookies.Delete(AuthSettings.Token);
+        this.Response.Cookies.Delete(AuthSettings.BearerTokenCookieName);
         return Redirect("/");
     }
 }
