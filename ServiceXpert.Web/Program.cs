@@ -62,8 +62,8 @@ builder.Services
     });
 
 var authBuilder = builder.Services.AddAuthorizationBuilder();
-authBuilder.AddPolicy(nameof(Policy.Admin), policy => policy.RequireRole(nameof(Role.Admin)));
-authBuilder.AddPolicy(nameof(Policy.User), policy => policy.RequireRole(nameof(Role.Admin), nameof(Role.User)));
+authBuilder.AddPolicy(nameof(Policy.AdminOnly), policy => policy.RequireRole(nameof(Role.Admin)));
+authBuilder.AddPolicy(nameof(Policy.UserOnly), policy => policy.RequireRole(nameof(Role.User)));
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<BearerTokenHandler>();

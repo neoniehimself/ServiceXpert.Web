@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Web.Constants;
-using ServiceXpert.Web.Enums;
 using ServiceXpert.Web.Models.Security;
 using ServiceXpert.Web.Utils;
 
 namespace ServiceXpert.Web.Controllers;
-[Authorize(Policy = nameof(Policy.Admin))]
 [Route("")] // Tell the framework that this is the entry point
 [Route("Accounts")]
 public class AccountController(IHttpClientFactory httpClientFactory) : SxpController
@@ -53,6 +51,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
         return Json(new { redirectUrl = "/Dashboard" });
     }
 
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Logout()

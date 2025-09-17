@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
-using ServiceXpert.Web.Enums;
 using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Issue;
 using ServiceXpert.Web.Utils;
@@ -9,7 +8,7 @@ using ServiceXpert.Web.ViewModels;
 using System.Net;
 
 namespace ServiceXpert.Web.Controllers;
-[Authorize(Policy = nameof(Policy.User))]
+[Authorize]
 [Route("Issues")]
 public class IssueController(IHttpClientFactory httpClientFactory) : SxpController
 {
