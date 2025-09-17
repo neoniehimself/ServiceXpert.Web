@@ -25,7 +25,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     public async Task<IActionResult> GetPagedIssuesByStatusAsync([FromServices] ICompositeViewEngine compositiveViewEngine, string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
     {
         using var httpClient = httpClientFactory.CreateClient();
-        using var response = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
+        using var response = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}&IncludeCreatedByUser=true", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
 
         if (!response.IsSuccessStatusCode)
         {

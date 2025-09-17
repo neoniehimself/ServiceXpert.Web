@@ -5,5 +5,5 @@ public class AspNetUserProfile : ModelBase<Guid>
 
     public string LastName { get; set; } = string.Empty;
 
-    public string FullNameInFirstLastFormat { get => $"{this.FirstName} {this.LastName}"; }
+    public string FirstNameLastName { get => $"{this.FirstName} {this.LastName}"; }
 }
