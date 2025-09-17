@@ -13,7 +13,7 @@
                     </svg>
                     <div>
                         <p class="fw-bold mb-0">
-                            John Doe
+                            @comment.CreatedByUser!.FullNameInFirstLastFormat
                             <span class="fw-normal small">- @comment.CreatedDateWithTimeFormatted</span>
                         </p>
                         <p class="mb-0">@comment.Content</p>

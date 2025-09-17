@@ -4,4 +4,6 @@ public class AspNetUserProfile : ModelBase<Guid>
     public string FirstName { get; set; } = string.Empty;
 
     public string LastName { get; set; } = string.Empty;
+
+    public string FullNameInFirstLastFormat { get => $"{this.FirstName} {this.LastName}"; }
 }
