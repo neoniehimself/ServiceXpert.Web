@@ -16,7 +16,7 @@
                             <label for="create-issue-modal-name-field" class="form-label">
                                 Title <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control" id="create-issue-modal-name-field" name="@nameof(IssueForCreate.Name)" required />
+                            <input type="text" class="form-control" id="create-issue-modal-name-field" name="@nameof(IssueForCreate.Name)" />
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -25,7 +25,7 @@
                             <textarea class="form-control" id="create-issue-modal-description-field" rows="3" name="@nameof(IssueForCreate.Description)"></textarea>
                         </div>
                     </div>
-                    <div class="row mb-2">
+                    <div class="row mb-3">
                         <div class="col-12">
                             <label for="create-issue-modal-priority-field" class="form-label">Priority</label>
                             <select class="form-select" id="create-issue-modal-priority-field" name="@nameof(IssueForCreate.IssuePriorityId)">
@@ -34,6 +34,18 @@
                                     <option value="@priority.Key" selected="@(priority.Key == (int)ServiceXpert.Web.Enums.IssuePriority.Low)">
                                             @priority.Value
                                     </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <label for="create-issue-modal-assignee-field" class="form-label">Assignee</label>
+                            <select class="form-select" id="create-issue-modal-assignee-field" name="@nameof(IssueForCreate.AssigneeId)">
+                                <option value="">Unassigned</option>
+                                @foreach (var user in Model.Users)
+                                {
+                                    <option value="@user.Id">@user.FirstNameLastName</option>
                                 }
                             </select>
                         </div>
