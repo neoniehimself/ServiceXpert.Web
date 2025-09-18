@@ -1,5 +1,4 @@
-﻿var alertContainer = $('#alert-container');
-var alertTimeInMilliseconds = 4000;
+﻿var modalAlertString = `<div id='modal-alert'></div>`;
 
 $(document).ready(function () {
     configureAjaxSettings();
@@ -29,7 +28,7 @@ function HasModelStateErrors(xhr) {
     return xhr.status === 400 && Array.isArray(xhr.responseJSON);
 }
 
-function initializeAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false, isAutoClose = false, isReloadPage = false) {
+function configureAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false) {
     var alert = $('<div class="alert alert-' + alertClass + ' alert-dismissible fade show d-flex align-items-center" role="alert">');
     var svg = $();
 
@@ -56,7 +55,13 @@ function initializeAlert(alertClass = 'warning', alertMessage = 'No alert messag
 
     alert.append('</div>');
 
-    alertContainer.html(alert);
+    return alert;
+}
+
+function showPageAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false, isAutoClose = false, isReloadPage = false) {
+
+    var alert = configureAlert(alertClass, alertMessage, hasCloseButton);
+    $('#page-alert').html(alert);
 
     if (isAutoClose) {
         // Auto-close after N seconds in milliseconds
@@ -68,10 +73,18 @@ function initializeAlert(alertClass = 'warning', alertMessage = 'No alert messag
                     location.reload();
                 });
             }
-        }, alertTimeInMilliseconds);
+        }, 4000);
     }
 }
 
-alertContainer.on('closed.bs.alert', '.alert', function () {
+function showModalAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false) {
+    $('#modal-alert').html(configureAlert(alertClass, alertMessage, hasCloseButton));
+}
+
+$('#page-alert').on('closed.bs.alert', '.alert', function () {
+    $(this).remove();
+});
+
+$('#modal-alert').on('closed.bs.alert', '.alert', function () {
     $(this).remove();
 });

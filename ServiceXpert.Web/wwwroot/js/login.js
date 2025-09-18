@@ -16,7 +16,7 @@
             },
             error: function (xhr) {
                 if (HasModelStateErrors(xhr)) {
-                    initializeAlert('danger', xhr.responseJSON.join("<br>"));
+                    showPageAlert('danger', xhr.responseJSON.join("<br>"));
                     return;
                 }
             }

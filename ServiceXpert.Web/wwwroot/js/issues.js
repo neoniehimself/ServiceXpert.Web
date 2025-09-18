@@ -39,7 +39,7 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
 $(document).on('click', '#btn-edit-issue', function () {
     $.get(`/Issues/EditIssueAsync/${$('#view-issue-modal-label').text()}`, function (response) {
         $('#view-issue-modal').modal('hide');
-        $('.modal-container').html(response);
+        $('#modal-container').html(response);
         $('#edit-issue-modal').modal('show');
     });
 });
@@ -47,7 +47,7 @@ $(document).on('click', '#btn-edit-issue', function () {
 $(document).on('click', '#btn-back-to-view', function () {
     $.get(`/Issues/ViewIssueAsync/${$('#edit-issue-modal-label').text()}`, function (response) {
         $('#edit-issue-modal').modal('hide');
-        $('.modal-container').html(response);
+        $('#modal-container').html(response);
         $('#view-issue-modal').modal('show');
     });
 });
@@ -68,7 +68,7 @@ $(document).on('submit', '#edit-issue-modal-form', function (e) {
             // If StatusCode Is In 200, Then Operation Was Successful
             if (response.statusCode >= 200 && response.statusCode <= 299) {
                 $('#edit-issue-modal').modal('hide');
-                initializeAlert('success', `Issue key: ${issueKey} was updated successfully!`, false, true, true);
+                showPageAlert('success', `Issue key: ${issueKey} was updated successfully!`, false, true, true);
             }
         }
     });

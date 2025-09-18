@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $('#btn-create-issue').click(() => {
         $.get('/Issues/InitializeCreateIssue', (response) => {
-            $('.modal-container').html(response);
+            $('#modal-container').html(response);
             $('#create-issue-modal').modal('show');
         });
     });
@@ -18,7 +18,14 @@ $(document).on('submit', '#create-issue-modal-form', function (e) {
         dataType: 'JSON',
         success: function (response) {
             $('#create-issue-modal').modal('hide');
-            initializeAlert('success', `Issue key: ${response.issueKey} was created successfully!`, false, true, true);
+            showPageAlert('success', `Issue key: ${response.issueKey} was created successfully!`, false, true, true);
+        },
+        error: function (xhr) {
+            if (HasModelStateErrors(xhr)) {
+                $('.modal-body').prepend(modalAlertString);
+                showModalAlert('danger', xhr.responseJSON.join("<br>"));
+                return;
+            }
         }
     });
 });
