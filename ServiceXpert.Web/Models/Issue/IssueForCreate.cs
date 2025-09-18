@@ -4,7 +4,7 @@ namespace ServiceXpert.Web.Models.Issue;
 public class IssueForCreate : ModelBaseForCreate
 {
     [Required]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     public string? Description { get; set; }
 
