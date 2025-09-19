@@ -15,7 +15,7 @@
                 }, 50);
             },
             error: function (xhr) {
-                if (HasModelStateErrors(xhr)) {
+                if (HasBadRequestErrors(xhr)) {
                     showPageAlert('danger', xhr.responseJSON.join("<br>"));
                     return;
                 }

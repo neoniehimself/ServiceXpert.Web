@@ -24,7 +24,7 @@ function configureAjaxSettings() {
     });
 }
 
-function HasModelStateErrors(xhr) {
+function HasBadRequestErrors(xhr) {
     return xhr.status === 400 && Array.isArray(xhr.responseJSON);
 }
 

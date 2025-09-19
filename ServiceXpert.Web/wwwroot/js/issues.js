@@ -10,7 +10,6 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
     $('#issue-table tbody').html(''); // Empty the table
     $('#issue-table-pagination').remove(); // Remove pagination (dynamically rendered)
     $('#no-data').remove(); // Remove no show text (dynamically rendered)
-    $('#issue-table-spinner').removeClass('d-none').addClass('d-flex'); // Show spinner
     $.ajax({
         type: 'GET',
         url: '/Issues/GetPagedIssuesByStatusAsync',
@@ -20,7 +19,7 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
             pageSize: pageSize
         },
         success: function (response) {
-            $('#issue-table-spinner').removeClass('d-flex').addClass('d-none');
+            $('#issue-table-spinner').addClass('d-none');
             $('#issue-table tbody').html(response.issueTableRowsHtml);
             if ($('#issue-table tbody tr').length > 0) {
                 if ($('#issue-table-pagination').length === 0) {

@@ -21,11 +21,36 @@ $(document).on('submit', '#create-issue-modal-form', function (e) {
             showPageAlert('success', `Issue key: ${response.issueKey} was created successfully!`, false, true, true);
         },
         error: function (xhr) {
-            if (HasModelStateErrors(xhr)) {
+            if (HasBadRequestErrors(xhr)) {
                 $('.modal-body').prepend(modalAlertString);
-                showModalAlert('danger', xhr.responseJSON.join("<br>"));
+                showModalAlert('danger', xhr.responseJSON.join('<br>'));
                 return;
             }
+        }
+    });
+});
+
+$(document).on('keyup', '#create-issue-modal-assignee-field', function () {
+    let searchQuery = $(this).val();
+
+    if (searchQuery.length > 1) {
+        $('#assignee-suggestions-spinner').removeClass('d-none');
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: '/Users/SearchUserByNameAsync',
+        data: { searchQuery: searchQuery},
+        success: function (response) {
+            let results = response.d;
+            let options = '';
+            $.each(results, function (i, item) {
+                options += `<option value='${item}'>`;
+            });
+            $('#assignee-suggestions').html(options);
+        },
+        complete: function () {
+            $('#assignee-suggestions-spinner').addClass('d-none');
         }
     });
 });
