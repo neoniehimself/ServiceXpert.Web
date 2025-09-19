@@ -65,13 +65,13 @@ else
             <div class="col-12 col-md-6 mb-3 mb-md-0">
                 <div>
                     <label class="form-label">Assignee</label>
-                    <input type="text" value="Lorem Ipsum" class="form-control" />
+                    <input type="text" value="@Model.Issue.Assignee?.FirstNameLastName" class="form-control" />
                 </div>
             </div>
             <div class="col-12 col-md-6">
                 <div>
                     <label class="form-label">Reporter</label>
-                    <input type="text" value="Lorem Ipsum" class="form-control" />
+                    <input type="text" value="@Model.Issue.CreatedByUser!.FirstNameLastName" class="form-control" />
                 </div>
             </div>
         </div>
