@@ -31,21 +31,24 @@ $(document).on('submit', '#create-issue-modal-form', function (e) {
 });
 
 $(document).on('keyup', '#create-issue-modal-assignee-field', function () {
-    let searchQuery = $(this).val();
+    var searchQuery = $(this).val().trim();
 
-    if (searchQuery.length > 1) {
-        $('#assignee-suggestions-spinner').removeClass('d-none');
+    if (!searchQuery) {
+        $('#assignee-suggestions').empty();
+        return;
     }
+
+    $('#assignee-suggestions-spinner').removeClass('d-none');
 
     $.ajax({
         type: 'GET',
         url: '/Users/SearchUserByName',
         data: { searchQuery: searchQuery},
         success: function (response) {
-            let results = response.d;
-            let options = '';
-            $.each(results, function (i, item) {
-                options += `<option value='${item}'>`;
+            var userProfiles = response.userProfiles;
+            var options = '';
+            $.each(userProfiles, function (i, userProfile) {
+                options += `<option value='${userProfile.firstNameLastName}' data-id=${userProfile.id}>`;
             });
             $('#assignee-suggestions').html(options);
         },
@@ -53,4 +56,19 @@ $(document).on('keyup', '#create-issue-modal-assignee-field', function () {
             $('#assignee-suggestions-spinner').addClass('d-none');
         }
     });
+});
+
+$(document).on('input', '#create-issue-modal-assignee-field', function () {
+    var val = $(this).val().trim();
+
+    if (!val) {
+        $('#assignee-id').val('');
+        return;
+    }
+
+    var option = $('#assignee-suggestions option').filter(function () {
+        return this.value === val;
+    }).first();
+
+    $('#assignee-id').val(option.length ? option.data('id') : '');
 });

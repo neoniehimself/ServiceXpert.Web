@@ -11,7 +11,8 @@
         <td>@issue.IssuePriority!.Name</td>
         @* Status *@
         <td>@issue.IssueStatus!.Name</td>
-        <td></td>
+        @* Assignee *@
+        <td>@issue.Assignee?.FirstNameLastName</td>
         @* Reporter *@
         <td>@issue.CreatedByUser!.FirstNameLastName</td>
         @* Created *@

@@ -31,14 +31,14 @@
     <div class="row mb-3">
         <div class="col-12 col-md-6 mb-3 mb-md-0">
             <div>
-                <label class="form-label">Assignee</label>
-                <input type="text" value="Lorem Ipsum" class="form-control" disabled />
+                <label asp-for="Assignee" class="form-label">Assignee</label>
+                <input asp-for="Assignee.FirstNameLastName" class="form-control" disabled />
             </div>
         </div>
         <div class="col-12 col-md-6">
             <div>
-                <label class="form-label">Reporter</label>
-                <input type="text" value="Lorem Ipsum" class="form-control" disabled />
+                <label asp-for="CreatedByUser" class="form-label">Reporter</label>
+                <input asp-for="CreatedByUser.FirstNameLastName" class="form-control" disabled />
             </div>
         </div>
     </div>

@@ -20,7 +20,7 @@ public class UserController : SxpController
     public async Task<IActionResult> SearchUserByNameAsync(string searchQuery)
     {
         using var httpClient = this.httpClientFactory.CreateClient();
-        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Users?searchQuery={searchQuery}");
+        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Users/SearchUserByName?searchQuery={searchQuery}");
 
         if (!response.IsSuccessStatusCode)
         {
