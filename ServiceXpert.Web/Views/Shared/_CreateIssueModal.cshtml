@@ -41,13 +41,13 @@
                     <div class="row mb-2">
                         <div class="col-12">
                             <label for="create-issue-modal-assignee-field" class="form-label">Assignee</label>
-                            <select class="form-select" id="create-issue-modal-assignee-field" name="@nameof(IssueForCreate.AssigneeId)">
-                                <option value="">Unassigned</option>
-                                @foreach (var user in Model.Users)
-                                {
-                                    <option value="@user.Id">@user.FirstNameLastName</option>
-                                }
-                            </select>
+                            <div class="position-relative">
+                                <input type="text" id="create-issue-modal-assignee-field" list="assignee-suggestions" class="form-control" name="@nameof(IssueForCreate.AssigneeId)">
+                                <datalist id="assignee-suggestions"></datalist>
+                                <div id="assignee-suggestions-spinner" class="position-absolute top-50 end-0 translate-middle-y me-2 d-none">
+                                    <div class="spinner-border spinner-border-sm text-secondary"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
