@@ -12,7 +12,7 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
     $('#no-data').remove(); // Remove no show text (dynamically rendered)
     $.ajax({
         type: 'GET',
-        url: '/Issues/GetPagedIssuesByStatusAsync',
+        url: '/Issues/GetPagedIssuesByStatus',
         data: {
             statusCategory: statusCategory,
             pageNumber: pageNumber,

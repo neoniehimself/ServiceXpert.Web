@@ -1,4 +1,4 @@
-﻿@model LoginUser
+﻿@model Login
 @{
     ViewData["Title"] = "Login";
 }
@@ -9,11 +9,11 @@
             <label for="login-username-field" class="form-label">
                 Username
             </label>
-            <input type="text" class="form-control mb-3" id="login-username-field" name="@nameof(LoginUser.UserName)" required/>
+            <input type="text" class="form-control mb-3" id="login-username-field" name="@nameof(Login.UserName)" required/>
             <label for="login-password-field" class="form-label">
                 Password
             </label>
-            <input type="password" class="form-control mb-1" id="login-password-field" name="@nameof(LoginUser.Password)" required />
+            <input type="password" class="form-control mb-1" id="login-password-field" name="@nameof(Login.Password)" required />
             <a href="#"><small>Forgot password?</small></a>
             <button type="submit" class="btn btn-success w-100 mt-4">Log in</button>
         </form>

@@ -39,7 +39,7 @@ $(document).on('keyup', '#create-issue-modal-assignee-field', function () {
 
     $.ajax({
         type: 'GET',
-        url: '/Users/SearchUserByNameAsync',
+        url: '/Users/SearchUserByName',
         data: { searchQuery: searchQuery},
         success: function (response) {
             let results = response.d;

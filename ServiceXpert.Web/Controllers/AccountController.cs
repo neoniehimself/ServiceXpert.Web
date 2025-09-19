@@ -10,7 +10,7 @@ namespace ServiceXpert.Web.Controllers;
 public class AccountController(IHttpClientFactory httpClientFactory) : SxpController
 {
     [AllowAnonymous]
-    [HttpGet("")]
+    [HttpGet("")] // Entry point method
     public IActionResult Index()
     {
         if (!string.IsNullOrWhiteSpace(this.BearerToken))
@@ -22,8 +22,8 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
     }
 
     [AllowAnonymous]
-    [HttpPost(nameof(LoginUserAsync))]
-    public async Task<IActionResult> LoginUserAsync(LoginUser loginUser, [FromServices] IConfiguration configuration)
+    [HttpPost("Login")]
+    public async Task<IActionResult> LoginAsync(Login login, [FromServices] IConfiguration configuration)
     {
         if (!this.ModelState.IsValid)
         {
@@ -31,7 +31,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         using var httpClient = httpClientFactory.CreateClient(HttpClientSettings.AuthHttpClientSettings);
-        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Accounts/LoginUserAsync", HttpContentUtil.SerializeContentWithApplicationJson(loginUser));
+        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
 
         if (!response.IsSuccessStatusCode)
         {
@@ -52,7 +52,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
     }
 
     [Authorize]
-    [HttpPost]
+    [HttpPost("Logout")]
     [ValidateAntiForgeryToken]
     public IActionResult Logout()
     {

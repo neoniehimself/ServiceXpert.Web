@@ -21,7 +21,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         });
     }
 
-    [HttpGet(nameof(GetPagedIssuesByStatusAsync))]
+    [HttpGet("GetPagedIssuesByStatus")]
     public async Task<IActionResult> GetPagedIssuesByStatusAsync([FromServices] ICompositeViewEngine compositiveViewEngine, string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
     {
         using var httpClient = httpClientFactory.CreateClient();
@@ -40,7 +40,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         return Json(new { issueTableRowsHtml, paginationHtml });
     }
 
-    [HttpGet("{issueKey}", Name = nameof(ViewIssueAsync))]
+    [HttpGet("View/{issueKey}", Name = "ViewIssue")]
     public async Task<IActionResult> ViewIssueAsync(string issueKey)
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
@@ -61,7 +61,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         return View("~/Views/Issue/ViewIssue.cshtml", issue);
     }
 
-    [HttpGet("{issueKey}/Edit", Name = nameof(EditIssueAsync))]
+    [HttpGet("Edit/{issueKey}", Name = "EditIssue")]
     public async Task<IActionResult> EditIssueAsync(string issueKey)
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
@@ -88,7 +88,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         });
     }
 
-    [HttpPut("{issueKey}/Edit")]
+    [HttpPut("Edit/{issueKey}")]
     public async Task<IActionResult> UpdateIssueAsync(string issueKey, IssueForUpdate issue)
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
@@ -114,7 +114,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         return Json(new { statusCode = 204 });
     }
 
-    [HttpGet(nameof(InitializeCreateIssue))]
+    [HttpGet("InitializeCreateIssue")]
     public IActionResult InitializeCreateIssue()
     {
         return PartialView("_CreateIssueModal", new CreateIssueViewModel()

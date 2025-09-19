@@ -16,7 +16,7 @@ public class UserController : SxpController
         this.httpClientFactory = httpClientFactory;
     }
 
-    [HttpGet(nameof(SearchUserByNameAsync))]
+    [HttpGet("SearchUserByName")]
     public async Task<IActionResult> SearchUserByNameAsync(string searchQuery)
     {
         using var httpClient = this.httpClientFactory.CreateClient();

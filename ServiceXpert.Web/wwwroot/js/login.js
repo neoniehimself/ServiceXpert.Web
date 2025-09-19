@@ -3,7 +3,7 @@
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '/Accounts/LoginUserAsync',
+            url: '/Accounts/Login',
             data: new FormData($(this)[0]),
             processData: false,
             contentType: false,
