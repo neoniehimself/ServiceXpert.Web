@@ -63,7 +63,7 @@ else
         </div>
         <div class="row mb-3">
             <div class="col-12 col-md-6 mb-3 mb-md-0">
-                @await Html.PartialAsync("_UserPickerSearchbox.cshtml", new UserPickerSearchboxViewModel("Assignee", Model.Issue.Assignee))
+                @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Assignee", Model.Issue.Assignee))
             </div>
             <div class="col-12 col-md-6">
                 <div>
@@ -81,6 +81,6 @@ else
     @await Html.PartialAsync("_CommentsSection")
     @section Scripts {
         <script src="~/js/shared/comments.js"></script>
-        <script src="~/js/issue/edit-issue.js"></script>
+        <script type="module" src="~/js/issue/edit-issue.js"></script>
     }
 }
