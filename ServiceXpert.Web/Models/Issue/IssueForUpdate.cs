@@ -13,4 +13,6 @@ public class IssueForUpdate : ModelBaseForUpdate
 
     [Required]
     public required int IssuePriorityId { get; set; }
+
+    public Guid? AssigneeId { get; set; }
 }

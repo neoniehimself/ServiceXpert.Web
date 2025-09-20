@@ -3,7 +3,7 @@
 namespace ServiceXpert.Web.Models.Issue;
 public class IssueForCreate : ModelBaseForCreate
 {
-    [Required]
+    [Required(ErrorMessage = "The Title field is required.")]
     public required string Name { get; set; }
 
     public string? Description { get; set; }

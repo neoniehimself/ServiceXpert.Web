@@ -1,4 +1,10 @@
-﻿$('#edit-issue-form').submit(function (e) {
+﻿import { initUserPickerSearchbox } from '../shared/user-picker-searchbox.js'
+
+$(document).ready(function () {
+    initUserPickerSearchbox();
+});
+
+$('#edit-issue-form').submit(function (e) {
     e.preventDefault();
 
     if (window.confirm('Do you want to save your changes?')) {
