@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Web.ViewModels;
 using System.Diagnostics;
 
 namespace ServiceXpert.Web.Controllers;
-[Authorize]
 [Route("Error")]
 public class ErrorController : SxpController
 {

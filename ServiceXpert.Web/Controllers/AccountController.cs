@@ -51,7 +51,6 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
         return Json(new { redirectUrl = "/Dashboard" });
     }
 
-    [Authorize]
     [HttpPost("Logout")]
     [ValidateAntiForgeryToken]
     public IActionResult Logout()

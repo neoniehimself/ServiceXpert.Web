@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using ServiceXpert.Web.Models.Comment;
 using ServiceXpert.Web.Utils;
 using System.Net;
 
 namespace ServiceXpert.Web.Controllers;
-[Authorize]
 [Route("Issues/{issueKey}/Comments")]
 public class CommentController(IHttpClientFactory httpClientFactory) : SxpController
 {

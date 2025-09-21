@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Web.Models.AspNetUserProfile;
 using ServiceXpert.Web.Utils;
 
 namespace ServiceXpert.Web.Controllers;
-
-[Authorize]
 [Route("Users")]
 public class UserController : SxpController
 {
