@@ -1,9 +1,7 @@
-﻿
-using ServiceXpert.Web.Constants;
+﻿using ServiceXpert.Web.Constants;
 using System.Net.Http.Headers;
 
 namespace ServiceXpert.Web;
-
 public class BearerTokenHandler(IHttpContextAccessor httpContextAccessor) : DelegatingHandler
 {
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)

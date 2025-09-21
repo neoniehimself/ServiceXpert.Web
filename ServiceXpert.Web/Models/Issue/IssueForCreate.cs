@@ -12,5 +12,7 @@ public class IssueForCreate : ModelBaseForCreate
 
     public int IssuePriorityId { get; set; } = (int)Enums.IssuePriority.Low;
 
+    public Guid? ReporterId { get; set; }
+
     public Guid? AssigneeId { get; set; }
 }

@@ -40,6 +40,11 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-12">
+                            @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Reporter"))
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-12">
                             @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Assignee"))
                         </div>
                     </div>

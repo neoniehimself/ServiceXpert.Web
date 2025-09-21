@@ -14,7 +14,7 @@
         @* Assignee *@
         <td>@issue.Assignee?.FirstNameLastName</td>
         @* Reporter *@
-        <td>@issue.CreatedByUser!.FirstNameLastName</td>
+        <td>@issue.Reporter?.FirstNameLastName</td>
         @* Created *@
         <td>@issue.CreatedDateFormatted</td>
     </tr>

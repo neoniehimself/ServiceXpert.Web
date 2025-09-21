@@ -66,10 +66,7 @@ else
                 @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Assignee", Model.Issue.Assignee))
             </div>
             <div class="col-12 col-md-6">
-                <div>
-                    <label class="form-label">Reporter</label>
-                    <input type="text" value="@Model.Issue.CreatedByUser!.FirstNameLastName" class="form-control" />
-                </div>
+                @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Reporter", Model.Issue.Reporter))
             </div>
         </div>
         <div class="mb-4">

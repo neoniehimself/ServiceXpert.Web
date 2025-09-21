@@ -17,11 +17,15 @@ public class Issue : ModelBase<int>
 
     public ICollection<Comment.Comment> Comments { get; set; }
 
-    public AspNetUserProfile.AspNetUserProfile? CreatedByUser { get; set; }
+    public Guid? ReporterId { get; set; }
+
+    public AspNetUserProfile.AspNetUserProfile? Reporter { get; set; }
 
     public Guid? AssigneeId { get; set; }
 
     public AspNetUserProfile.AspNetUserProfile? Assignee { get; set; }
+
+    public AspNetUserProfile.AspNetUserProfile? CreatedByUser { get; set; }
 
     public AspNetUserProfile.AspNetUserProfile? ModifiedByUser { get; set; }
 
