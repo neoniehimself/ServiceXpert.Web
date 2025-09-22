@@ -33,6 +33,17 @@ $(document).on('submit', '#add-comment-form', function (e) {
         dataType: 'JSON',
         success: function () {
             loadComments();
+        }, error: function (xhr) {
+            if (HasBadRequestErrors(xhr)) {
+                try {
+                    let response = JSON.parse(xhr.responseText);
+                    if (Array.isArray(response)) {
+                        showPageAlert('danger', response.join('<br>'));
+                    } 
+                } catch {
+                    console.error(response.responseText);
+                }
+            }
         }
     });
 });

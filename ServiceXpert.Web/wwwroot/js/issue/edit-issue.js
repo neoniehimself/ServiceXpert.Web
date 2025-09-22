@@ -22,6 +22,11 @@ $('#edit-issue-form').submit(function (e) {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
                     window.location.href = `/Issues/View/${issueKey}`;
                 }
+            }, error: function (xhr) {
+                if (HasBadRequestErrors(xhr)) {
+                    showPageAlert('danger', xhr.responseJSON.join('<br>'));
+                    return;
+                }
             }
         });
     } else {

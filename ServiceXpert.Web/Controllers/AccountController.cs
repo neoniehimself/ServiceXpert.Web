@@ -23,6 +23,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
 
     [AllowAnonymous]
     [HttpPost("Login")]
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<IActionResult> LoginAsync(Login login, [FromServices] IConfiguration configuration)
     {
         if (!this.ModelState.IsValid)

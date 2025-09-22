@@ -58,7 +58,7 @@ function configureAlert(alertClass = 'warning', alertMessage = 'No alert message
     return alert;
 }
 
-function showPageAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false, isAutoClose = false, isReloadPage = false) {
+function showPageAlert(alertClass = 'warning', alertMessage = 'No alert message specified!', hasCloseButton = false, isAutoClose = false) {
 
     var alert = configureAlert(alertClass, alertMessage, hasCloseButton);
     $('#page-alert').html(alert);
@@ -67,12 +67,6 @@ function showPageAlert(alertClass = 'warning', alertMessage = 'No alert message 
         // Auto-close after N seconds in milliseconds
         setTimeout(function () {
             alert.alert('close'); // Use Bootstrap's alert close method to hide the alert
-
-            if (isReloadPage) {
-                alert.one('closed.bs.alert', function () {
-                    location.reload();
-                });
-            }
         }, 4000);
     }
 }

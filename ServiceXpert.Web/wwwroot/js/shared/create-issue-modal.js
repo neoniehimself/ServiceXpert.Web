@@ -22,7 +22,7 @@ $(document).on('submit', '#create-issue-modal-form', function (e) {
         dataType: 'JSON',
         success: function (response) {
             $('#create-issue-modal').modal('hide');
-            showPageAlert('success', `Issue key: ${response.issueKey} was created successfully!`, false, true, true);
+            showPageAlert('success', `Issue key: ${response.issueKey} was created successfully!`, false, true);
         },
         error: function (xhr) {
             if (HasBadRequestErrors(xhr)) {

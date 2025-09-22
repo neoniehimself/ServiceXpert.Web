@@ -21,8 +21,7 @@ public class UserController : SxpController
 
         if (!response.IsSuccessStatusCode)
         {
-            var errors = await HttpContentUtil.DeserializeContentAsync<List<string>>(response);
-            return StatusCode((int)response.StatusCode, errors);
+            return StatusCode((int)response.StatusCode);
         }
 
         var userProfiles = await HttpContentUtil.DeserializeContentAsync<ICollection<AspNetUserProfile>>(response);

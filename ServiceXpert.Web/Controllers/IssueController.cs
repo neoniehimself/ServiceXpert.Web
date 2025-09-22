@@ -27,8 +27,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
 
         if (!response.IsSuccessStatusCode)
         {
-            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
-            return StatusCode((int)response.StatusCode, errors);
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
         var result = await HttpContentUtil.DeserializeContentAsync<PagedResult<Issue>>(response);
@@ -43,7 +42,8 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue key: {issueKey}");
+            this.TempData[this.TempDataErrorKey] = "You are trying to access an invalid issue. Issue: " + issueKey;
+            return RedirectToError();
         }
 
         using var httpClient = httpClientFactory.CreateClient();
@@ -51,8 +51,8 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
 
         if (!response.IsSuccessStatusCode)
         {
-            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
-            return StatusCode((int)response.StatusCode, errors);
+            this.TempData[this.TempDataErrorKey] = await HttpContentUtil.GetResultAsStringAsync(response);
+            return RedirectToError();
         }
 
         var issue = await HttpContentUtil.DeserializeContentAsync<Issue>(response);
@@ -64,7 +64,8 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue Key: {issueKey}");
+            this.TempData[this.TempDataErrorKey] = "You are trying to access an invalid issue. Issue: " + issueKey;
+            return RedirectToError();
         }
 
         using var httpClient = httpClientFactory.CreateClient();
@@ -72,8 +73,8 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
 
         if (!response.IsSuccessStatusCode)
         {
-            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
-            return StatusCode((int)response.StatusCode, errors);
+            this.TempData[this.TempDataErrorKey] = await HttpContentUtil.GetResultAsStringAsync(response);
+            return RedirectToError();
         }
 
         var issue = await HttpContentUtil.DeserializeContentAsync<Issue>(response);
@@ -91,7 +92,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue Key: {issueKey}");
+            return BadRequest("You are trying to update an invalid issue: Issue: " + issue);
         }
 
         if (!this.ModelState.IsValid)
@@ -105,11 +106,18 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
 
         if (!response.IsSuccessStatusCode)
         {
-            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
-            return StatusCode((int)response.StatusCode, errors);
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.NotFound:
+                    var error = await HttpContentUtil.GetResultAsStringAsync(response);
+                    return NotFound(error);
+                case HttpStatusCode.BadRequest:
+                    var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
+                    return BadRequest(errors);
+            }
         }
 
-        return Json(new { statusCode = 204 });
+        return Json(new { statusCode = StatusCodes.Status204NoContent });
     }
 
     [HttpGet("InitializeCreateIssue")]
@@ -136,7 +144,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         if (!response.IsSuccessStatusCode)
         {
             var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
-            return StatusCode((int)response.StatusCode, errors);
+            return BadRequest(errors);
         }
 
         return Json(new { issueKey = await HttpContentUtil.GetResultAsStringAsync(response) });

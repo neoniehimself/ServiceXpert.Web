@@ -3,12 +3,24 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request</h2>
-
-@if (Model.ShowRequestId)
+<h2 class="text-danger">Error</h2>
+@if (ViewData["IsErrorFromController"] == null)
 {
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
+    <p class="text-danger">@Model.ErrorString</p>
+}
+else
+{
+    if ((bool)ViewData["IsErrorString"]!)
+    {
+        <p class="text-danger">@Model.ErrorString</p>
+    }
+    else
+    {
+        <ul class="text-danger">
+            @foreach (var error in Model.ErrorList)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    }
 }

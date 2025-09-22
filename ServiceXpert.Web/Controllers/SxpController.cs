@@ -11,6 +11,10 @@ public class SxpController : Controller
 {
     protected string BearerToken => this.Request.Cookies.ContainsKey(AuthSettings.BearerTokenCookieName) ? this.Request.Cookies[AuthSettings.BearerTokenCookieName]! : string.Empty;
 
+    protected string TempDataErrorKey => nameof(this.TempDataErrorKey);
+
+    protected RedirectToActionResult RedirectToError() => RedirectToAction("Error", "Error");
+
     [NonAction]
     protected IEnumerable<string> GetModelStateErrors() => this.ModelState.Values.SelectMany(modelStateEntry => modelStateEntry.Errors).Select(modelError => modelError.ErrorMessage);
 

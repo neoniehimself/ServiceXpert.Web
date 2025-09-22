@@ -11,18 +11,13 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
     [HttpGet]
     public async Task<IActionResult> GetAllByIssueKeyAsync(string issueKey, [FromServices] ICompositeViewEngine compositeViewEngine)
     {
-        if (!IssueUtil.IsIssueKeyValid(issueKey))
-        {
-            return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue key: {issueKey}");
-        }
-
         using var httpClient = httpClientFactory.CreateClient();
         using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
 
         if (!response.IsSuccessStatusCode)
         {
-            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
-            return StatusCode((int)response.StatusCode, errors);
+            var error = await HttpContentUtil.GetResultAsStringAsync(response);
+            return NotFound(error);
         }
 
         var comments = await HttpContentUtil.DeserializeContentAsync<List<Comment>>(response);
@@ -41,7 +36,7 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid Issue key: {issueKey}");
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Invalid Issue Key of {issueKey}");
         }
 
         using var httpClient = httpClientFactory.CreateClient();
@@ -49,8 +44,23 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
 
         if (!response.IsSuccessStatusCode)
         {
-            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
-            return StatusCode((int)response.StatusCode, errors);
+            var result = await HttpContentUtil.GetResultAsStringAsync(response);
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.BadRequest:
+                    if (result.StartsWith('{'))
+                    {
+                        var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
+                        return BadRequest(errors);
+                    }
+                    else
+                    {
+                        return BadRequest(result);
+                    }
+                case HttpStatusCode.NotFound:
+                    return NotFound(result);
+            }
         }
 
         return Json(new { });
