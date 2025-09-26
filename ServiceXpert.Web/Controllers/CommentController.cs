@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
+using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Comment;
 using ServiceXpert.Web.Utils;
 using System.Net;
@@ -13,21 +14,19 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
     {
         using var httpClient = httpClientFactory.CreateClient();
         using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<Comment>>>(response);
 
-        if (!response.IsSuccessStatusCode)
+        if (!apiResponse!.IsSuccess)
         {
-            var error = await HttpContentUtil.GetResultAsStringAsync(response);
-            return NotFound(error);
+
         }
 
-        var comments = await HttpContentUtil.DeserializeContentAsync<List<Comment>>(response);
-
-        if (comments == null || comments.Count == 0)
+        if (apiResponse.Value == null || apiResponse.Value.Count == 0)
         {
             return Json(new { hasComments = false });
         }
 
-        var commentsHtml = await RenderViewToHtmlStringAsync(compositeViewEngine, "~/Views/Shared/_CommentsSectionRow.cshtml", comments!);
+        var commentsHtml = await RenderViewToHtmlStringAsync(compositeViewEngine, "~/Views/Shared/_CommentsSectionRow.cshtml", apiResponse.Value);
         return Json(new { hasComments = true, commentsHtml });
     }
 
@@ -36,31 +35,16 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Invalid Issue Key of {issueKey}");
+            return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid issue: {issueKey}");
         }
 
         using var httpClient = httpClientFactory.CreateClient();
-        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(comment));
+        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(comment));
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse>(httpResponse);
 
-        if (!response.IsSuccessStatusCode)
+        if (!apiResponse!.IsSuccess)
         {
-            var result = await HttpContentUtil.GetResultAsStringAsync(response);
 
-            switch (response.StatusCode)
-            {
-                case HttpStatusCode.BadRequest:
-                    if (result.StartsWith('{'))
-                    {
-                        var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
-                        return BadRequest(errors);
-                    }
-                    else
-                    {
-                        return BadRequest(result);
-                    }
-                case HttpStatusCode.NotFound:
-                    return NotFound(result);
-            }
         }
 
         return Json(new { });

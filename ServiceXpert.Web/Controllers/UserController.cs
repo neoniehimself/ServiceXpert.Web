@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.AspNetUserProfile;
 using ServiceXpert.Web.Utils;
 
@@ -17,14 +18,14 @@ public class UserController : SxpController
     public async Task<IActionResult> SearchUserByNameAsync(string searchQuery)
     {
         using var httpClient = this.httpClientFactory.CreateClient();
-        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Users/SearchUserByName?searchQuery={searchQuery}");
+        using var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Users/SearchUserByName?searchQuery={searchQuery}");
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<AspNetUserProfile>>>(httpResponse);
 
-        if (!response.IsSuccessStatusCode)
+        if (!apiResponse!.IsSuccess)
         {
-            return StatusCode((int)response.StatusCode);
+
         }
 
-        var userProfiles = await HttpContentUtil.DeserializeContentAsync<ICollection<AspNetUserProfile>>(response);
-        return Ok(new { userProfiles });
+        return Ok(new { userProfiles = apiResponse.Value });
     }
 }
