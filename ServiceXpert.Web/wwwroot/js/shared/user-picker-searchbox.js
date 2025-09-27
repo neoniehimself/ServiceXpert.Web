@@ -1,81 +1,87 @@
 ﻿export function initUserPickerSearchbox() {
-    const debounceDelay = 300;
-    let debounceTimeout;
+    $(document).ready(function () {
+        $("[id^='user-picker-searchbox-']").each(function () {
+            const container = $(this);
+            const input = container.find("input[type='text']");
+            const spinner = container.find("[id^='spinner-']");
+            const list = container.find("[id^='result-list-']");
+            const hidden = container.find("input[type='hidden']");
 
-    $(document).on('keyup', '.partial-user-picker-searchbox', function (e) {
-        clearTimeout(debounceTimeout);
+            let typingTimer;
+            const typingDelay = 400; // Debounce
 
-        const input = $(this);
-        const wrapper = input.closest('.position-relative');
-        const dataList = $(`#${input.attr('list')}`);
-        const hiddenInput = wrapper.find('input[type="hidden"]');
-        const spinner = wrapper.find('#spinner-' + wrapper.data('instance-id'));
-        const searchQuery = input.val().trim();
+            input.on("keyup", function () {
+                clearTimeout(typingTimer);
+                const searchQuery = $(this).val().trim();
 
-        // Skip AJAX if user already selected a valid option
-        if (input.data('selected') === true && hiddenInput.val()) {
-            return;
-        }
+                // Reset hidden field when typing
+                hidden.val("");
 
-        // Ignore non-character keys (arrows, tab, etc.)
-        if (e.key.length > 1 && e.key !== 'Backspace' && e.key !== 'Delete') {
-            return;
-        }
+                if (!searchQuery) {
+                    list.addClass("d-none").empty();
+                    return;
+                }
 
-        debounceTimeout = setTimeout(() => {
-            if (!searchQuery) {
-                dataList.empty();
-                hiddenInput.val('');
-                spinner.addClass('d-none');
-                return;
-            }
+                // Show spinner
+                spinner.removeClass("d-none");
 
-            spinner.removeClass('d-none');
-
-            $.ajax({
-                url: '/Users/SearchUserByName',
-                method: 'GET',
-                data: { searchQuery },
-                success: function (response) {
-                    dataList.empty();
-                    response.userProfiles.forEach(userProfile => {
-                        dataList.append(
-                            `<option data-id="${userProfile.id}" value="${userProfile.firstNameLastName}"></option>`
-                        );
+                typingTimer = setTimeout(function () {
+                    $.ajax({
+                        url: "/Users/SearchUserByName",
+                        type: "GET",
+                        data: { searchQuery },
+                        success: function (response) {
+                            list.empty();
+                            if (response && response.userProfiles && response.userProfiles.length) {
+                                response.userProfiles.forEach(userProfile => {
+                                    list.append(
+                                        `<li class="list-group-item list-group-item-action" data-id="${userProfile.id}">${userProfile.firstNameLastName}</li>`
+                                    );
+                                });
+                                list.removeClass("d-none");
+                            } else {
+                                list.addClass("d-none");
+                            }
+                        },
+                        error: function () {
+                            list.addClass("d-none").empty();
+                            console.error("Error fetching users.");
+                        },
+                        complete: function () {
+                            spinner.addClass("d-none");
+                        }
                     });
-                },
-                error: function () {
-                    dataList.empty();
-                },
-                complete: function () {
-                    spinner.addClass('d-none');
+                }, typingDelay);
+            });
+
+            // Handle selection
+            list.on("click", "li", function () {
+                const selectedName = $(this).text();
+                const selectedId = $(this).data("id");
+
+                input.val(selectedName);
+                hidden.val(selectedId);
+                list.addClass("d-none");
+                spinner.addClass("d-none");
+            });
+
+            // Reset hidden field if typed value not selected
+            input.on("blur", function () {
+                const typedVal = $(this).val();
+                const selectedId = hidden.val();
+
+                if (typedVal && !selectedId) {
+                    input.val("");
+                    hidden.val("");
                 }
             });
-        }, debounceDelay);
-    });
 
-    // Handle selection from datalist
-    $(document).on('change', '.partial-user-picker-searchbox', function () {
-        const input = $(this);
-        const wrapper = input.closest('.position-relative');
-        const dataList = $(`#${input.attr('list')}`);
-        const hiddenInput = wrapper.find('input[type="hidden"]');
-        const typedValue = input.val();
-
-        const matchedOption = dataList.find(`option[value="${typedValue}"]`);
-
-        if (matchedOption.length > 0) {
-            hiddenInput.val(matchedOption.data('id'));
-            input.data('selected', true); // Mark as selected
-            dataList.empty(); // Clear stale suggestions
-        } else {
-            hiddenInput.val('');
-            input.data('selected', false);
-        }
-    });
-
-    // Reset "selected" flag when user types again
-    $(document).on('keydown', '.partial-user-picker-searchbox', function () {
-        $(this).data('selected', false);
+            // Close list when clicking outside
+            $(document).click(function (e) {
+                if (!$(e.target).closest(container).length) {
+                    list.addClass("d-none");
+                }
+            });
+        });
     });
 }
