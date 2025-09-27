@@ -6,18 +6,18 @@
 <h2 class="text-danger">Error</h2>
 @if (ViewData["IsErrorFromController"] == null)
 {
-    <p class="text-danger">@Model.ErrorString</p>
+    <p class="text-danger">@Model.Error</p>
 }
 else
 {
-    if ((bool)ViewData["IsErrorString"]!)
+    if ((bool)ViewData["IsStringError"]!)
     {
-        <p class="text-danger">@Model.ErrorString</p>
+        <p class="text-danger">@Model.Error</p>
     }
     else
     {
         <ul class="text-danger">
-            @foreach (var error in Model.ErrorList)
+            @foreach (var error in Model.Errors)
             {
                 <li>@error</li>
             }

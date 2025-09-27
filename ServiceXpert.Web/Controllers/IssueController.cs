@@ -27,12 +27,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         using var httpResponse = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PagedResult<Issue>>>(httpResponse);
 
-        if (!apiResponse!.IsSuccess)
-        {
-
-        }
-
-        var issueTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_IssueTableRow", apiResponse.Value.Items);
+        var issueTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_IssueTableRow", apiResponse!.Value.Items);
         var paginationHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_Pagination", apiResponse.Value.Pagination, GetPaginationViewDataDictionary(apiResponse.Value.Pagination, this.ModelState));
 
         return Json(new { issueTableRowsHtml, paginationHtml });
@@ -53,7 +48,12 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
 
         if (!apiResponse!.IsSuccess)
         {
-
+            switch (apiResponse.StatusCode)
+            {
+                case HttpStatusCode.NotFound:
+                    this.TempData[this.TempDataErrorKey] = "The issue you are trying to access does not exists. Issue: " + issueKey;
+                    return RedirectToError();
+            }
         }
 
         return View("~/Views/Issue/ViewIssue.cshtml", apiResponse.Value);
@@ -74,7 +74,12 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
 
         if (!apiResponse!.IsSuccess)
         {
-
+            switch (apiResponse.StatusCode)
+            {
+                case HttpStatusCode.NotFound:
+                    this.TempData[this.TempDataErrorKey] = "The issue you are trying to access does not exists. Issue: " + issueKey;
+                    return RedirectToError();
+            }
         }
 
         return View("~/Views/Issue/EditIssue.cshtml", new EditIssueViewModel()

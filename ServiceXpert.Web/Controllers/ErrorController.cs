@@ -2,12 +2,12 @@
 using ServiceXpert.Web.ViewModels;
 
 namespace ServiceXpert.Web.Controllers;
-[Route("Error")]
+[Route("Errors")]
 public class ErrorController : SxpController
 {
     [HttpGet("")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Index()
     {
         var error = this.TempData[this.TempDataErrorKey];
         var viewModel = new ErrorViewModel();
@@ -19,15 +19,15 @@ public class ErrorController : SxpController
         }
 
         this.ViewData["IsErrorFromController"] = true;
-        if (error is string errorString)
+        if (error is string @string)
         {
-            this.ViewData["IsErrorString"] = true;
-            viewModel.ErrorString = errorString;
+            this.ViewData["IsStringError"] = true;
+            viewModel.Error = @string;
         }
-        else if (error is IEnumerable<string> errorList)
+        else if (error is IEnumerable<string> list)
         {
-            this.ViewData["IsErrorString"] = false;
-            viewModel.ErrorList = errorList;
+            this.ViewData["IsStringError"] = false;
+            viewModel.Errors = list;
         }
 
         return View(viewModel);
