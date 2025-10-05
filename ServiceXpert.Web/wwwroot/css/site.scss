@@ -1,3 +1,5 @@
+$enable-dark-mode: false;
+
 $neutral-800: #172B4D;
 $neutral-700: #253858;
 $neutral-600: #344563;
@@ -14,7 +16,7 @@ $form-element-background-color: $neutral-30;
 $form-element-disabled-background-color: $neutral-20;
 
 @import '../lib/bootstrap/scss/bootstrap.scss';
-@import 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
   --bs-body-font-family: 'Roboto', sans-serif;
