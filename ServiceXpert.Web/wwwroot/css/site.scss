@@ -1,22 +1,39 @@
 $enable-dark-mode: false;
 
-$neutral-800: #172B4D;
-$neutral-700: #253858;
-$neutral-600: #344563;
-$neutral-500: #42526E;
+// Import Google Font
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
-$neutral-40: #DFE1E6;
-$neutral-30: #EBECF0;
-$neutral-20: #F4F5F7;
-$neutral-10: #FAFBFC;
+// Import Bootstrap functions first to enable variable overrides
+@import "../lib/bootstrap/scss/functions";
 
-$primary: $neutral-800;
+$primary: #172B4D;
+$primary-100: lighten($primary, 40%);
+$primary-200: lighten($primary, 30%);
+$primary-300: lighten($primary, 20%);
+$primary-400: lighten($primary, 10%);
+$primary-500: $primary;
+$primary-600: darken($primary, 10%);
+$primary-700: darken($primary, 20%);
 
-$form-element-background-color: $neutral-30;
-$form-element-disabled-background-color: $neutral-20;
+$secondary: #5E6C84;
+$success: #36B37E;
+$info: #00B8D9;
+$warning: #FFAB00;
+$danger: #FF5630;
+$light: #F4F5F7;
+$dark: #091E42;
 
-@import '../lib/bootstrap/scss/bootstrap.scss';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+// Bootstrap theme color map
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark
+);
 
 :root {
   --bs-body-font-family: 'Roboto', sans-serif;
@@ -32,6 +49,7 @@ body {
   flex-direction: column;
   margin-right: 0 !important;
   padding-right: 0 !important;
+
   &.loading {
     cursor: wait;
   }
@@ -40,34 +58,40 @@ body {
 .navbar {
   .nav-item {
     .nav-link {
-      opacity: .75;
-      &:hover  {
-        opacity: 1;
-      }
+      opacity: 0.75;
+      transition: opacity 0.2s ease;
+
+      &:hover,
       &.active {
         opacity: 1;
       }
     }
   }
+
   .navbar-toggler {
     border: none;
-    opacity: .75;
+    opacity: 0.75;
+
     &:hover {
       opacity: 1;
     }
-    &:focus, &:active {
+
+    &:focus,
+    &:active {
       box-shadow: none;
     }
   }
+
   .btn-close {
     filter: invert(1);
   }
+  
   .admin-dropdown {
     .dropdown-menu {
       .dropdown-item {
         &:hover {
           background-color: $primary;
-          color: white;
+          color: $light;
         }
       }
     }
@@ -98,28 +122,15 @@ footer {
   }
 }
 
-.btn-outline-search {
-  @extend .btn-outline-primary;
-  border-color: $neutral-600;
-  color: $neutral-600;
-  &:hover {
-    background-color: #344563;
-    color: white;
-  }
-}
-
 #issue-table {
-  tbody {
-    a {
-      &.view-issue {
-        text-decoration: none;
-        color: $primary;
-        &:hover {
-          text-decoration: underline;
-          text-underline-offset: .375em;
-          cursor: pointer;
-        }
-      }
+  tbody a.view-issue {
+    text-decoration: none;
+    color: $primary;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.375em;
+      cursor: pointer;
     }
   }
 }
@@ -127,36 +138,18 @@ footer {
 .pagination {
   flex-wrap: wrap;
   width: max-content;
+
   .page-item {
-    &.active {
-      .page-link {
-        background-color: $primary;
-        border-color: $border-color;        
-      }
-    }
     .page-link {
       box-shadow: none !important;
     }
+
+    &.active .page-link {
+      background-color: $primary;
+      border-color: $primary;
+      color: $light;
+    }
   }
 }
 
-form {
-  .form-control {
-    background-color: $form-element-background-color;
-    &:focus {
-      background-color: $form-element-background-color;
-    }
-    &:disabled {
-      background-color: $form-element-disabled-background-color;
-    }
-  }
-  .form-select {
-    background-color: $form-element-background-color;
-  }
-}
-
-.utility {
-  &.form-editable {
-    background-color: $form-element-background-color;
-  }
-}
+@import "../lib/bootstrap/scss/bootstrap";

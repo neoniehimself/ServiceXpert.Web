@@ -17,14 +17,14 @@
 else
 {
     <form method="post" id="edit-issue-form" role="form">
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-6">
                 <h6 class="text-muted mb-1 fw-bold" id="issue-key-label">@Model.Issue.IssueKey</h6>
                 <div>
                     <label for="edit-issue-name-field" class="form-label">
                         Title <span class="text-danger">*</span>
                     </label>
-                    <input type="text" class="form-control utility form-editable" id="edit-issue-name-field" name="@nameof(IssueForUpdate.Name)" value="@Model.Issue.Name" required />
+                    <input type="text" class="form-control" id="edit-issue-name-field" name="@nameof(IssueForUpdate.Name)" value="@Model.Issue.Name" required />
                 </div>
             </div>
             <div class="col-6 d-flex justify-content-end align-items-center">
@@ -32,7 +32,6 @@ else
                 <button type="submit" class="btn btn-success">Save</button>
             </div>
         </div>
-        <hr class="mb-4" />
         <div class="row mb-3">
             <div class="col-6">
                 <div>
