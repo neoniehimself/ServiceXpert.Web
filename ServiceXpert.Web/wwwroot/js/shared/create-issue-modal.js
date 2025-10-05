@@ -5,10 +5,9 @@ $(document).ready(function () {
         $.get('/Issues/InitializeCreateIssue', (response) => {
             $('#modal-container').html(response);
             $('#create-issue-modal').modal('show');
+            initUserPickerSearchbox();
         });
     });
-
-    initUserPickerSearchbox();
 });
 
 $(document).on('submit', '#create-issue-modal-form', function (e) {

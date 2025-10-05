@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Web.Constants;
+using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Security;
 using ServiceXpert.Web.Utils;
 
@@ -28,19 +29,19 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
     {
         if (!this.ModelState.IsValid)
         {
-            return BadRequest(GetModelStateErrors());
+            return BadRequestInvalidModelState();
         }
 
         using var httpClient = httpClientFactory.CreateClient(HttpClientSettings.AuthHttpClientSettings);
-        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
+        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<string>>(httpResponse);
 
-        if (!response.IsSuccessStatusCode)
+        if (!apiResponse!.IsSuccess)
         {
-            return BadRequest(await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response));
+            return BadRequest(apiResponse.Errors);
         }
 
-        var token = await HttpContentUtil.GetResultAsStringAsync(response);
-        this.Response.Cookies.Append(AuthSettings.BearerTokenCookieName, token, new CookieOptions
+        this.Response.Cookies.Append(AuthSettings.BearerTokenCookieName, apiResponse.Value, new CookieOptions
         {
             HttpOnly = true,
             Secure = true,

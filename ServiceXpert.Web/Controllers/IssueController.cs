@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
+using ServiceXpert.Web.Enums;
 using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Issue;
 using ServiceXpert.Web.Utils;
@@ -23,16 +24,11 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     public async Task<IActionResult> GetPagedIssuesByStatusAsync([FromServices] ICompositeViewEngine compositiveViewEngine, string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
     {
         using var httpClient = httpClientFactory.CreateClient();
-        using var response = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}&IncludeCreatedByUser=true&IncludeAssignee=true", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
+        using var httpResponse = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PagedResult<Issue>>>(httpResponse);
 
-        if (!response.IsSuccessStatusCode)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-
-        var result = await HttpContentUtil.DeserializeContentAsync<PagedResult<Issue>>(response);
-        var issueTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_IssueTableRow", result!.Items);
-        var paginationHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_Pagination", result.Pagination, GetPaginationViewDataDictionary(result.Pagination, this.ModelState));
+        var issueTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_IssueTableRow", apiResponse!.Value.Items);
+        var paginationHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_Pagination", apiResponse.Value.Pagination, GetPaginationViewDataDictionary(apiResponse.Value.Pagination, this.ModelState));
 
         return Json(new { issueTableRowsHtml, paginationHtml });
     }
@@ -47,16 +43,20 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         using var httpClient = httpClientFactory.CreateClient();
-        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        using var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Issue>>(httpResponse);
 
-        if (!response.IsSuccessStatusCode)
+        if (!apiResponse!.IsSuccess)
         {
-            this.TempData[this.TempDataErrorKey] = await HttpContentUtil.GetResultAsStringAsync(response);
-            return RedirectToError();
+            switch (apiResponse.StatusCode)
+            {
+                case HttpStatusCode.NotFound:
+                    this.TempData[this.TempDataErrorKey] = "The issue you are trying to access does not exists. Issue: " + issueKey;
+                    return RedirectToError();
+            }
         }
 
-        var issue = await HttpContentUtil.DeserializeContentAsync<Issue>(response);
-        return View("~/Views/Issue/ViewIssue.cshtml", issue);
+        return View("~/Views/Issue/ViewIssue.cshtml", apiResponse.Value);
     }
 
     [HttpGet("Edit/{issueKey}", Name = "EditIssue")]
@@ -69,19 +69,22 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         using var httpClient = httpClientFactory.CreateClient();
-        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        using var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Issue>>(httpResponse);
 
-        if (!response.IsSuccessStatusCode)
+        if (!apiResponse!.IsSuccess)
         {
-            this.TempData[this.TempDataErrorKey] = await HttpContentUtil.GetResultAsStringAsync(response);
-            return RedirectToError();
+            switch (apiResponse.StatusCode)
+            {
+                case HttpStatusCode.NotFound:
+                    this.TempData[this.TempDataErrorKey] = "The issue you are trying to access does not exists. Issue: " + issueKey;
+                    return RedirectToError();
+            }
         }
-
-        var issue = await HttpContentUtil.DeserializeContentAsync<Issue>(response);
 
         return View("~/Views/Issue/EditIssue.cshtml", new EditIssueViewModel()
         {
-            Issue = issue!,
+            Issue = apiResponse.Value,
             IssuePriorities = SxpEnumUtil.ToDictionary<Enums.IssuePriority>(),
             IssueStatuses = SxpEnumUtil.ToDictionary<Enums.IssueStatus>()
         });
@@ -92,32 +95,24 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     {
         if (!IssueUtil.IsIssueKeyValid(issueKey))
         {
-            return BadRequest("You are trying to update an invalid issue: Issue: " + issue);
+            return BadRequest("You are trying to update an invalid issue: Issue: " + issueKey);
         }
 
         if (!this.ModelState.IsValid)
         {
-            var errors = GetModelStateErrors();
-            return BadRequest(errors);
+            return BadRequestInvalidModelState();
         }
 
         using var httpClient = httpClientFactory.CreateClient();
-        using var response = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(issue));
+        using var httpResponse = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(issue));
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse>(httpResponse);
 
-        if (!response.IsSuccessStatusCode)
+        if (!apiResponse!.IsSuccess)
         {
-            switch (response.StatusCode)
-            {
-                case HttpStatusCode.NotFound:
-                    var error = await HttpContentUtil.GetResultAsStringAsync(response);
-                    return NotFound(error);
-                case HttpStatusCode.BadRequest:
-                    var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
-                    return BadRequest(errors);
-            }
+
         }
 
-        return Json(new { statusCode = StatusCodes.Status204NoContent });
+        return Json(new { statusCode = HttpStatusCode.NoContent });
     }
 
     [HttpGet("InitializeCreateIssue")]
@@ -134,19 +129,18 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     {
         if (!this.ModelState.IsValid)
         {
-            var errors = GetModelStateErrors();
-            return BadRequest(errors);
+            return BadRequestInvalidModelState();
         }
 
         using var httpClient = httpClientFactory.CreateClient();
-        using var response = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContentWithApplicationJson(issue));
+        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContentWithApplicationJson(issue));
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<string>>(httpResponse);
 
-        if (!response.IsSuccessStatusCode)
+        if (!apiResponse!.IsSuccess)
         {
-            var errors = await HttpContentUtil.DeserializeContentAsync<IEnumerable<string>>(response);
-            return BadRequest(errors);
+
         }
 
-        return Json(new { issueKey = await HttpContentUtil.GetResultAsStringAsync(response) });
+        return Json(new { issueKey = $"{IssuePreFix.SXP}-{apiResponse.Value}" });
     }
 }

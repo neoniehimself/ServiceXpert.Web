@@ -13,10 +13,11 @@ public class SxpController : Controller
 
     protected string TempDataErrorKey => nameof(this.TempDataErrorKey);
 
-    protected RedirectToActionResult RedirectToError() => RedirectToAction("Error", "Error");
-
     [NonAction]
     protected IEnumerable<string> GetModelStateErrors() => this.ModelState.Values.SelectMany(modelStateEntry => modelStateEntry.Errors).Select(modelError => modelError.ErrorMessage);
+
+    [NonAction]
+    protected IActionResult BadRequestInvalidModelState() => BadRequest(GetModelStateErrors());
 
     [NonAction]
     protected async Task<string> RenderViewToHtmlStringAsync(ICompositeViewEngine compositeViewEngine, string viewName, object model, ViewDataDictionary? viewData = null)
@@ -71,4 +72,7 @@ public class SxpController : Controller
             ["PaginationEndPage"] = endPage
         };
     }
+
+    [NonAction]
+    protected RedirectToActionResult RedirectToError() => RedirectToAction("Index", "Error");
 }
