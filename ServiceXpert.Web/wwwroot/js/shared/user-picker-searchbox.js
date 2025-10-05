@@ -33,9 +33,10 @@
                         success: function (response) {
                             list.empty();
                             if (response && response.userProfiles && response.userProfiles.length) {
-                                response.userProfiles.forEach(userProfile => {
+                                response.userProfiles.forEach((userProfile, index) => {
+                                    const isLast = index === response.userProfiles.length - 1;
                                     list.append(
-                                        `<li class="list-group-item list-group-item-action" data-id="${userProfile.id}">${userProfile.firstNameLastName}</li>`
+                                        `<li class="list-group-item list-group-item-action ${isLast ? 'mb-3' : ''}" data-id="${userProfile.id}">${userProfile.firstNameLastName}</li>`
                                     );
                                 });
                                 list.removeClass("d-none");
