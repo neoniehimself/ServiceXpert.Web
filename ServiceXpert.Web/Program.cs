@@ -57,6 +57,26 @@ builder.Services
                         window.location.href = '/';
                     </script>
                 ");
+            },
+            OnForbidden = context =>
+            {
+                context.Response.ContentType = "text/html";
+                var referer = context.Request.Headers["Referer"].ToString();
+
+                // Fallback if no referer (e.g., direct access)
+                if (string.IsNullOrEmpty(referer))
+                {
+                    referer = "/";
+                }
+
+                var html = $@"
+                    <script>
+                        alert('You do not have permission to access this resource.');
+                        window.location.href = '{referer}';
+                    </script>
+                ";
+
+                return context.Response.WriteAsync(html);
             }
         };
     });
@@ -64,6 +84,7 @@ builder.Services
 var authBuilder = builder.Services.AddAuthorizationBuilder();
 authBuilder.AddPolicy(nameof(Policy.AdminOnly), policy => policy.RequireRole(nameof(Role.Admin)));
 authBuilder.AddPolicy(nameof(Policy.UserOnly), policy => policy.RequireRole(nameof(Role.User)));
+authBuilder.AddPolicy(nameof(Policy.AdminOrUser), policy => policy.RequireRole(nameof(Role.Admin), nameof(Role.User)));
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<BearerTokenHandler>();

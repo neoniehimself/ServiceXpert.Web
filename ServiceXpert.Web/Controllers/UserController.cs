@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ServiceXpert.Web.Enums;
 using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.AspNetUserProfile;
 using ServiceXpert.Web.Utils;
 
 namespace ServiceXpert.Web.Controllers;
+[Authorize(Policy = nameof(Policy.AdminOnly))]
 [Route("Users")]
 public class UserController : SxpController
 {
@@ -14,6 +17,12 @@ public class UserController : SxpController
         this.httpClientFactory = httpClientFactory;
     }
 
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [Authorize(Policy = nameof(Policy.AdminOrUser))]
     [HttpGet("SearchUserByName")]
     public async Task<IActionResult> SearchUserByNameAsync(string searchQuery)
     {

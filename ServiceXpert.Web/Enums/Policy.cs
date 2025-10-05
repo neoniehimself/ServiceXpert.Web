@@ -2,5 +2,6 @@
 public enum Policy
 {
     AdminOnly,
-    UserOnly
+    UserOnly,
+    AdminOrUser
 }
