@@ -62,6 +62,16 @@ body {
   .btn-close {
     filter: invert(1);
   }
+  .admin-dropdown {
+    .dropdown-menu {
+      .dropdown-item {
+        &:hover {
+          background-color: $primary;
+          color: white;
+        }
+      }
+    }
+  }
 }
 
 footer {

@@ -13681,6 +13681,11 @@ body.loading {
           filter: invert(1);
 }
 
+.navbar .admin-dropdown .dropdown-menu .dropdown-item:hover {
+  background-color: #172B4D;
+  color: white;
+}
+
 footer {
   margin-top: auto;
   margin-right: 0 !important;
