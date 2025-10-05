@@ -6,7 +6,6 @@ using ServiceXpert.Web.Models.AspNetUserProfile;
 using ServiceXpert.Web.Utils;
 
 namespace ServiceXpert.Web.Controllers;
-[Authorize(Policy = nameof(Policy.AdminOnly))]
 [Route("Users")]
 public class UserController : SxpController
 {
@@ -17,6 +16,7 @@ public class UserController : SxpController
         this.httpClientFactory = httpClientFactory;
     }
 
+    [Authorize(Policy = nameof(Policy.AdminOnly))]
     public IActionResult Index()
     {
         return View();
