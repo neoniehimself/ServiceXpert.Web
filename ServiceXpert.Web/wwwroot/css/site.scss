@@ -85,15 +85,14 @@ body {
   .btn-close {
     filter: invert(1);
   }
-  
-  .admin-dropdown {
-    .dropdown-menu {
-      .dropdown-item {
-        &:hover {
-          background-color: $primary;
-          color: $light;
-        }
-      }
+
+  .dropdown-item {
+    &:active,
+    &:focus,
+    &.show,
+    &:focus-visible {
+      background-color: transparent !important;
+      color: inherit !important;
     }
   }
 }

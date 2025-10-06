@@ -12,7 +12,7 @@
             <div class="modal-body">
                 <form method="post" id="create-issue-modal-form" role="form">
                     <div class="row mb-3">
-                        <div class="col-12">
+                        <div class="col">
                             <label for="create-issue-modal-name-field" class="form-label">
                                 Title <span class="text-danger">*</span>
                             </label>
@@ -20,13 +20,13 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-12">
+                        <div class="col">
                             <label for="create-issue-modal-description-field" class="form-label">Description</label>
                             <textarea class="form-control" id="create-issue-modal-description-field" rows="3" name="@nameof(IssueForCreate.Description)"></textarea>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-12">
+                        <div class="col">
                             <label for="create-issue-modal-priority-field" class="form-label">Priority</label>
                             <select class="form-select" id="create-issue-modal-priority-field" name="@nameof(IssueForCreate.IssuePriorityId)">
                                 @foreach (var priority in Model.IssuePriorities)
@@ -39,12 +39,12 @@
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-12">
+                        <div class="col">
                             @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Reporter"))
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-12">
+                        <div class="col">
                             @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Assignee"))
                         </div>
                     </div>

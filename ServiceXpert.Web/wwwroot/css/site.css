@@ -53,9 +53,9 @@ body.loading {
           filter: invert(1);
 }
 
-.navbar .admin-dropdown .dropdown-menu .dropdown-item:hover {
-  background-color: #172B4D;
-  color: #F4F5F7;
+.navbar .dropdown-item:active, .navbar .dropdown-item:focus, .navbar .dropdown-item.show, .navbar .dropdown-item:focus-visible {
+  background-color: transparent !important;
+  color: inherit !important;
 }
 
 footer {

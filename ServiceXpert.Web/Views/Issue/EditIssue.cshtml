@@ -18,7 +18,7 @@ else
 {
     <form method="post" id="edit-issue-form" role="form">
         <div class="row mb-3">
-            <div class="col-6">
+            <div class="col">
                 <h6 class="text-muted mb-1 fw-bold" id="issue-key-label">@Model.Issue.IssueKey</h6>
                 <div>
                     <label for="edit-issue-name-field" class="form-label">
@@ -27,13 +27,13 @@ else
                     <input type="text" class="form-control" id="edit-issue-name-field" name="@nameof(IssueForUpdate.Name)" value="@Model.Issue.Name" required />
                 </div>
             </div>
-            <div class="col-6 d-flex justify-content-end align-items-center">
+            <div class="col d-flex justify-content-end align-items-center">
                 <a asp-route="ViewIssue" asp-route-issueKey="@Model.Issue.IssueKey" class="btn btn-secondary me-2">Cancel</a>
                 <button type="submit" class="btn btn-success">Save</button>
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-6">
+            <div class="col">
                 <div>
                     <label for="edit-issue-priority-field" class="form-label">Priority</label>
                     <select class="form-select" id="edit-issue-priority-field" name="@nameof(IssueForUpdate.IssuePriorityId)">
@@ -46,7 +46,7 @@ else
                     </select>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col">
                 <div>
                     <label for="edit-issue-status-field" class="form-label">Status</label>
                     <select class="form-select" id="edit-issue-status-field" name="@nameof(IssueForUpdate.IssueStatusId)">
@@ -61,10 +61,10 @@ else
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-12 col-md-6 mb-3 mb-md-0">
+            <div class="col">
                 @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Assignee", Model.Issue.Assignee))
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col">
                 @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Reporter", Model.Issue.Reporter))
             </div>
         </div>
