@@ -8,8 +8,8 @@
 <form class="mb-4" id="issue-table-search-form">
     <div class="row g-3">
         <div class="col-4 col-lg-2">
-            <label for="issue-table-search-form-status-category-field" class="form-label">Status Category</label>
-            <select id="issue-table-search-form-status-category-field" class="form-select">
+            <label for="status-category-field" class="form-label">Status Category</label>
+            <select id="status-category-field" class="form-select">
                 @foreach (var statusCategory in Model.StatusCategories)
                 {
                     <option value="@statusCategory">@statusCategory</option>

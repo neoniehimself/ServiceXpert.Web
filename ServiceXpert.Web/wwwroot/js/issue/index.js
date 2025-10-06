@@ -2,7 +2,7 @@
     loadIssueTableRows('all');
     $('#issue-table-search-form').submit(function (e) {
         e.preventDefault();
-        loadIssueTableRows($('#issue-table-search-form-status-category-field').val());
+        loadIssueTableRows($('#status-category-field').val());
     });
 });
 
@@ -37,5 +37,5 @@ function loadIssueTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
 
 $(document).on('click', '.pagination .page-link', function (e) {
     e.preventDefault();
-    loadIssueTableRows($('#issue-table-search-form-status-category-field').val(), $(this).data('page'));
+    loadIssueTableRows($('#status-category-field').val(), $(this).data('page'));
 });

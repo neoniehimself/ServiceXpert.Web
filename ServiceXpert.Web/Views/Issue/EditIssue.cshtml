@@ -21,10 +21,10 @@ else
             <div class="col">
                 <h6 class="text-muted mb-1 fw-bold" id="issue-key-label">@Model.Issue.IssueKey</h6>
                 <div>
-                    <label for="edit-issue-name-field" class="form-label">
+                    <label for="name-field" class="form-label">
                         Title <span class="text-danger">*</span>
                     </label>
-                    <input type="text" class="form-control" id="edit-issue-name-field" name="@nameof(IssueForUpdate.Name)" value="@Model.Issue.Name" required />
+                    <input type="text" class="form-control" id="name-field" name="@nameof(IssueForUpdate.Name)" value="@Model.Issue.Name" required />
                 </div>
             </div>
             <div class="col d-flex justify-content-end align-items-center">
@@ -35,8 +35,8 @@ else
         <div class="row mb-3">
             <div class="col">
                 <div>
-                    <label for="edit-issue-priority-field" class="form-label">Priority</label>
-                    <select class="form-select" id="edit-issue-priority-field" name="@nameof(IssueForUpdate.IssuePriorityId)">
+                    <label for="priority-field" class="form-label">Priority</label>
+                    <select class="form-select" id="priority-field" name="@nameof(IssueForUpdate.IssuePriorityId)">
                         @foreach (var priority in Model.IssuePriorities)
                         {
                             <option value="@priority.Key" selected="@(priority.Key == (int)Model.Issue.IssuePriorityId)">
@@ -48,8 +48,8 @@ else
             </div>
             <div class="col">
                 <div>
-                    <label for="edit-issue-status-field" class="form-label">Status</label>
-                    <select class="form-select" id="edit-issue-status-field" name="@nameof(IssueForUpdate.IssueStatusId)">
+                    <label for="status-field" class="form-label">Status</label>
+                    <select class="form-select" id="status-field" name="@nameof(IssueForUpdate.IssueStatusId)">
                         @foreach (var status in Model.IssueStatuses)
                         {
                             <option value="@status.Key" selected="@(status.Key == (int)Model.Issue.IssueStatusId)">
@@ -69,8 +69,8 @@ else
             </div>
         </div>
         <div class="mb-4">
-            <label for="edit-issue-description-field" class="form-label">Description</label>
-            <textarea class="form-control" id="edit-issue-description-field" rows="3" name="@nameof(IssueForUpdate.Description)">@Model.Issue.Description</textarea>
+            <label for="description-field" class="form-label">Description</label>
+            <textarea class="form-control" id="description-field" rows="3" name="@nameof(IssueForUpdate.Description)">@Model.Issue.Description</textarea>
         </div>
     </form>
     <hr style="margin-top: 1.90rem;" />
