@@ -4,3 +4,29 @@
 
 <h1>@ViewData["Title"]</h1>
 <hr class="mb-4" />
+<form class="container-fluid" id="users-table-search-form">
+    <div class="row row-cols-2 row-cols-md-auto g-3 align-items-end">
+        <div class="col">
+            <label for="users-table-search-form-username-field" class="form-label">Username</label>
+            <input type="text" id="users-table-search-form-username-field" class="form-control">
+        </div>
+        <div class="col">
+            <label for="users-table-search-form-firstname-field" class="form-label">Firstname</label>
+            <input type="text" id="users-table-search-form-firstname-field" class="form-control">
+        </div>
+        <div class="col">
+            <label for="users-table-search-form-lastname-field" class="form-label">Lastname</label>
+            <input type="text" id="users-table-search-form-lastname-field" class="form-control">
+        </div>
+        <div class="col d-flex align-items-end">
+            <button class="btn btn-outline-primary" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85
+                        3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12
+                        6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</form>

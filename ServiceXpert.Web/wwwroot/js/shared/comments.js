@@ -5,10 +5,14 @@
             $('#comments').html(`
                 <h5 class="text-muted fw-semibold">Comments</h5>
                 <div id="comments-list" class="py-1"></div>
-                <form method="post" id="add-comment-form" role="form">
-                    <textarea class="form-control" placeholder="Add a comment..." id="add-comment-content-field" name="Content" style="width: 40rem; height: 5.1rem;"></textarea>
-                    <button type="submit" class="btn btn-primary mt-3">Add Comment</button>
-                </form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <form method="post" id="add-comment-form" role="form">
+                            <textarea class="form-control mt-3" placeholder="Add a comment..." id="add-comment-content-field" name="@nameof(CommentForCreate.Content)" style="height: 5.1rem;"></textarea>
+                            <button type="submit" class="btn btn-primary mt-3">Add Comment</button>
+                        </form>
+                    </div>
+                </div>
             `);
 
             $('#comments-list').html(response.commentsHtml);
