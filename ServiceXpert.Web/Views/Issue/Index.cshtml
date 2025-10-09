@@ -6,8 +6,12 @@
 <h1>@ViewData["Title"]</h1>
 <hr class="mb-4" />
 <form class="mb-4" id="issue-table-search-form">
-    <div class="row g-3">
-        <div class="col-4 col-lg-2">
+    <div class="row row-cols-2 row-cols-lg-auto g-3 align-items-end">
+        <div class="col">
+            <label for="summary-field" class="form-label">Summary</label>
+            <input type="text" id="summary-field" class="form-control">
+        </div>
+        <div class="col">
             <label for="status-category-field" class="form-label">Status Category</label>
             <select id="status-category-field" class="form-select">
                 @foreach (var statusCategory in Model.StatusCategories)
