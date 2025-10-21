@@ -1,11 +1,11 @@
-﻿using ServiceXpert.Web.Models.AspNetUserProfile;
+﻿using ServiceXpert.Web.Models.Security;
 
 namespace ServiceXpert.Web.ViewModels;
 public class CreateIssueViewModel
 {
     public Dictionary<int, string> IssuePriorities { get; set; }
 
-    public ICollection<AspNetUserProfile> Users { get; set; }
+    public ICollection<SecurityProfile> Users { get; set; }
 
     public CreateIssueViewModel()
     {

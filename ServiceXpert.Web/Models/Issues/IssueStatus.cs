@@ -1,4 +1,6 @@
-﻿namespace ServiceXpert.Web.Models;
+﻿using ServiceXpert.Web.Models.ModelBases;
+
+namespace ServiceXpert.Web.Models.Issues;
 public class IssueStatus : ModelBase<int>
 {
     public string Name { get; set; } = string.Empty;

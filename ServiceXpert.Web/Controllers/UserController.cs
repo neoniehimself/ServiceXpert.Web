@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ServiceXpert.Web.Enums;
+using ServiceXpert.Web.Enums.Security;
 using ServiceXpert.Web.Models;
-using ServiceXpert.Web.Models.AspNetUserProfile;
+using ServiceXpert.Web.Models.Security;
 using ServiceXpert.Web.Utils;
 
 namespace ServiceXpert.Web.Controllers;
@@ -16,19 +16,19 @@ public class UserController : SxpController
         this.httpClientFactory = httpClientFactory;
     }
 
-    [Authorize(Policy = nameof(Policy.AdminOnly))]
+    [Authorize(Policy = nameof(SecurityPolicy.AdminOnly))]
     public IActionResult Index()
     {
         return View();
     }
 
-    [Authorize(Policy = nameof(Policy.AdminOrUser))]
+    [Authorize(Policy = nameof(SecurityPolicy.AdminOrUser))]
     [HttpGet("SearchUserByName")]
     public async Task<IActionResult> SearchUserByNameAsync(string searchQuery)
     {
         using var httpClient = this.httpClientFactory.CreateClient();
         using var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Users/SearchUserByName?searchQuery={searchQuery}");
-        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<AspNetUserProfile>>>(httpResponse);
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<SecurityProfile>>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
         {

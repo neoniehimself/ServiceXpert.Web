@@ -1,8 +1,9 @@
-﻿@model EditIssueViewModel
+﻿@using ServiceXpert.Web.Models.Issues
+@model EditIssueViewModel
 @{
     ViewData["Title"] = $"{Model.Issue.IssueKey} - {Model.Issue.Name}";
 }
-@if (Model.Issue.IssueStatusId == (int)ServiceXpert.Web.Enums.IssueStatus.Closed)
+@if (Model.Issue.IssueStatusId == (int)ServiceXpert.Web.Enums.Issues.IssueStatus.Closed)
 {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -24,7 +25,7 @@ else
                     <label for="name-field" class="form-label">
                         Title <span class="text-danger">*</span>
                     </label>
-                    <input type="text" class="form-control" id="name-field" name="@nameof(IssueForUpdate.Name)" value="@Model.Issue.Name" required />
+                    <input type="text" class="form-control" id="name-field" name="@nameof(UpdateIssue.Name)" value="@Model.Issue.Name" required />
                 </div>
             </div>
             <div class="col d-flex justify-content-end align-items-center">
@@ -36,7 +37,7 @@ else
             <div class="col">
                 <div>
                     <label for="priority-field" class="form-label">Priority</label>
-                    <select class="form-select" id="priority-field" name="@nameof(IssueForUpdate.IssuePriorityId)">
+                    <select class="form-select" id="priority-field" name="@nameof(UpdateIssue.IssuePriorityId)">
                         @foreach (var priority in Model.IssuePriorities)
                         {
                             <option value="@priority.Key" selected="@(priority.Key == (int)Model.Issue.IssuePriorityId)">
@@ -49,7 +50,7 @@ else
             <div class="col">
                 <div>
                     <label for="status-field" class="form-label">Status</label>
-                    <select class="form-select" id="status-field" name="@nameof(IssueForUpdate.IssueStatusId)">
+                    <select class="form-select" id="status-field" name="@nameof(UpdateIssue.IssueStatusId)">
                         @foreach (var status in Model.IssueStatuses)
                         {
                             <option value="@status.Key" selected="@(status.Key == (int)Model.Issue.IssueStatusId)">
@@ -70,7 +71,7 @@ else
         </div>
         <div class="mb-4">
             <label for="description-field" class="form-label">Description</label>
-            <textarea class="form-control" id="description-field" rows="3" name="@nameof(IssueForUpdate.Description)">@Model.Issue.Description</textarea>
+            <textarea class="form-control" id="description-field" rows="3" name="@nameof(UpdateIssue.Description)">@Model.Issue.Description</textarea>
         </div>
     </form>
     <hr style="margin-top: 1.90rem;" />

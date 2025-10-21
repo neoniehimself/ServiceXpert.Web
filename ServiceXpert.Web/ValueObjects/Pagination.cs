@@ -1,4 +1,4 @@
-﻿namespace ServiceXpert.Web.Models;
+﻿namespace ServiceXpert.Web.ValueObjects;
 // Do not inherit ModelBase
 public class Pagination
 {

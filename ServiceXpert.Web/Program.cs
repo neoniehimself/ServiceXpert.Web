@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.IdentityModel.Tokens;
 using ServiceXpert.Web;
 using ServiceXpert.Web.Constants;
-using ServiceXpert.Web.Enums;
+using ServiceXpert.Web.Enums.Security;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -82,9 +82,9 @@ builder.Services
     });
 
 var authBuilder = builder.Services.AddAuthorizationBuilder();
-authBuilder.AddPolicy(nameof(Policy.AdminOnly), policy => policy.RequireRole(nameof(Role.Admin)));
-authBuilder.AddPolicy(nameof(Policy.UserOnly), policy => policy.RequireRole(nameof(Role.User)));
-authBuilder.AddPolicy(nameof(Policy.AdminOrUser), policy => policy.RequireRole(nameof(Role.Admin), nameof(Role.User)));
+authBuilder.AddPolicy(nameof(SecurityPolicy.AdminOnly), policy => policy.RequireRole(nameof(SecurityRole.Admin)));
+authBuilder.AddPolicy(nameof(SecurityPolicy.UserOnly), policy => policy.RequireRole(nameof(SecurityRole.User)));
+authBuilder.AddPolicy(nameof(SecurityPolicy.AdminOrUser), policy => policy.RequireRole(nameof(SecurityRole.Admin), nameof(SecurityRole.User)));
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<BearerTokenHandler>();

@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ServiceXpert.Web.Models.ModelBases;
+using System.ComponentModel.DataAnnotations;
 
-namespace ServiceXpert.Web.Models.Issue;
-public class IssueForUpdate : UpdateModelBase
+namespace ServiceXpert.Web.Models.Issues;
+public class UpdateIssue : UpdateModelBase
 {
     [Required]
     public required string Name { get; set; }

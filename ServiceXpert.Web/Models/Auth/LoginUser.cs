@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServiceXpert.Web.Models.Security;
-public class Login
+namespace ServiceXpert.Web.Models.Auth;
+public class LoginUser
 {
     [Required]
     public required string UserName { get; set; }
