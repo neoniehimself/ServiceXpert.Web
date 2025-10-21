@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ServiceXpert.Web.Models.Issue;
-public class IssueForCreate : ModelBaseForCreate
+public class IssueForCreate : CreateModelBase
 {
     [Required(ErrorMessage = "The Title field is required.")]
     public required string Name { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ServiceXpert.Web.Models.AspNetUserProfile;
-public class AspNetUserProfileForCreate : ModelBaseForCreate
+public class AspNetUserProfileForCreate : CreateModelBase
 {
     [Required]
     public Guid Id { get; set; }

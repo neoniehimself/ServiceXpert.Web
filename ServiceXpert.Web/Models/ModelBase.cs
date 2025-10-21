@@ -23,14 +23,14 @@ public abstract class ModelBase<TId>
     public string ModifiedDateWithTimeFormatted => this.ModifiedDate != null ? this.ModifiedDate.Value.ToString(this.basicDateFormatWithTime) : string.Empty;
 }
 
-public abstract class ModelBaseForCreate
+public abstract class CreateModelBase
 {
     public Guid CreatedByUserId { get; set; }
 
     public DateTimeOffset CreatedDate { get; set; }
 }
 
-public abstract class ModelBaseForUpdate
+public abstract class UpdateModelBase
 {
     public Guid? ModifiedByUserId { get; set; }
 

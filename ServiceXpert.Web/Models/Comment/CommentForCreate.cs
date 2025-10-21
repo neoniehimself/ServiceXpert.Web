@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace ServiceXpert.Web.Models.Comment;
-public class CommentForCreate : ModelBaseForCreate
+public class CommentForCreate : CreateModelBase
 {
     [Required]
     public required string Content { get; set; } = string.Empty;

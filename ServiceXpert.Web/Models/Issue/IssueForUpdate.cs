@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace ServiceXpert.Web.Models.Issue;
-public class IssueForUpdate : ModelBaseForUpdate
+public class IssueForUpdate : UpdateModelBase
 {
     [Required]
     public required string Name { get; set; }
