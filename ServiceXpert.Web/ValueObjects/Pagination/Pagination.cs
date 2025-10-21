@@ -1,5 +1,4 @@
-﻿namespace ServiceXpert.Web.ValueObjects;
-// Do not inherit ModelBase
+﻿namespace ServiceXpert.Web.ValueObjects.Pagination;
 public class Pagination
 {
     public int TotalCount { get; set; }

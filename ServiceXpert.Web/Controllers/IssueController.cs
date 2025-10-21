@@ -4,7 +4,7 @@ using ServiceXpert.Web.Enums.Issues;
 using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Issues;
 using ServiceXpert.Web.Utils;
-using ServiceXpert.Web.ValueObjects;
+using ServiceXpert.Web.ValueObjects.Pagination;
 using ServiceXpert.Web.ViewModels;
 using System.Net;
 
@@ -26,7 +26,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     {
         using var httpClient = httpClientFactory.CreateClient();
         using var httpResponse = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
-        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PagedResult<Issue>>>(httpResponse);
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PaginationResult<Issue>>>(httpResponse);
 
         var issueTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_IssueTableRow", apiResponse!.Value.Items);
         var paginationHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_Pagination", apiResponse.Value.Pagination, GetPaginationViewDataDictionary(apiResponse.Value.Pagination, this.ModelState));

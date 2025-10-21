@@ -1,4 +1,4 @@
-﻿namespace ServiceXpert.Web.ViewModels;
+﻿namespace ServiceXpert.Web.ViewModels.Issues;
 public class IssueViewModel
 {
     public ICollection<string> StatusCategories { get; set; }

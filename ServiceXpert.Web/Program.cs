@@ -21,7 +21,7 @@ builder.Services
     {
         var key = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(builder.Configuration.GetSection(
-                    nameof(ServiceXpertConfiguration)).Get<ServiceXpertConfiguration>()!.JwtSecretKey
+                    nameof(SxpConfiguration)).Get<SxpConfiguration>()!.JwtSecretKey
             )
         );
 
