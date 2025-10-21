@@ -3,7 +3,7 @@ using ServiceXpert.Web.Utils;
 using System.ComponentModel.DataAnnotations;
 
 namespace ServiceXpert.Web.Models.Issues;
-public class CreateComment : CreateModelBase
+public class CreateIssueComment : CreateModelBase
 {
     [Required]
     public required string Content { get; set; } = string.Empty;

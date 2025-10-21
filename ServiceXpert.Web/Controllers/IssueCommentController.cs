@@ -6,14 +6,14 @@ using ServiceXpert.Web.Utils;
 using System.Net;
 
 namespace ServiceXpert.Web.Controllers;
-[Route("Issues/{issueKey}/Comments")]
-public class CommentController(IHttpClientFactory httpClientFactory) : SxpController
+[Route("Issues/{issueKey}/IssueComments")]
+public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpController
 {
     [HttpGet]
     public async Task<IActionResult> GetAllByIssueKeyAsync(string issueKey, [FromServices] ICompositeViewEngine compositeViewEngine)
     {
         using var httpClient = httpClientFactory.CreateClient();
-        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
+        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/IssueComments");
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<IssueComment>>>(response);
 
         if (!apiResponse!.IsSuccess)
@@ -21,17 +21,20 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
 
         }
 
+        bool hasIssueComments = true;
+
         if (apiResponse.Value == null || apiResponse.Value.Count == 0)
         {
-            return Json(new { hasComments = false });
+            hasIssueComments = false;
+            return Json(new { hasIssueComments });
         }
 
-        var commentsHtml = await RenderViewToHtmlStringAsync(compositeViewEngine, "~/Views/Shared/_CommentsSectionRow.cshtml", apiResponse.Value);
-        return Json(new { hasComments = true, commentsHtml });
+        var issueCommentsHtml = await RenderViewToHtmlStringAsync(compositeViewEngine, "~/Views/Shared/_IssueCommentsSectionRow.cshtml", apiResponse.Value);
+        return Json(new { hasIssueComments, issueCommentsHtml });
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCommentAsync(string issueKey, CreateComment comment)
+    public async Task<IActionResult> CreateIssueCommentAsync(string issueKey, CreateIssueComment createIssueComment)
     {
         if (!IssueUtil.IsKeyValid(issueKey))
         {
@@ -39,7 +42,7 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         using var httpClient = httpClientFactory.CreateClient();
-        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(comment));
+        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/IssueComments", HttpContentUtil.SerializeContentWithApplicationJson(createIssueComment));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse>(httpResponse);
 
         if (!apiResponse!.IsSuccess)

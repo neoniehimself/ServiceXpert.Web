@@ -5,7 +5,7 @@ using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Issues;
 using ServiceXpert.Web.Utils;
 using ServiceXpert.Web.ValueObjects.Pagination;
-using ServiceXpert.Web.ViewModels;
+using ServiceXpert.Web.ViewModels.Issues;
 using System.Net;
 
 namespace ServiceXpert.Web.Controllers;
