@@ -1,5 +1,7 @@
-﻿namespace ServiceXpert.Web.Models.Issue;
-public class Issue : ModelBase<int>
+﻿using ServiceXpert.Web.Models.Security;
+
+namespace ServiceXpert.Web.Models.Issues;
+public class Issue : AuditableModelBase<int>
 {
     public string IssueKey { get; set; } = string.Empty;
 
@@ -15,19 +17,19 @@ public class Issue : ModelBase<int>
 
     public IssuePriority? IssuePriority { get; set; }
 
-    public ICollection<Comment.Comment> Comments { get; set; }
+    public ICollection<IssueComment> Comments { get; set; }
 
     public Guid? ReporterId { get; set; }
 
-    public AspNetUserProfile.AspNetUserProfile? Reporter { get; set; }
+    public SecurityUser? Reporter { get; set; }
 
     public Guid? AssigneeId { get; set; }
 
-    public AspNetUserProfile.AspNetUserProfile? Assignee { get; set; }
+    public SecurityUser? Assignee { get; set; }
 
-    public AspNetUserProfile.AspNetUserProfile? CreatedByUser { get; set; }
+    public SecurityUser? CreatedByUser { get; set; }
 
-    public AspNetUserProfile.AspNetUserProfile? ModifiedByUser { get; set; }
+    public SecurityUser? ModifiedByUser { get; set; }
 
     public Issue()
     {

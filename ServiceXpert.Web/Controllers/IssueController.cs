@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
-using ServiceXpert.Web.Enums;
+using ServiceXpert.Web.Enums.Issues;
 using ServiceXpert.Web.Models;
-using ServiceXpert.Web.Models.Issue;
+using ServiceXpert.Web.Models.Issues;
 using ServiceXpert.Web.Utils;
+using ServiceXpert.Web.ValueObjects;
 using ServiceXpert.Web.ViewModels;
 using System.Net;
 
@@ -16,7 +17,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     {
         return base.View(new IssueViewModel()
         {
-            StatusCategories = SxpEnumUtil.ToList<Enums.IssueStatusCategory>(),
+            StatusCategories = SxpEnumUtil.ToList<IssueStatusCategory>(),
         });
     }
 
@@ -25,7 +26,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     {
         using var httpClient = httpClientFactory.CreateClient();
         using var httpResponse = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
-        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PagedResult<Issue>>>(httpResponse);
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PaginationResult<Issue>>>(httpResponse);
 
         var issueTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_IssueTableRow", apiResponse!.Value.Items);
         var paginationHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_Pagination", apiResponse.Value.Pagination, GetPaginationViewDataDictionary(apiResponse.Value.Pagination, this.ModelState));
@@ -36,7 +37,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     [HttpGet("View/{issueKey}", Name = "ViewIssue")]
     public async Task<IActionResult> ViewIssueAsync(string issueKey)
     {
-        if (!IssueUtil.IsIssueKeyValid(issueKey))
+        if (!IssueUtil.IsKeyValid(issueKey))
         {
             this.TempData[this.TempDataErrorKey] = "You are trying to access an invalid issue. Issue: " + issueKey;
             return RedirectToError();
@@ -62,7 +63,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     [HttpGet("Edit/{issueKey}", Name = "EditIssue")]
     public async Task<IActionResult> EditIssueAsync(string issueKey)
     {
-        if (!IssueUtil.IsIssueKeyValid(issueKey))
+        if (!IssueUtil.IsKeyValid(issueKey))
         {
             this.TempData[this.TempDataErrorKey] = "You are trying to access an invalid issue. Issue: " + issueKey;
             return RedirectToError();
@@ -85,15 +86,15 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         return View("~/Views/Issue/EditIssue.cshtml", new EditIssueViewModel()
         {
             Issue = apiResponse.Value,
-            IssuePriorities = SxpEnumUtil.ToDictionary<Enums.IssuePriority>(),
-            IssueStatuses = SxpEnumUtil.ToDictionary<Enums.IssueStatus>()
+            IssuePriorities = SxpEnumUtil.ToDictionary<Enums.Issues.IssuePriority>(),
+            IssueStatuses = SxpEnumUtil.ToDictionary<Enums.Issues.IssueStatus>()
         });
     }
 
     [HttpPut("Edit/{issueKey}")]
-    public async Task<IActionResult> UpdateIssueAsync(string issueKey, IssueForUpdate issue)
+    public async Task<IActionResult> UpdateIssueAsync(string issueKey, UpdateIssue issue)
     {
-        if (!IssueUtil.IsIssueKeyValid(issueKey))
+        if (!IssueUtil.IsKeyValid(issueKey))
         {
             return BadRequest("You are trying to update an invalid issue: Issue: " + issueKey);
         }
@@ -120,12 +121,12 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     {
         return PartialView("_CreateIssueModal", new CreateIssueViewModel()
         {
-            IssuePriorities = SxpEnumUtil.ToDictionary<Enums.IssuePriority>()
+            IssuePriorities = SxpEnumUtil.ToDictionary<Enums.Issues.IssuePriority>()
         });
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateIssueAsync(IssueForCreate issue)
+    public async Task<IActionResult> CreateIssueAsync(CreateIssue issue)
     {
         if (!this.ModelState.IsValid)
         {

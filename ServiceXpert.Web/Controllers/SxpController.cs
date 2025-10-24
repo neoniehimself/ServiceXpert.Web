@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using ServiceXpert.Web.Constants;
-using ServiceXpert.Web.Models;
+using ServiceXpert.Web.ValueObjects;
 
 namespace ServiceXpert.Web.Controllers;
 public class SxpController : Controller

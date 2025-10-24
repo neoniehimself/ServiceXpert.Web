@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using ServiceXpert.Web.Models;
-using ServiceXpert.Web.Models.Comment;
+using ServiceXpert.Web.Models.Issues;
 using ServiceXpert.Web.Utils;
 using System.Net;
 
@@ -14,7 +14,7 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
     {
         using var httpClient = httpClientFactory.CreateClient();
         using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
-        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<Comment>>>(response);
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<IssueComment>>>(response);
 
         if (!apiResponse!.IsSuccess)
         {
@@ -31,9 +31,9 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCommentAsync(string issueKey, CommentForCreate comment)
+    public async Task<IActionResult> CreateCommentAsync(string issueKey, CreateIssueComment comment)
     {
-        if (!IssueUtil.IsIssueKeyValid(issueKey))
+        if (!IssueUtil.IsKeyValid(issueKey))
         {
             return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid issue: {issueKey}");
         }

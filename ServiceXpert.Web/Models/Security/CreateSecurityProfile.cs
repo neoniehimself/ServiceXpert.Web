@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServiceXpert.Web.Models.AspNetUserProfile;
-public class AspNetUserProfileForCreate : ModelBaseForCreate
+namespace ServiceXpert.Web.Models.Security;
+public class CreateSecurityProfile : CreateModelBase
 {
     [Required]
     public Guid Id { get; set; }
@@ -12,7 +12,7 @@ public class AspNetUserProfileForCreate : ModelBaseForCreate
     [Required]
     public string LastName { get; set; } = string.Empty;
 
-    public AspNetUserProfileForCreate(Guid id)
+    public CreateSecurityProfile(Guid id)
     {
         this.Id = id;
     }

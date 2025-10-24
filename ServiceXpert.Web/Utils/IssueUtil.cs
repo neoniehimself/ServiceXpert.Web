@@ -1,7 +1,7 @@
 ﻿namespace ServiceXpert.Web.Utils;
 public static class IssueUtil
 {
-    public static int GetIdFromIssueKey(string issueKey)
+    public static int GetIdFromKey(string issueKey)
     {
         try
         {
@@ -18,7 +18,7 @@ public static class IssueUtil
         return -1;
     }
 
-    public static bool IsIssueKeyValid(string issueKey)
+    public static bool IsKeyValid(string issueKey)
     {
         try
         {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Web.Constants;
 using ServiceXpert.Web.Models;
-using ServiceXpert.Web.Models.Security;
+using ServiceXpert.Web.Models.Security.Auth;
 using ServiceXpert.Web.Utils;
 
 namespace ServiceXpert.Web.Controllers;
@@ -25,7 +25,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
     [AllowAnonymous]
     [HttpPost("Login")]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<IActionResult> LoginAsync(Login login, [FromServices] IConfiguration configuration)
+    public async Task<IActionResult> LoginAsync(LoginUser login, [FromServices] IConfiguration configuration)
     {
         if (!this.ModelState.IsValid)
         {

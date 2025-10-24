@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServiceXpert.Web.Models.Security;
+namespace ServiceXpert.Web.Models.Security.Auth;
 public class UserRole
 {
     /// <summary>

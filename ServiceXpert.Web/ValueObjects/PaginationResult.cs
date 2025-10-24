@@ -1,12 +1,12 @@
-﻿namespace ServiceXpert.Web.Models;
+﻿namespace ServiceXpert.Web.ValueObjects;
 // Do not inherit ModelBase
-public class PagedResult<T>
+public class PaginationResult<T>
 {
     public ICollection<T> Items { get; }
 
     public Pagination Pagination { get; }
 
-    public PagedResult()
+    public PaginationResult()
     {
         this.Items = [];
         this.Pagination = new();

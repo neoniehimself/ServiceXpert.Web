@@ -1,5 +1,5 @@
-﻿namespace ServiceXpert.Web.Models.AspNetUserProfile;
-public class AspNetUserProfile : ModelBase<Guid>
+﻿namespace ServiceXpert.Web.Models.Security;
+public class SecurityProfile : ModelBase<Guid>
 {
     public string FirstName { get; set; } = string.Empty;
 

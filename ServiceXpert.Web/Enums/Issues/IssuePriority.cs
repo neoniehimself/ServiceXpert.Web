@@ -1,4 +1,4 @@
-﻿namespace ServiceXpert.Web.Enums;
+﻿namespace ServiceXpert.Web.Enums.Issues;
 public enum IssuePriority
 {
     Outage = 1,
