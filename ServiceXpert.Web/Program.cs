@@ -84,7 +84,6 @@ builder.Services
 var authBuilder = builder.Services.AddAuthorizationBuilder();
 authBuilder.AddPolicy(nameof(SecurityPolicy.AdminOnly), policy => policy.RequireRole(nameof(SecurityRole.Admin)));
 authBuilder.AddPolicy(nameof(SecurityPolicy.UserOnly), policy => policy.RequireRole(nameof(SecurityRole.User)));
-authBuilder.AddPolicy(nameof(SecurityPolicy.AdminOrUser), policy => policy.RequireRole(nameof(SecurityRole.Admin), nameof(SecurityRole.User)));
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<BearerTokenHandler>();

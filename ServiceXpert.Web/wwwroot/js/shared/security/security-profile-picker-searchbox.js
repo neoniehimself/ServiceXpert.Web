@@ -1,6 +1,6 @@
-﻿export function initUserPickerSearchbox() {
+﻿export function initSecurityProfilePickerSearchbox() {
     $(document).ready(function () {
-        $("[id^='user-picker-searchbox-']").each(function () {
+        $("[id^='security-profile-picker-searchbox-']").each(function () {
             const container = $(this);
             const input = container.find("input[type='text']");
             const spinner = container.find("[id^='spinner-']");
@@ -12,12 +12,12 @@
 
             input.on("keyup", function () {
                 clearTimeout(typingTimer);
-                const searchQuery = $(this).val().trim();
+                const name = $(this).val().trim();
 
                 // Reset hidden field when typing
                 hidden.val("");
 
-                if (!searchQuery) {
+                if (!name) {
                     list.addClass("d-none").empty();
                     return;
                 }
@@ -27,16 +27,16 @@
 
                 typingTimer = setTimeout(function () {
                     $.ajax({
-                        url: "/Users/SearchUserByName",
+                        url: "/SecurityProfiles/SearchProfileByName",
                         type: "GET",
-                        data: { searchQuery },
+                        data: { name },
                         success: function (response) {
                             list.empty();
-                            if (response && response.userProfiles && response.userProfiles.length) {
-                                response.userProfiles.forEach((userProfile, index) => {
-                                    const isLast = index === response.userProfiles.length - 1;
+                            if (response && response.securityProfiles && response.securityProfiles.length) {
+                                response.securityProfiles.forEach((securityProfile, index) => {
+                                    const isLast = index === response.securityProfiles.length - 1;
                                     list.append(
-                                        `<li class="list-group-item list-group-item-action ${isLast ? 'mb-3' : ''}" data-id="${userProfile.id}">${userProfile.firstNameLastName}</li>`
+                                        `<li class="list-group-item list-group-item-action ${isLast ? 'mb-3' : ''}" data-id="${securityProfile.id}">${securityProfile.firstNameLastName}</li>`
                                     );
                                 });
                                 list.removeClass("d-none");

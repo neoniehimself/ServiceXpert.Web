@@ -119,7 +119,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     [HttpGet("InitializeCreateIssue")]
     public IActionResult InitializeCreateIssue()
     {
-        return PartialView("_CreateIssueModal", new CreateIssueViewModel()
+        return PartialView("~/Views/Shared/Issues/_CreateIssueModal.cshtml", new CreateIssueViewModel()
         {
             IssuePriorities = SxpEnumUtil.ToDictionary<Enums.Issues.IssuePriority>()
         });

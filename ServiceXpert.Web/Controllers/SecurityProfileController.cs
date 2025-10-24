@@ -26,6 +26,6 @@ public class SecurityProfileController : SxpController
 
         }
 
-        return Ok(new { userProfiles = apiResponse.Value });
+        return Ok(new { securityProfiles = apiResponse.Value });
     }
 }

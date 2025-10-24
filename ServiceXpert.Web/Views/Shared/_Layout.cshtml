@@ -54,7 +54,7 @@
                                             Admin
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a asp-controller="User" asp-action="Index" class="dropdown-item">Users</a></li>
+                                            <li><a asp-controller="SecurityUserProfile" asp-action="Index" class="dropdown-item">Users</a></li>
                                             <li><a class="dropdown-item" href="#">Roles</a></li>
                                         </ul>
                                     </li>
@@ -91,7 +91,7 @@
     <script src="~/js/shared/site.js" asp-append-version="true"></script>
     @if (isAuthenticated)
     {
-        <script type="module" src="~/js/shared/create-issue-modal.js"></script>
+        <script type="module" src="~/js/shared/issues/create-issue-modal.js"></script>
     }
     @await RenderSectionAsync("Scripts", required: false)
 </body>

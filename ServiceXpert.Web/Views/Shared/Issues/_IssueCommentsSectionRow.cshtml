@@ -1,7 +1,7 @@
 ﻿@using ServiceXpert.Web.Models.Issues
 @model List<IssueComment>
 
-@foreach (var comment in Model)
+@foreach (var issueComment in Model)
 {
     <div class="row mb-3">
         <div class="col-12">
@@ -13,10 +13,10 @@
                     </svg>
                     <div>
                         <p class="fw-bold mb-0">
-                            @comment.CreatedByUser!.FirstNameLastName
-                            <span class="fw-normal small">- @comment.CreatedDateWithTimeFormatted</span>
+                            @issueComment.CreatedByUser!.SecurityProfile?.FirstNameLastName
+                            <span class="fw-normal small">- @issueComment.CreatedDateWithTimeFormatted</span>
                         </p>
-                        <p class="mb-0">@comment.Content</p>
+                        <p class="mb-0">@issueComment.Content</p>
                     </div>
                 </div>
             </div>
