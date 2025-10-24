@@ -5,7 +5,7 @@ using ServiceXpert.Web.Models.Issues;
 using ServiceXpert.Web.Utils;
 using System.Net;
 
-namespace ServiceXpert.Web.Controllers;
+namespace ServiceXpert.Web.Controllers.Issues;
 [Route("Issues/{issueKey}/IssueComments")]
 public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpController
 {
@@ -29,7 +29,7 @@ public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpC
             return Json(new { hasIssueComments });
         }
 
-        var issueCommentsHtml = await RenderViewToHtmlStringAsync(compositeViewEngine, "~/Views/Shared/_IssueCommentsSectionRow.cshtml", apiResponse.Value);
+        var issueCommentsHtml = await RenderViewToHtmlStringAsync(compositeViewEngine, "~/Views/Shared/Issues/_IssueCommentsSectionRow.cshtml", apiResponse.Value);
         return Json(new { hasIssueComments, issueCommentsHtml });
     }
 

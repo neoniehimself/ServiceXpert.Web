@@ -43,12 +43,12 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col">
-                            @await Html.PartialAsync("_UserPickerSearchbox", new SecurityProfilePickerSearchboxViewModel("Reporter"))
+                            @await Html.PartialAsync("~/Views/Shared/Security/_SecurityProfilePickerSearchbox.cshtml", new SecurityProfilePickerSearchboxViewModel("Reporter"))
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col">
-                            @await Html.PartialAsync("_UserPickerSearchbox", new SecurityProfilePickerSearchboxViewModel("Assignee"))
+                            @await Html.PartialAsync("~/Views/Shared/Security/_SecurityProfilePickerSearchbox.cshtml", new SecurityProfilePickerSearchboxViewModel("Assignee"))
                         </div>
                     </div>
                 </form>

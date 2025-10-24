@@ -5,9 +5,9 @@ using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Auth;
 using ServiceXpert.Web.Utils;
 
-namespace ServiceXpert.Web.Controllers;
+namespace ServiceXpert.Web.Controllers.Security;
 [Route("")] // Tell the framework that this is the entry point
-[Route("Accounts")]
+[Route("Security/Accounts")]
 public class AccountController(IHttpClientFactory httpClientFactory) : SxpController
 {
     [AllowAnonymous]
@@ -33,7 +33,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         using var httpClient = httpClientFactory.CreateClient(HttpClientSettings.AuthHttpClientSettings);
-        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
+        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Security/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<string>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)

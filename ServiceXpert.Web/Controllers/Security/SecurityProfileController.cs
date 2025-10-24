@@ -3,7 +3,7 @@ using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Security;
 using ServiceXpert.Web.Utils;
 
-namespace ServiceXpert.Web.Controllers;
+namespace ServiceXpert.Web.Controllers.Security;
 [Route("SecurityProfiles")]
 public class SecurityProfileController : SxpController
 {

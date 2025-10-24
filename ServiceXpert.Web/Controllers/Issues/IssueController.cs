@@ -8,7 +8,7 @@ using ServiceXpert.Web.ValueObjects.Pagination;
 using ServiceXpert.Web.ViewModels.Issues;
 using System.Net;
 
-namespace ServiceXpert.Web.Controllers;
+namespace ServiceXpert.Web.Controllers.Issues;
 [Route("Issues")]
 public class IssueController(IHttpClientFactory httpClientFactory) : SxpController
 {

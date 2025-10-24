@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Web.Enums.Security;
 
-namespace ServiceXpert.Web.Controllers;
+namespace ServiceXpert.Web.Controllers.Security;
 [Route("SecurityUserProfiles")]
 public class SecurityUserProfileController : SxpController
 {
