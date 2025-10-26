@@ -51,12 +51,12 @@
                                 @if (User.IsInRole(SecurityRole.Admin.ToString()))
                                 {
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <a class="nav-link dropdown-toggle text-white cursor-pointer" href="javascript:void(0)" data-bs-toggle="dropdown" aria-expanded="false">
                                             Admin
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li><a asp-controller="SecurityUser" asp-action="Index" class="dropdown-item">Users</a></li>
-                                            <li><a class="dropdown-item" href="#">Roles</a></li>
+                                            <li><a asp-controller="SecurityRole" asp-action="Index" class="dropdown-item">Roles</a></li>
                                         </ul>
                                     </li>
                                 }
@@ -64,7 +64,7 @@
                                     <button class="btn btn-success" type="button" id="btn-create-issue">Create</button>
                                 </li>
                                 <li class="nav-item mt-2 mt-lg-0 ms-lg-auto dropdown">
-                                    <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <a class="nav-link dropdown-toggle text-white" href="javascript:void(0)" data-bs-toggle="dropdown" aria-expanded="false">
                                         @($"Hi {User.FindFirstValue(ClaimTypes.GivenName)}!")
                                     </a>
                                     <ul class="dropdown-menu">
