@@ -34,8 +34,8 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
             return BadRequestInvalidModelState();
         }
 
-        using var httpClient = httpClientFactory.CreateClient(HttpClientSettings.AuthHttpClientSettings);
-        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Security/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
+        var httpClient = httpClientFactory.CreateClient(HttpClientSettings.AuthHttpClientSettings);
+        var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Security/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<string>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)

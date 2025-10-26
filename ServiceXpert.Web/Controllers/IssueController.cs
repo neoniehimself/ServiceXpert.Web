@@ -24,8 +24,8 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     [HttpGet("GetPagedIssuesByStatus")]
     public async Task<IActionResult> GetPagedIssuesByStatusAsync([FromServices] ICompositeViewEngine compositiveViewEngine, string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
     {
-        using var httpClient = httpClientFactory.CreateClient();
-        using var httpResponse = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
+        var httpClient = httpClientFactory.CreateClient();
+        var httpResponse = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PaginationResult<Issue>>>(httpResponse);
 
         var issuesTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "~/Views/Issue/_IssuesTableRow.cshtml", apiResponse!.Value.Items);
@@ -43,8 +43,8 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
             return RedirectToError();
         }
 
-        using var httpClient = httpClientFactory.CreateClient();
-        using var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        var httpClient = httpClientFactory.CreateClient();
+        var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Issue>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
@@ -69,8 +69,8 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
             return RedirectToError();
         }
 
-        using var httpClient = httpClientFactory.CreateClient();
-        using var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        var httpClient = httpClientFactory.CreateClient();
+        var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Issue>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
@@ -104,8 +104,8 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
             return BadRequestInvalidModelState();
         }
 
-        using var httpClient = httpClientFactory.CreateClient();
-        using var httpResponse = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(updateIssue));
+        var httpClient = httpClientFactory.CreateClient();
+        var httpResponse = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(updateIssue));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
@@ -133,8 +133,8 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
             return BadRequestInvalidModelState();
         }
 
-        using var httpClient = httpClientFactory.CreateClient();
-        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContentWithApplicationJson(createIssue));
+        var httpClient = httpClientFactory.CreateClient();
+        var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContentWithApplicationJson(createIssue));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<string>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)

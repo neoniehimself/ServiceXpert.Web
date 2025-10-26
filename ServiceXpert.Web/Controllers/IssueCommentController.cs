@@ -12,8 +12,8 @@ public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpC
     [HttpGet]
     public async Task<IActionResult> GetAllByIssueKeyAsync(string issueKey, [FromServices] ICompositeViewEngine compositeViewEngine)
     {
-        using var httpClient = httpClientFactory.CreateClient();
-        using var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
+        var httpClient = httpClientFactory.CreateClient();
+        var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<IssueComment>>>(response);
 
         if (!apiResponse!.IsSuccess)
@@ -38,8 +38,8 @@ public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpC
             return StatusCode((int)HttpStatusCode.InternalServerError, $"Invalid issue: {issueKey}");
         }
 
-        using var httpClient = httpClientFactory.CreateClient();
-        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(createIssueComment));
+        var httpClient = httpClientFactory.CreateClient();
+        var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(createIssueComment));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Guid>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
