@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace ServiceXpert.Web.Controllers;
-[Route("Dashboard")]
-public class DashboardController : SxpController
+[Route("Home")]
+public class HomeController : SxpController
 {
     [HttpGet("")]
     public IActionResult Index()

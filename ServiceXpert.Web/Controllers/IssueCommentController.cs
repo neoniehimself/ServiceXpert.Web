@@ -7,7 +7,7 @@ using System.Net;
 
 namespace ServiceXpert.Web.Controllers;
 [Route("Issues/{issueKey}/Comments")]
-public class CommentController(IHttpClientFactory httpClientFactory) : SxpController
+public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpController
 {
     [HttpGet]
     public async Task<IActionResult> GetAllByIssueKeyAsync(string issueKey, [FromServices] ICompositeViewEngine compositeViewEngine)
@@ -26,12 +26,12 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
             return Json(new { hasComments = false });
         }
 
-        var commentsHtml = await RenderViewToHtmlStringAsync(compositeViewEngine, "~/Views/Shared/_CommentsSectionRow.cshtml", apiResponse.Value);
-        return Json(new { hasComments = true, commentsHtml });
+        var issueCommentsHtml = await RenderViewToHtmlStringAsync(compositeViewEngine, "~/Views/Issue/_IssueCommentsSectionRow.cshtml", apiResponse.Value);
+        return Json(new { hasIssueComments = true, issueCommentsHtml });
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCommentAsync(string issueKey, CreateIssueComment comment)
+    public async Task<IActionResult> CreateCommentAsync(string issueKey, CreateIssueComment createIssueComment)
     {
         if (!IssueUtil.IsKeyValid(issueKey))
         {
@@ -39,8 +39,8 @@ public class CommentController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         using var httpClient = httpClientFactory.CreateClient();
-        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(comment));
-        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse>(httpResponse);
+        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(createIssueComment));
+        var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Guid>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
         {

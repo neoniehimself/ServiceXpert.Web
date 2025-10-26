@@ -1,6 +1,6 @@
 ﻿using ServiceXpert.Web.Models.Issues;
 
-namespace ServiceXpert.Web.ViewModels;
+namespace ServiceXpert.Web.ViewModels.Issues;
 public class EditIssueViewModel
 {
     public required Issue Issue { get; set; }

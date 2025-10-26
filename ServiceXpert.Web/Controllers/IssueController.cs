@@ -5,7 +5,7 @@ using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Issues;
 using ServiceXpert.Web.Utils;
 using ServiceXpert.Web.ValueObjects;
-using ServiceXpert.Web.ViewModels;
+using ServiceXpert.Web.ViewModels.Issues;
 using System.Net;
 
 namespace ServiceXpert.Web.Controllers;
@@ -28,10 +28,10 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         using var httpResponse = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PaginationResult<Issue>>>(httpResponse);
 
-        var issueTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_IssueTableRow", apiResponse!.Value.Items);
-        var paginationHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "_Pagination", apiResponse.Value.Pagination, GetPaginationViewDataDictionary(apiResponse.Value.Pagination, this.ModelState));
+        var issuesTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "~/Views/Issue/_IssuesTableRow.cshtml", apiResponse!.Value.Items);
+        var paginationHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "~/Views/Shared/_Pagination.cshtml", apiResponse.Value.Pagination, GetPaginationViewDataDictionary(apiResponse.Value.Pagination, this.ModelState));
 
-        return Json(new { issueTableRowsHtml, paginationHtml });
+        return Json(new { issuesTableRowsHtml, paginationHtml });
     }
 
     [HttpGet("View/{issueKey}", Name = "ViewIssue")]
@@ -92,7 +92,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     }
 
     [HttpPut("Edit/{issueKey}")]
-    public async Task<IActionResult> UpdateIssueAsync(string issueKey, UpdateIssue issue)
+    public async Task<IActionResult> UpdateIssueAsync(string issueKey, UpdateIssue updateIssue)
     {
         if (!IssueUtil.IsKeyValid(issueKey))
         {
@@ -105,7 +105,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         using var httpClient = httpClientFactory.CreateClient();
-        using var httpResponse = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(issue));
+        using var httpResponse = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(updateIssue));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
@@ -119,14 +119,14 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     [HttpGet("InitializeCreateIssue")]
     public IActionResult InitializeCreateIssue()
     {
-        return PartialView("_CreateIssueModal", new CreateIssueViewModel()
+        return PartialView("~/Views/Shared/_CreateIssueModal.cshtml", new CreateIssueViewModel()
         {
             IssuePriorities = SxpEnumUtil.ToDictionary<Enums.Issues.IssuePriority>()
         });
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateIssueAsync(CreateIssue issue)
+    public async Task<IActionResult> CreateIssueAsync(CreateIssue createIssue)
     {
         if (!this.ModelState.IsValid)
         {
@@ -134,7 +134,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         using var httpClient = httpClientFactory.CreateClient();
-        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContentWithApplicationJson(issue));
+        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContentWithApplicationJson(createIssue));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<string>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)

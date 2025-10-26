@@ -1,32 +1,31 @@
-﻿function loadComments() {
+﻿function loadIssueComments() {
     $.get(`/Issues/${$('#issue-key-label').text()}/Comments`, function (response) {
-        if (response && response.hasComments) {
-            // Counterpart of _CommentsSection.cshtml
-            $('#comments').html(`
+        if (response && response.hasIssueComments) {
+            $('#issue-comments').html(`
                 <h5 class="text-muted fw-semibold">Comments</h5>
-                <div id="comments-list" class="py-1"></div>
+                <div id="issue-comments-list" class="py-1"></div>
                 <div class="row">
                     <div class="col-md-6">
-                        <form method="post" id="add-comment-form" role="form">
-                            <textarea class="form-control" placeholder="Add a comment..." id="add-comment-content-field" name="@nameof(CommentForCreate.Content)" style="height: 5.1rem;"></textarea>
+                        <form method="post" id="add-issue-comment-form" role="form">
+                            <textarea class="form-control" placeholder="Add a comment..." id="add-issue-comment-content-field" name="Content" style="height: 5.1rem;"></textarea>
                             <button type="submit" class="btn btn-primary mt-3">Add Comment</button>
                         </form>
                     </div>
                 </div>
             `);
 
-            $('#comments-list').html(response.commentsHtml);
+            $('#issue-comments-list').html(response.issueCommentsHtml);
         } else {
-            $('#comments-spinner').addClass('d-none');
+            $('#issue-comments-spinner').addClass('d-none');
         }
     });
 }
 
 $(document).ready(function () {
-    loadComments();
+    loadIssueComments();
 });
 
-$(document).on('submit', '#add-comment-form', function (e) {
+$(document).on('submit', '#add-issue-comment-form', function (e) {
     e.preventDefault();
     $.ajax({
         type: 'POST',
@@ -36,7 +35,7 @@ $(document).on('submit', '#add-comment-form', function (e) {
         contentType: false,
         dataType: 'JSON',
         success: function () {
-            loadComments();
+            loadIssueComments();
         }, error: function (xhr) {
             if (HasBadRequestErrors(xhr)) {
                 try {

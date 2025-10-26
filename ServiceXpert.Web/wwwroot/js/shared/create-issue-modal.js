@@ -1,11 +1,11 @@
-﻿import { initUserPickerSearchbox } from './user-picker-searchbox.js'
+﻿import { initSecurityProfilePickerSearchbox } from './security-profile-picker-searchbox.js'
 
 $(document).ready(function () {
     $('#btn-create-issue').click(() => {
         $.get('/Issues/InitializeCreateIssue', (response) => {
             $('#modal-container').html(response);
             $('#create-issue-modal').modal('show');
-            initUserPickerSearchbox();
+            initSecurityProfilePickerSearchbox();
         });
     });
 });

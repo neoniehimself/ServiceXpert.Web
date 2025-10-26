@@ -33,13 +33,13 @@
         <div class="col">
             <div>
                 <label asp-for="Assignee" class="form-label">Assignee</label>
-                <input asp-for="Assignee.FirstNameLastName" class="form-control" disabled />
+                <input asp-for="Assignee.SecurityProfile.FirstNameLastName" class="form-control" disabled />
             </div>
         </div>
         <div class="col">
             <div>
                 <label asp-for="Reporter" class="form-label">Reporter</label>
-                <input asp-for="Reporter.FirstNameLastName" class="form-control" disabled />
+                <input asp-for="Reporter.SecurityProfile.FirstNameLastName" class="form-control" disabled />
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
     </div>
 </form>
 <hr style="margin-top: 1.90rem;" />
-@await Html.PartialAsync("_CommentsSection")
+@await Html.PartialAsync("~/Views/Issue/_IssueCommentsSection.cshtml")
 @section Scripts {
-    <script src="~/js/shared/comments.js"></script>
+    <script src="~/js/issue/issue-comments.js"></script>
 }

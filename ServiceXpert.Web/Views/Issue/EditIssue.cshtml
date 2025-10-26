@@ -1,4 +1,6 @@
 ﻿@using ServiceXpert.Web.Models.Issues
+@using ServiceXpert.Web.ViewModels.Issues
+@using ServiceXpert.Web.ViewModels.Security
 @model EditIssueViewModel
 @{
     ViewData["Title"] = $"{Model.Issue.IssueKey} - {Model.Issue.Name}";
@@ -63,10 +65,10 @@ else
         </div>
         <div class="row mb-3">
             <div class="col">
-                @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Assignee", Model.Issue.Assignee))
+                @await Html.PartialAsync("~/Views/Shared/_SecurityProfilePickerSearchbox.cshtml", new SecurityProfilePickerSearchboxViewModel("Assignee", Model.Issue.Assignee?.SecurityProfile))
             </div>
             <div class="col">
-                @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Reporter", Model.Issue.Reporter))
+                @await Html.PartialAsync("~/Views/Shared/_SecurityProfilePickerSearchbox.cshtml", new SecurityProfilePickerSearchboxViewModel("Reporter", Model.Issue.Reporter?.SecurityProfile))
             </div>
         </div>
         <div class="mb-4">
@@ -75,9 +77,9 @@ else
         </div>
     </form>
     <hr style="margin-top: 1.90rem;" />
-    @await Html.PartialAsync("_CommentsSection")
+    @await Html.PartialAsync("~/Views/Issue/_IssueCommentsSection.cshtml")
     @section Scripts {
-        <script src="~/js/shared/comments.js"></script>
+        <script src="~/js/issue/issue-comments.js"></script>
         <script type="module" src="~/js/issue/edit-issue.js"></script>
     }
 }

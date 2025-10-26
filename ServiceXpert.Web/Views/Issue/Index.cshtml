@@ -1,11 +1,12 @@
-﻿@model IssueViewModel
+﻿@using ServiceXpert.Web.ViewModels.Issues
+@model IssueViewModel
 @{
     ViewData["Title"] = "Issues";
 }
 
 <h1>@ViewData["Title"]</h1>
 <hr class="mb-4" />
-<form class="mb-4" id="issue-table-search-form">
+<form class="mb-4" id="issues-table-search-form">
     <div class="row row-cols-2 row-cols-lg-auto g-3 align-items-end">
         <div class="col">
             <label for="summary-field" class="form-label">Summary</label>
@@ -30,7 +31,7 @@
     </div>
 </form>
 <div class="table-responsive">
-    <table class="table table-striped table-hover m-0" id="issue-table">
+    <table class="table table-striped table-hover m-0" id="issues-table">
         <thead>
             <tr>
                 <th class="border-0 bg-primary text-light fw-medium text-wrap col-1">Key</th>
@@ -46,7 +47,7 @@
     </table>
 </div>
 @{
-    ViewData["_SpinnerId"] = "issue-table-spinner";
+    ViewData["_SpinnerId"] = "issues-table-spinner";
     ViewData["_SpinnerIsCentered"] = true;
 }
 @await Html.PartialAsync("_Spinner")

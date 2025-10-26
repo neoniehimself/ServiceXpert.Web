@@ -13,9 +13,9 @@
         @* Status *@
         <td>@issue.IssueStatus!.Name</td>
         @* Assignee *@
-        <td>@issue.Assignee?.FirstNameLastName</td>
+        <td>@issue.Assignee?.SecurityProfile?.FirstNameLastName</td>
         @* Reporter *@
-        <td>@issue.Reporter?.FirstNameLastName</td>
+        <td>@issue.Reporter?.SecurityProfile?.FirstNameLastName</td>
         @* Created *@
         <td>@issue.CreatedDateFormatted</td>
     </tr>

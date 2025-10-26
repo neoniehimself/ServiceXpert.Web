@@ -1,6 +1,6 @@
 ﻿using ServiceXpert.Web.Models.Security;
 
-namespace ServiceXpert.Web.ViewModels;
+namespace ServiceXpert.Web.ViewModels.Security;
 public class SecurityProfilePickerSearchboxViewModel(string field, SecurityProfile? securityProfile = null)
 {
     public string Label { get; } = field;
