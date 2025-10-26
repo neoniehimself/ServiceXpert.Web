@@ -10,76 +10,71 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services
-    .AddAuthentication(options =>
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection(nameof(SxpConfiguration)).Get<SxpConfiguration>()!.JwtSecretKey));
+
+    options.TokenValidationParameters = new()
     {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidateIssuerSigningKey = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero,
+        IssuerSigningKey = key
+    };
+
+    options.Events = new JwtBearerEvents
     {
-        var key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration.GetSection(
-                    nameof(SxpConfiguration)).Get<SxpConfiguration>()!.JwtSecretKey
-            )
-        );
-
-        options.TokenValidationParameters = new()
+        OnMessageReceived = context =>
         {
-            ValidateIssuer = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidateIssuerSigningKey = true,
-            ValidateAudience = true,
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero,
-            IssuerSigningKey = key
-        };
-
-        options.Events = new JwtBearerEvents
-        {
-            OnMessageReceived = context =>
+            if (context.Request.Cookies.ContainsKey(AuthSettings.BearerTokenCookieName))
             {
-                if (context.Request.Cookies.ContainsKey(AuthSettings.BearerTokenCookieName))
-                {
-                    context.Token = context.Request.Cookies[AuthSettings.BearerTokenCookieName];
-                }
-                return Task.CompletedTask;
-            },
-            OnChallenge = context =>
-            {
-                context.HandleResponse();
-                context.Response.ContentType = "text/html";
-                return context.Response.WriteAsync(@"
-                    <script>
-                        alert('Please log in to continue.');
-                        window.location.href = '/';
-                    </script>
-                ");
-            },
-            OnForbidden = context =>
-            {
-                context.Response.ContentType = "text/html";
-                var referer = context.Request.Headers["Referer"].ToString();
-
-                // Fallback if no referer (e.g., direct access)
-                if (string.IsNullOrEmpty(referer))
-                {
-                    referer = "/";
-                }
-
-                var html = $@"
-                    <script>
-                        alert('You do not have permission to access this resource.');
-                        window.location.href = '{referer}';
-                    </script>
-                ";
-
-                return context.Response.WriteAsync(html);
+                context.Token = context.Request.Cookies[AuthSettings.BearerTokenCookieName];
             }
-        };
-    });
+            return Task.CompletedTask;
+        },
+        OnChallenge = context =>
+        {
+            context.HandleResponse();
+            context.Response.ContentType = "text/html";
+            return context.Response.WriteAsync(@"
+                <script>
+                    alert('Please log in to continue.');
+                    window.location.href = '/';
+                </script>
+            ");
+        },
+        OnForbidden = context =>
+        {
+            context.Response.ContentType = "text/html";
+            var referer = context.Request.Headers["Referer"].ToString();
+
+            // Fallback if no referer (e.g., direct access)
+            if (string.IsNullOrEmpty(referer))
+            {
+                referer = "/";
+            }
+
+            var html = $@"
+                <script>
+                    alert('You do not have permission to access this resource.');
+                    window.location.href = '{referer}';
+                </script>
+            ";
+
+            return context.Response.WriteAsync(html);
+        }
+    };
+});
 
 var authBuilder = builder.Services.AddAuthorizationBuilder();
 authBuilder.AddPolicy(nameof(SecurityPolicy.AdminOnly), policy => policy.RequireRole(nameof(SecurityRole.Admin)));
@@ -92,19 +87,18 @@ var uri = new Uri(builder.Configuration["ApiSettings:Url"] ?? throw new NullRefe
 builder.Services.AddHttpClient(HttpClientSettings.AuthHttpClientSettings, client => client.BaseAddress = uri);
 builder.Services.AddHttpClient(HttpClientSettings.Default, client => client.BaseAddress = uri).AddHttpMessageHandler<BearerTokenHandler>();
 
-builder.Services
-    .AddControllersWithViews(options =>
-    {
-        options.ReturnHttpNotAcceptable = true;
+builder.Services.AddControllersWithViews(options =>
+{
+    options.ReturnHttpNotAcceptable = true;
 
-        // Global Authorization Filter
-        var policy = new AuthorizationPolicyBuilder()
-            .RequireAuthenticatedUser()
-            .Build();
+    // Global Authorization Filter
+    var policy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
 
-        options.Filters.Add(new AuthorizeFilter(policy));
-    })
-    .AddNewtonsoftJson();
+    options.Filters.Add(new AuthorizeFilter(policy));
+})
+.AddNewtonsoftJson();
 
 var app = builder.Build();
 
@@ -131,6 +125,8 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<IdentityClaimsMiddleware>();
 
 app.MapControllers();
 

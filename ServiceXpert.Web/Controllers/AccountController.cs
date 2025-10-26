@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using ServiceXpert.Web.Constants;
 using ServiceXpert.Web.Models;
 using ServiceXpert.Web.Models.Security.Auth;
 using ServiceXpert.Web.Utils;
+using System.Security.Claims;
 
 namespace ServiceXpert.Web.Controllers;
 [Route("")] // Tell the framework that this is the entry point
@@ -55,9 +57,21 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
 
     [HttpPost("Logout")]
     [ValidateAntiForgeryToken]
-    public IActionResult Logout()
+    public IActionResult Logout([FromServices] IMemoryCache memoryCache)
     {
         this.Response.Cookies.Delete(AuthSettings.BearerTokenCookieName);
+        ClearCache(memoryCache);
         return Redirect("/");
+    }
+
+    [NonAction]
+    private void ClearCache(IMemoryCache memoryCache)
+    {
+        var profileId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (!string.IsNullOrEmpty(profileId))
+        {
+            memoryCache.Remove($"firstName_{profileId}");
+        }
     }
 }

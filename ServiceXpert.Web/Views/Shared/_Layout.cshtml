@@ -1,5 +1,6 @@
 ﻿@using ServiceXpert.Web.Enums.Security
 @using ServiceXpert.Web.Extensions
+@using System.Security.Claims
 @{
     var navbarBrand = "ServiceXpert";
     ViewData["FooterYear"] = DateTimeOffset.UtcNow.Year;
@@ -62,11 +63,21 @@
                                 <li class="nav-item ms-lg-2 me-lg-1 mt-2 mt-lg-0">
                                     <button class="btn btn-success" type="button" id="btn-create-issue">Create</button>
                                 </li>
-                                <li class="nav-item mt-2 mt-lg-0 ms-lg-auto">
-                                    <form method="post" asp-controller="Account" asp-action="Logout" class="d-inline" role="button">
-                                        <button type="submit" class="btn btn-link nav-link text-light">Logout</button>
-                                        @Html.AntiForgeryToken()
-                                    </form>
+                                <li class="nav-item mt-2 mt-lg-0 ms-lg-auto dropdown">
+                                    <a class="nav-link dropdown-toggle text-white" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @($"Hi {User.FindFirstValue(ClaimTypes.GivenName)}!")
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                                        <li>
+                                            <form method="post" asp-controller="Account" asp-action="Logout">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="dropdown-item btn btn-link w-100">
+                                                    Logout
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </div>
