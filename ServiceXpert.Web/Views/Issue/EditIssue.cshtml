@@ -1,8 +1,11 @@
-﻿@model EditIssueViewModel
+﻿@using ServiceXpert.Web.Models.Issues
+@using ServiceXpert.Web.ViewModels.Issues
+@using ServiceXpert.Web.ViewModels.Security
+@model EditIssueViewModel
 @{
     ViewData["Title"] = $"{Model.Issue.IssueKey} - {Model.Issue.Name}";
 }
-@if (Model.Issue.IssueStatusId == (int)ServiceXpert.Web.Enums.IssueStatus.Closed)
+@if (Model.Issue.IssueStatusId == (int)ServiceXpert.Web.Enums.Issues.IssueStatus.Closed)
 {
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -17,27 +20,26 @@
 else
 {
     <form method="post" id="edit-issue-form" role="form">
-        <div class="row">
-            <div class="col-6">
+        <div class="row mb-3">
+            <div class="col">
                 <h6 class="text-muted mb-1 fw-bold" id="issue-key-label">@Model.Issue.IssueKey</h6>
                 <div>
-                    <label for="edit-issue-name-field" class="form-label">
+                    <label for="name-field" class="form-label">
                         Title <span class="text-danger">*</span>
                     </label>
-                    <input type="text" class="form-control utility form-editable" id="edit-issue-name-field" name="@nameof(IssueForUpdate.Name)" value="@Model.Issue.Name" required />
+                    <input type="text" class="form-control" id="name-field" name="@nameof(UpdateIssue.Name)" value="@Model.Issue.Name" required />
                 </div>
             </div>
-            <div class="col-6 d-flex justify-content-end align-items-center">
+            <div class="col d-flex justify-content-end align-items-center">
                 <a asp-route="ViewIssue" asp-route-issueKey="@Model.Issue.IssueKey" class="btn btn-secondary me-2">Cancel</a>
                 <button type="submit" class="btn btn-success">Save</button>
             </div>
         </div>
-        <hr class="mb-4" />
         <div class="row mb-3">
-            <div class="col-6">
+            <div class="col">
                 <div>
-                    <label for="edit-issue-priority-field" class="form-label">Priority</label>
-                    <select class="form-select" id="edit-issue-priority-field" name="@nameof(IssueForUpdate.IssuePriorityId)">
+                    <label for="priority-field" class="form-label">Priority</label>
+                    <select class="form-select" id="priority-field" name="@nameof(UpdateIssue.IssuePriorityId)">
                         @foreach (var priority in Model.IssuePriorities)
                         {
                             <option value="@priority.Key" selected="@(priority.Key == (int)Model.Issue.IssuePriorityId)">
@@ -47,10 +49,10 @@ else
                     </select>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col">
                 <div>
-                    <label for="edit-issue-status-field" class="form-label">Status</label>
-                    <select class="form-select" id="edit-issue-status-field" name="@nameof(IssueForUpdate.IssueStatusId)">
+                    <label for="status-field" class="form-label">Status</label>
+                    <select class="form-select" id="status-field" name="@nameof(UpdateIssue.IssueStatusId)">
                         @foreach (var status in Model.IssueStatuses)
                         {
                             <option value="@status.Key" selected="@(status.Key == (int)Model.Issue.IssueStatusId)">
@@ -62,22 +64,22 @@ else
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-12 col-md-6 mb-3 mb-md-0">
-                @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Assignee", Model.Issue.Assignee))
+            <div class="col">
+                @await Html.PartialAsync("~/Views/Shared/_SecurityProfilePickerSearchbox.cshtml", new SecurityProfilePickerSearchboxViewModel("Assignee", Model.Issue.Assignee?.SecurityProfile))
             </div>
-            <div class="col-12 col-md-6">
-                @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Reporter", Model.Issue.Reporter))
+            <div class="col">
+                @await Html.PartialAsync("~/Views/Shared/_SecurityProfilePickerSearchbox.cshtml", new SecurityProfilePickerSearchboxViewModel("Reporter", Model.Issue.Reporter?.SecurityProfile))
             </div>
         </div>
         <div class="mb-4">
-            <label for="edit-issue-description-field" class="form-label">Description</label>
-            <textarea class="form-control" id="edit-issue-description-field" rows="3" name="@nameof(IssueForUpdate.Description)">@Model.Issue.Description</textarea>
+            <label for="description-field" class="form-label">Description</label>
+            <textarea class="form-control" id="description-field" rows="3" name="@nameof(UpdateIssue.Description)">@Model.Issue.Description</textarea>
         </div>
     </form>
     <hr style="margin-top: 1.90rem;" />
-    @await Html.PartialAsync("_CommentsSection")
+    @await Html.PartialAsync("~/Views/Issue/_IssueCommentsSection.cshtml")
     @section Scripts {
-        <script src="~/js/shared/comments.js"></script>
+        <script src="~/js/issue/issue-comments.js"></script>
         <script type="module" src="~/js/issue/edit-issue.js"></script>
     }
 }

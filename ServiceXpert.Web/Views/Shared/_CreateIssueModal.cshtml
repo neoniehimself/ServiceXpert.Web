@@ -1,4 +1,7 @@
-﻿@model CreateIssueViewModel
+﻿@using ServiceXpert.Web.Models.Issues
+@using ServiceXpert.Web.ViewModels.Issues
+@using ServiceXpert.Web.ViewModels.Security
+@model CreateIssueViewModel
 
 <div class="modal fade" id="create-issue-modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable">
@@ -12,26 +15,26 @@
             <div class="modal-body">
                 <form method="post" id="create-issue-modal-form" role="form">
                     <div class="row mb-3">
-                        <div class="col-12">
+                        <div class="col">
                             <label for="create-issue-modal-name-field" class="form-label">
                                 Title <span class="text-danger">*</span>
                             </label>
-                            <input type="text" class="form-control" id="create-issue-modal-name-field" name="@nameof(IssueForCreate.Name)" required />
+                            <input type="text" class="form-control" id="create-issue-modal-name-field" name="@nameof(CreateIssue.Name)" required />
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-12">
+                        <div class="col">
                             <label for="create-issue-modal-description-field" class="form-label">Description</label>
-                            <textarea class="form-control" id="create-issue-modal-description-field" rows="3" name="@nameof(IssueForCreate.Description)"></textarea>
+                            <textarea class="form-control" id="create-issue-modal-description-field" rows="3" name="@nameof(CreateIssue.Description)"></textarea>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-12">
+                        <div class="col">
                             <label for="create-issue-modal-priority-field" class="form-label">Priority</label>
-                            <select class="form-select" id="create-issue-modal-priority-field" name="@nameof(IssueForCreate.IssuePriorityId)">
+                            <select class="form-select" id="create-issue-modal-priority-field" name="@nameof(CreateIssue.IssuePriorityId)">
                                 @foreach (var priority in Model.IssuePriorities)
                                 {
-                                    <option value="@priority.Key" selected="@(priority.Key == (int)ServiceXpert.Web.Enums.IssuePriority.Low)">
+                                    <option value="@priority.Key" selected="@(priority.Key == (int)ServiceXpert.Web.Enums.Issues.IssuePriority.Low)">
                                             @priority.Value
                                     </option>
                                 }
@@ -39,13 +42,13 @@
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-12">
-                            @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Reporter"))
+                        <div class="col">
+                            @await Html.PartialAsync("~/Views/Shared/_SecurityProfilePickerSearchbox.cshtml", new SecurityProfilePickerSearchboxViewModel("Reporter"))
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-12">
-                            @await Html.PartialAsync("_UserPickerSearchbox", new UserPickerSearchboxViewModel("Assignee"))
+                        <div class="col">
+                            @await Html.PartialAsync("~/Views/Shared/_SecurityProfilePickerSearchbox.cshtml", new SecurityProfilePickerSearchboxViewModel("Assignee"))
                         </div>
                     </div>
                 </form>

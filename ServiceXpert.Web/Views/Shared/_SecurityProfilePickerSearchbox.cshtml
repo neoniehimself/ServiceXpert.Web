@@ -1,0 +1,17 @@
+﻿@using ServiceXpert.Web.ViewModels.Security
+@model SecurityProfilePickerSearchboxViewModel
+@{
+    var instanceId = Guid.NewGuid();
+}
+
+<div id="security-profile-picker-searchbox-@instanceId" data-instanceid="@instanceId">
+    <label for="input-text-@instanceId" class="form-label">@Model.Label</label>
+    <div class="position-relative">
+        <input type="text" id="input-text-@instanceId" class="form-control" value="@Model.SecurityProfile?.FirstNameLastName">
+        <div id="spinner-@instanceId" class="position-absolute top-50 end-0 translate-middle-y me-3 d-none">
+            <div class="spinner-border spinner-border-sm text-secondary"></div>
+        </div>
+        <ul id="result-list-@instanceId" class="list-group position-absolute w-100 d-none" style="z-index:1000;"></ul>
+    </div>
+    <input type="hidden" id="input-hidden-@instanceId" name="@Model.HiddenInputName" value="@Model.SecurityProfile?.Id">
+</div>

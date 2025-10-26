@@ -2,30 +2,30 @@
 using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Web.Constants;
 using ServiceXpert.Web.Models;
-using ServiceXpert.Web.Models.Security;
+using ServiceXpert.Web.Models.Security.Auth;
 using ServiceXpert.Web.Utils;
 
 namespace ServiceXpert.Web.Controllers;
 [Route("")] // Tell the framework that this is the entry point
-[Route("Accounts")]
+[Route("Security/Accounts")]
 public class AccountController(IHttpClientFactory httpClientFactory) : SxpController
 {
+    [HttpGet("")]
     [AllowAnonymous]
-    [HttpGet("")] // Entry point method
     public IActionResult Index()
     {
         if (!string.IsNullOrWhiteSpace(this.BearerToken))
         {
-            return Redirect("Dashboard");
+            return RedirectToAction("Index", "Home");
         }
 
         return View();
     }
 
-    [AllowAnonymous]
     [HttpPost("Login")]
+    [AllowAnonymous]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<IActionResult> LoginAsync(Login login, [FromServices] IConfiguration configuration)
+    public async Task<IActionResult> LoginAsync(LoginUser login, [FromServices] IConfiguration configuration)
     {
         if (!this.ModelState.IsValid)
         {
@@ -33,7 +33,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         using var httpClient = httpClientFactory.CreateClient(HttpClientSettings.AuthHttpClientSettings);
-        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
+        using var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Security/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<string>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
@@ -50,7 +50,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
             Expires = DateTimeOffset.UtcNow.AddMinutes(Convert.ToInt16(configuration["Jwt:ExpiresInMinutes"])).UtcDateTime
         });
 
-        return Json(new { redirectUrl = "/Dashboard" });
+        return Json(new { redirectUrl = "/Home" });
     }
 
     [HttpPost("Logout")]

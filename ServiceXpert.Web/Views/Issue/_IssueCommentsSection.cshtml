@@ -1,0 +1,16 @@
+﻿@using ServiceXpert.Web.Models.Issues
+<section id="issue-comments">
+    <h5 class="text-muted fw-semibold">Comments</h5>
+    @{
+        ViewData["_SpinnerId"] = "issue-comments-spinner";
+    }
+    @await Html.PartialAsync("_Spinner")
+    <div class="row">
+        <div class="col-md-6">
+            <form method="post" id="add-issue-comment-form" role="form">
+                <textarea class="form-control mt-3" placeholder="Add a comment..." id="add-issue-comment-content-field" name="@nameof(CreateIssueComment.Content)" style="height: 5.1rem;"></textarea>
+                <button type="submit" class="btn btn-primary mt-3">Add Comment</button>
+            </form>
+        </div>
+    </div>
+</section>

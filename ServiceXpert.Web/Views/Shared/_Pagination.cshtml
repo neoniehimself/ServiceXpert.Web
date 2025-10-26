@@ -1,4 +1,5 @@
-﻿@model Pagination
+﻿@using ServiceXpert.Web.ValueObjects
+@model Pagination
 @{
     var startPage = (int)ViewData["PaginationStartPage"]!;
     var endPage = (int)ViewData["PaginationEndPage"]!;
@@ -7,7 +8,7 @@
 @if (Model.TotalPageCount > 1)
 {
     <div class="d-flex align-items-center">
-        <p class="me-3 mb-0">Showing @ViewData["PaginationStartIndex"] to @ViewData["PaginationEndIndex"] of @Model.TotalCount issues</p>
+        <p class="me-3 mb-0">Showing @ViewData["PaginationStartIndex"] to @ViewData["PaginationEndIndex"] of @Model.TotalCount</p>
         <ul class="pagination mb-0">
             @if (Model.CurrentPage > 1)
             {

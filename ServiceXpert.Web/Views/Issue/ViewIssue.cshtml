@@ -1,4 +1,5 @@
-﻿@model Issue
+﻿@using ServiceXpert.Web.Models.Issues
+@model Issue
 @{
     ViewData["Title"] = $"{Model.IssueKey} - {Model.Name}";
 }
@@ -15,13 +16,13 @@
 <hr class="mb-4" />
 <form role="form">
     <div class="row mb-3">
-        <div class="col-6">
+        <div class="col">
             <div>
                 <label asp-for="IssuePriority" class="form-label">Priority</label>
                 <input asp-for="IssuePriority.Name" class="form-control" disabled />
             </div>
         </div>
-        <div class="col-6">
+        <div class="col">
             <div>
                 <label asp-for="IssueStatus" class="form-label">Status</label>
                 <input asp-for="IssueStatus.Name" class="form-control" disabled />
@@ -29,16 +30,16 @@
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-12 col-md-6 mb-3 mb-md-0">
+        <div class="col">
             <div>
                 <label asp-for="Assignee" class="form-label">Assignee</label>
-                <input asp-for="Assignee.FirstNameLastName" class="form-control" disabled />
+                <input asp-for="Assignee.SecurityProfile.FirstNameLastName" class="form-control" disabled />
             </div>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col">
             <div>
                 <label asp-for="Reporter" class="form-label">Reporter</label>
-                <input asp-for="Reporter.FirstNameLastName" class="form-control" disabled />
+                <input asp-for="Reporter.SecurityProfile.FirstNameLastName" class="form-control" disabled />
             </div>
         </div>
     </div>
@@ -48,7 +49,7 @@
     </div>
 </form>
 <hr style="margin-top: 1.90rem;" />
-@await Html.PartialAsync("_CommentsSection")
+@await Html.PartialAsync("~/Views/Issue/_IssueCommentsSection.cshtml")
 @section Scripts {
-    <script src="~/js/shared/comments.js"></script>
+    <script src="~/js/issue/issue-comments.js"></script>
 }

@@ -1,7 +1,7 @@
-﻿import { initUserPickerSearchbox } from '../shared/user-picker-searchbox.js'
+﻿import { initSecurityProfilePickerSearchbox } from '../shared/security-profile-picker-searchbox.js'
 
 $(document).ready(function () {
-    initUserPickerSearchbox();
+    initSecurityProfilePickerSearchbox();
 });
 
 $('#edit-issue-form').submit(function (e) {
