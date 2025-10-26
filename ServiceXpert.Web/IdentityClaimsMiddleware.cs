@@ -29,7 +29,7 @@ public class IdentityClaimsMiddleware(IHttpClientFactory httpClientFactory, IMem
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(Convert.ToDouble(this.configuration["Jwt:ExpiresInMinutes"]));
 
                 var httpClient = this.httpClientFactory.CreateClient();
-                var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Security/Users/Profiles/{profileId}");
+                var httpResponse = await httpClient.GetAsync($"Security/Users/Profiles/{profileId}");
                 httpResponse.EnsureSuccessStatusCode();
 
                 var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<SecurityProfile>>(httpResponse);
