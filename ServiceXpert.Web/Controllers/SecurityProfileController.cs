@@ -10,10 +10,10 @@ public class SecurityProfileController(IHttpClientFactory httpClientFactory) : S
     private readonly IHttpClientFactory httpClientFactory = httpClientFactory;
 
     [HttpGet("SearchProfileByName")]
-    public async Task<IActionResult> SearchProfileByNameAsync(string name)
+    public async Task<IActionResult> SearchProfileByNameAsync(string name, CancellationToken cancellationToken = default)
     {
         var httpClient = this.httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.GetAsync($"Security/Users/Profiles/SearchProfileByName?Name={name}");
+        var httpResponse = await httpClient.GetAsync($"Security/Users/Profiles/SearchProfileByName?Name={name}", cancellationToken);
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<SecurityProfile>>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)

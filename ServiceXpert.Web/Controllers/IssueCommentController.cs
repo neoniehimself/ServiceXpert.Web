@@ -10,10 +10,10 @@ namespace ServiceXpert.Web.Controllers;
 public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpController
 {
     [HttpGet]
-    public async Task<IActionResult> GetAllByIssueKeyAsync(string issueKey, [FromServices] ICompositeViewEngine compositeViewEngine)
+    public async Task<IActionResult> GetAllByIssueKeyAsync(string issueKey, [FromServices] ICompositeViewEngine compositeViewEngine, CancellationToken cancellationToken = default)
     {
         var httpClient = httpClientFactory.CreateClient();
-        var response = await httpClient.GetAsync($"Issues/{issueKey}/Comments");
+        var response = await httpClient.GetAsync($"Issues/{issueKey}/Comments", cancellationToken);
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<IssueComment>>>(response);
 
         if (!apiResponse!.IsSuccess)
@@ -23,7 +23,7 @@ public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpC
 
         if (apiResponse.Value == null || apiResponse.Value.Count == 0)
         {
-            return Json(new { hasComments = false });
+            return Json(new { hasIssueComments = false });
         }
 
         var issueCommentsHtml = await RenderViewToHtmlStringAsync(compositeViewEngine, "~/Views/Issue/_IssueCommentsSectionRow.cshtml", apiResponse.Value);
@@ -31,7 +31,7 @@ public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpC
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCommentAsync(string issueKey, CreateIssueComment createIssueComment)
+    public async Task<IActionResult> CreateCommentAsync(string issueKey, CreateIssueComment createIssueComment, CancellationToken cancellationToken = default)
     {
         if (!IssueUtil.IsKeyValid(issueKey))
         {
@@ -39,7 +39,7 @@ public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpC
         }
 
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.PostAsync($"Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(createIssueComment));
+        var httpResponse = await httpClient.PostAsync($"Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(createIssueComment), cancellationToken);
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Guid>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)

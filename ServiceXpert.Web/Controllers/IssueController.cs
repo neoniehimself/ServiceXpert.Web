@@ -22,10 +22,10 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     }
 
     [HttpGet("GetPagedIssuesByStatus")]
-    public async Task<IActionResult> GetPagedIssuesByStatusAsync([FromServices] ICompositeViewEngine compositiveViewEngine, string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
+    public async Task<IActionResult> GetPagedIssuesByStatusAsync([FromServices] ICompositeViewEngine compositiveViewEngine, string statusCategory = "All", int pageNumber = 1, int pageSize = 10, CancellationToken cancellationToken = default)
     {
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.GetAsync(string.Format($"Issues?StatusCategory={statusCategory}&PageNumber={pageNumber}&PageSize={pageSize}"));
+        var httpResponse = await httpClient.GetAsync(string.Format($"Issues?StatusCategory={statusCategory}&PageNumber={pageNumber}&PageSize={pageSize}"), cancellationToken);
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PaginationResult<Issue>>>(httpResponse);
 
         var issuesTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "~/Views/Issue/_IssuesTableRow.cshtml", apiResponse!.Value.Items);
@@ -35,7 +35,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     }
 
     [HttpGet("View/{issueKey}", Name = "ViewIssue")]
-    public async Task<IActionResult> ViewIssueAsync(string issueKey)
+    public async Task<IActionResult> ViewIssueAsync(string issueKey, CancellationToken cancellationToken = default)
     {
         if (!IssueUtil.IsKeyValid(issueKey))
         {
@@ -44,7 +44,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.GetAsync($"Issues/{issueKey}");
+        var httpResponse = await httpClient.GetAsync($"Issues/{issueKey}", cancellationToken);
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Issue>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
@@ -61,7 +61,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     }
 
     [HttpGet("Edit/{issueKey}", Name = "EditIssue")]
-    public async Task<IActionResult> EditIssueAsync(string issueKey)
+    public async Task<IActionResult> EditIssueAsync(string issueKey, CancellationToken cancellationToken = default)
     {
         if (!IssueUtil.IsKeyValid(issueKey))
         {
@@ -70,7 +70,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.GetAsync($"Issues/{issueKey}");
+        var httpResponse = await httpClient.GetAsync($"Issues/{issueKey}", cancellationToken);
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Issue>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
@@ -92,7 +92,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     }
 
     [HttpPut("Edit/{issueKey}")]
-    public async Task<IActionResult> UpdateIssueAsync(string issueKey, UpdateIssue updateIssue)
+    public async Task<IActionResult> UpdateIssueAsync(string issueKey, UpdateIssue updateIssue, CancellationToken cancellationToken = default)
     {
         if (!IssueUtil.IsKeyValid(issueKey))
         {
@@ -105,7 +105,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.PutAsync($"Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(updateIssue));
+        var httpResponse = await httpClient.PutAsync($"Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(updateIssue), cancellationToken);
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
@@ -126,7 +126,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateIssueAsync(CreateIssue createIssue)
+    public async Task<IActionResult> CreateIssueAsync(CreateIssue createIssue, CancellationToken cancellationToken = default)
     {
         if (!this.ModelState.IsValid)
         {
@@ -134,7 +134,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.PostAsync($"Issues", HttpContentUtil.SerializeContentWithApplicationJson(createIssue));
+        var httpResponse = await httpClient.PostAsync($"Issues", HttpContentUtil.SerializeContentWithApplicationJson(createIssue), cancellationToken);
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<string>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)

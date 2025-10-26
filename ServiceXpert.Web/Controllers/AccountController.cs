@@ -27,7 +27,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
     [HttpPost("Login")]
     [AllowAnonymous]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<IActionResult> LoginAsync(LoginUser login, [FromServices] IConfiguration configuration)
+    public async Task<IActionResult> LoginAsync(LoginUser login, [FromServices] IConfiguration configuration, CancellationToken cancellationToken = default)
     {
         if (!this.ModelState.IsValid)
         {
@@ -35,7 +35,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         var httpClient = httpClientFactory.CreateClient(HttpClientSettings.AuthHttpClientSettings);
-        var httpResponse = await httpClient.PostAsync($"Security/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
+        var httpResponse = await httpClient.PostAsync($"Security/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login), cancellationToken);
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<string>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
