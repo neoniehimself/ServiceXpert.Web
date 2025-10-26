@@ -13,7 +13,7 @@ public class SecurityProfileController(IHttpClientFactory httpClientFactory) : S
     public async Task<IActionResult> SearchProfileByNameAsync(string name)
     {
         var httpClient = this.httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Security/Users/Profiles/SearchProfileByName?Name={name}");
+        var httpResponse = await httpClient.GetAsync($"Security/Users/Profiles/SearchProfileByName?Name={name}");
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<SecurityProfile>>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)

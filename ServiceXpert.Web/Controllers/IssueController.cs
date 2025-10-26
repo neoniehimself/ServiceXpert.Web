@@ -25,7 +25,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     public async Task<IActionResult> GetPagedIssuesByStatusAsync([FromServices] ICompositeViewEngine compositiveViewEngine, string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
     {
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.GetAsync(string.Format("{0}/Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", httpClient.BaseAddress, statusCategory, pageNumber, pageSize));
+        var httpResponse = await httpClient.GetAsync(string.Format("Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", statusCategory, pageNumber, pageSize));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PaginationResult<Issue>>>(httpResponse);
 
         var issuesTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "~/Views/Issue/_IssuesTableRow.cshtml", apiResponse!.Value.Items);
@@ -44,7 +44,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        var httpResponse = await httpClient.GetAsync($"Issues/{issueKey}");
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Issue>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
@@ -70,7 +70,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}");
+        var httpResponse = await httpClient.GetAsync($"Issues/{issueKey}");
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Issue>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
@@ -105,7 +105,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.PutAsync($"{httpClient.BaseAddress}/Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(updateIssue));
+        var httpResponse = await httpClient.PutAsync($"Issues/{issueKey}", HttpContentUtil.SerializeContentWithApplicationJson(updateIssue));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
@@ -134,7 +134,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         }
 
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues", HttpContentUtil.SerializeContentWithApplicationJson(createIssue));
+        var httpResponse = await httpClient.PostAsync($"Issues", HttpContentUtil.SerializeContentWithApplicationJson(createIssue));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<string>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)

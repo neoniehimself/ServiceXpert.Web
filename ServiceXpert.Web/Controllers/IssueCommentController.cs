@@ -13,7 +13,7 @@ public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpC
     public async Task<IActionResult> GetAllByIssueKeyAsync(string issueKey, [FromServices] ICompositeViewEngine compositeViewEngine)
     {
         var httpClient = httpClientFactory.CreateClient();
-        var response = await httpClient.GetAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments");
+        var response = await httpClient.GetAsync($"Issues/{issueKey}/Comments");
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<List<IssueComment>>>(response);
 
         if (!apiResponse!.IsSuccess)
@@ -39,7 +39,7 @@ public class IssueCommentController(IHttpClientFactory httpClientFactory) : SxpC
         }
 
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(createIssueComment));
+        var httpResponse = await httpClient.PostAsync($"Issues/{issueKey}/Comments", HttpContentUtil.SerializeContentWithApplicationJson(createIssueComment));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<Guid>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)

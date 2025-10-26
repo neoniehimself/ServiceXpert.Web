@@ -35,7 +35,7 @@ public class AccountController(IHttpClientFactory httpClientFactory) : SxpContro
         }
 
         var httpClient = httpClientFactory.CreateClient(HttpClientSettings.AuthHttpClientSettings);
-        var httpResponse = await httpClient.PostAsync($"{httpClient.BaseAddress}/Security/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
+        var httpResponse = await httpClient.PostAsync($"Security/Accounts/Login", HttpContentUtil.SerializeContentWithApplicationJson(login));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<string>>(httpResponse);
 
         if (!apiResponse!.IsSuccess)
