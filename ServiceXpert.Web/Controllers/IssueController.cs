@@ -25,7 +25,7 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
     public async Task<IActionResult> GetPagedIssuesByStatusAsync([FromServices] ICompositeViewEngine compositiveViewEngine, string statusCategory = "All", int pageNumber = 1, int pageSize = 10)
     {
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.GetAsync(string.Format("Issues?StatusCategory={1}&PageNumber={2}&PageSize={3}", statusCategory, pageNumber, pageSize));
+        var httpResponse = await httpClient.GetAsync(string.Format($"Issues?StatusCategory={statusCategory}&PageNumber={pageNumber}&PageSize={pageSize}"));
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PaginationResult<Issue>>>(httpResponse);
 
         var issuesTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "~/Views/Issue/_IssuesTableRow.cshtml", apiResponse!.Value.Items);
