@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceXpert.Web.Enums.Security;
 
 namespace ServiceXpert.Web.Controllers;
-[Route("Security/UserProfiles")]
-public class SecurityUserProfileController : SxpController
+[Route("Security/Users")]
+public class SecurityUserController : SxpController
 {
     [HttpGet("")]
     [Authorize(Policy = nameof(SecurityPolicy.AdminOnly))]
