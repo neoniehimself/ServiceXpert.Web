@@ -21,11 +21,18 @@ public class IssueController(IHttpClientFactory httpClientFactory) : SxpControll
         });
     }
 
-    [HttpGet("GetPagedIssuesByStatus")]
-    public async Task<IActionResult> GetPagedIssuesByStatusAsync([FromServices] ICompositeViewEngine compositiveViewEngine, string statusCategory = "All", int pageNumber = 1, int pageSize = 10, CancellationToken cancellationToken = default)
+    [HttpGet("GetPagedIssues")]
+    public async Task<IActionResult> GetPagedIssuesAsync(
+        [FromServices] ICompositeViewEngine compositiveViewEngine,
+        SearchFormViewModel searchFormViewModel,
+        int pageNumber = 1,
+        int pageSize = 10,
+        CancellationToken cancellationToken = default)
     {
+        // TODO: Add search parameters to the request
+
         var httpClient = httpClientFactory.CreateClient();
-        var httpResponse = await httpClient.GetAsync(string.Format($"Issues?StatusCategory={statusCategory}&PageNumber={pageNumber}&PageSize={pageSize}"), cancellationToken);
+        var httpResponse = await httpClient.GetAsync(string.Format($"Issues?&PageNumber={pageNumber}&PageSize={pageSize}"), cancellationToken);
         var apiResponse = await HttpContentUtil.DeserializeContentAsync<ApiResponse<PaginationResult<Issue>>>(httpResponse);
 
         var issuesTableRowsHtml = await RenderViewToHtmlStringAsync(compositiveViewEngine, "~/Views/Issue/_IssuesTableRow.cshtml", apiResponse!.Value.Items);

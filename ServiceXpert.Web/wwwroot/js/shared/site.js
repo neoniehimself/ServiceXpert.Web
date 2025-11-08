@@ -82,3 +82,12 @@ $('#page-alert').on('closed.bs.alert', '.alert', function () {
 $('#modal-alert').on('closed.bs.alert', '.alert', function () {
     $(this).remove();
 });
+
+function serializeSearchFormInputsWithValueToString(searchForm) {
+    return $(searchForm)
+        .find(':input')
+        .filter(function () {
+            return $.trim($(this).val()) !== ''; // Only include non-empty fields
+        })
+        .serialize();
+}
