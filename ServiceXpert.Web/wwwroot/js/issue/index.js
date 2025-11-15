@@ -1,23 +1,31 @@
 ﻿$(document).ready(function () {
-    loadIssuesTableRows('all');
+    loadIssuesTableRows();
     $('#issues-table-search-form').submit(function (e) {
         e.preventDefault();
-        loadIssuesTableRows($('#status-category-field').val());
+        var searchFormViewModel = serializeSearchFormInputsWithValueToString(this);
+        loadIssuesTableRows(searchFormViewModel);
     });
 });
 
-function loadIssuesTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
+function loadIssuesTableRows(searchFormViewModel = null, pageNumber = 1, pageSize = 10) {
     $('#issues-table tbody').html(''); // Empty the table
     $('#issues-table-pagination').remove(); // Remove pagination (dynamically rendered)
     $('#no-data').remove(); // Remove no show text (dynamically rendered)
+
+    var data = `pageNumber=${pageNumber}&pageSize=${pageSize}`;
+
+    if (searchFormViewModel !== null) {
+        data += `&${searchFormViewModel}`;
+    }
+
     $.ajax({
         type: 'GET',
-        url: '/Issues/GetPagedIssuesByStatus',
-        data: {
-            statusCategory: statusCategory,
-            pageNumber: pageNumber,
-            pageSize: pageSize
-        },
+        url: '/Issues/GetPagedIssues',
+        data: data,
+        cache: false,
+        processData: false,
+        contentType: false,
+        dataType: 'JSON',
         success: function (response) {
             $('#issues-table-spinner').addClass('d-none');
             $('#issues-table tbody').html(response.issuesTableRowsHtml);
@@ -37,5 +45,6 @@ function loadIssuesTableRows(statusCategory, pageNumber = 1, pageSize = 10) {
 
 $(document).on('click', '.pagination .page-link', function (e) {
     e.preventDefault();
-    loadIssuesTableRows($('#status-category-field').val(), $(this).data('page'));
+    var searchFormViewModel = serializeSearchFormInputsWithValueToString('#issues-table-search-form');
+    loadIssuesTableRows(searchFormViewModel, $(this).data('page'));
 });
